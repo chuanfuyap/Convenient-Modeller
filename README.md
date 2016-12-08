@@ -12,3 +12,6 @@ C Libraries:
 SOSLIB version 1.7 https://github.com/raim/SBML_odeSolver 
 libSBML version 5.X.X https://sourceforge.net/projects/sbml/files/libsbml/5.13.0/ 
 SUNDIALS version 2.3 http://computation.llnl.gov/projects/sundials/sundials-software
+
+To be added:
+fitting to time-course data.
