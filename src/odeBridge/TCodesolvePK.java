@@ -37,7 +37,7 @@ public class TCodesolvePK {
         proteinID=pID;
     }
     public interface soslibbridge extends Library{
-        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/lib/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
+        soslibbridge bridge = (soslibbridge) Native.loadLibrary("./lib/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
         
         void TCrunSolverPK(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID, int rIDsize, Pointer rID2, Pointer time, int last, PointerByReference RowArray, IntByReference RowCount, Pointer pID, int pIDsize);
         void TCarrayCleanupPK(Pointer RowArray, int count);
