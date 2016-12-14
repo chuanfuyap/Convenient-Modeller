@@ -31,7 +31,7 @@ public class odesolve {
         reactionID=rID;
     }
     public interface soslibbridge extends Library{
-        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
+        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/lib/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
         
         ByValue runSolver(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID, int time);
         void outputCleanup(Pointer pVals);
