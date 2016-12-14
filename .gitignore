@@ -1,1 +1,5 @@
 /dist/
+/src/SteadyState/SOSlibJNIC/build/
+/src/SteadyState/SOSlibJNIC/dist/
+/src/SteadyState/SOSLib/build/
+/src/SteadyState/SOSLib/dist/
