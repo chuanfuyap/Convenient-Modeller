@@ -35,7 +35,7 @@ public class TCodesolve {
         reactionID2=rID2;
     }
     public interface soslibbridge extends Library{
-        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/SteadyState/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
+        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/odeBridge/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
         
         void TCrunSolver(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID, int rIDsize, Pointer rID2, Pointer time, int last, PointerByReference RowArray, IntByReference RowCount);
         void TCarrayCleanup(Pointer RowArray, int count);
