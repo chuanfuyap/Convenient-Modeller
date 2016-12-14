@@ -1,0 +1,489 @@
+commandLine.o: commandLine.c /usr/include/stdc-predef.h ../src/config.h \
+ /usr/include/stdio.h /usr/include/features.h \
+ /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+ /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+ /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h /usr/include/stdlib.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/string.h \
+ /usr/include/time.h /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/local/include/sbml/SBMLTypes.h \
+ /usr/local/include/sbml/common/sbmlfwd.h \
+ /usr/local/include/sbml/common/libsbml-namespace.h \
+ /usr/local/include/sbml/common/libsbml-config.h \
+ /usr/local/include/sbml/common/libsbml-config-common.h \
+ /usr/local/include/sbml/common/libsbml-version.h \
+ /usr/local/include/sbml/common/extern.h \
+ /usr/local/include/sbml/SBMLDocument.h \
+ /usr/local/include/sbml/SBMLError.h \
+ /usr/local/include/sbml/xml/XMLError.h \
+ /usr/local/include/sbml/xml/XMLExtern.h \
+ /usr/local/include/sbml/util/util.h \
+ /usr/local/include/sbml/SBMLNamespaces.h \
+ /usr/local/include/sbml/xml/XMLNamespaces.h \
+ /usr/local/include/sbml/common/operationReturnValues.h \
+ /usr/local/include/sbml/common/common.h /usr/include/errno.h \
+ /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+ /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/float.h /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/huge_val.h \
+ /usr/include/x86_64-linux-gnu/bits/mathdef.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/local/include/sbml/util/memory.h \
+ /usr/local/include/sbml/SBMLErrorLog.h \
+ /usr/local/include/sbml/xml/XMLErrorLog.h \
+ /usr/local/include/sbml/SBase.h /usr/local/include/sbml/SBMLTypeCodes.h \
+ /usr/local/include/sbml/annotation/RDFAnnotation.h \
+ /usr/local/include/sbml/annotation/RDFAnnotationParser.h \
+ /usr/local/include/sbml/xml/XMLAttributes.h \
+ /usr/local/include/sbml/annotation/ModelHistory.h \
+ /usr/local/include/sbml/util/List.h \
+ /usr/local/include/sbml/xml/XMLNode.h \
+ /usr/local/include/sbml/xml/XMLToken.h \
+ /usr/local/include/sbml/xml/XMLOutputStream.h \
+ /usr/local/include/sbml/annotation/Date.h \
+ /usr/local/include/sbml/annotation/ModelCreator.h \
+ /usr/local/include/sbml/annotation/CVTerm.h \
+ /usr/local/include/sbml/SyntaxChecker.h \
+ /usr/local/include/sbml/SBMLConstructorException.h \
+ /usr/local/include/sbml/ExpectedAttributes.h \
+ /usr/local/include/sbml/SBMLTransforms.h \
+ /usr/local/include/sbml/math/ASTNode.h \
+ /usr/local/include/sbml/math/FormulaTokenizer.h \
+ /usr/local/include/sbml/math/ASTFunction.h \
+ /usr/local/include/sbml/math/ASTBase.h \
+ /usr/local/include/sbml/math/ASTTypes.h \
+ /usr/local/include/sbml/xml/XMLInputStream.h \
+ /usr/local/include/sbml/math/ASTFunctionBase.h \
+ /usr/local/include/sbml/math/ASTNaryFunctionNode.h \
+ /usr/local/include/sbml/math/ASTUnaryFunctionNode.h \
+ /usr/local/include/sbml/math/ASTBinaryFunctionNode.h \
+ /usr/local/include/sbml/math/ASTCiFunctionNode.h \
+ /usr/local/include/sbml/math/ASTLambdaFunctionNode.h \
+ /usr/local/include/sbml/math/ASTPiecewiseFunctionNode.h \
+ /usr/local/include/sbml/math/ASTCSymbol.h \
+ /usr/local/include/sbml/math/ASTCSymbolTimeNode.h \
+ /usr/local/include/sbml/math/ASTCiNumberNode.h \
+ /usr/local/include/sbml/math/ASTCSymbolDelayNode.h \
+ /usr/local/include/sbml/math/ASTCSymbolAvogadroNode.h \
+ /usr/local/include/sbml/math/ASTConstantNumberNode.h \
+ /usr/local/include/sbml/math/ASTCnBase.h \
+ /usr/local/include/sbml/math/ASTQualifierNode.h \
+ /usr/local/include/sbml/math/ASTSemanticsNode.h \
+ /usr/local/include/sbml/math/ASTNumber.h \
+ /usr/local/include/sbml/math/ASTCnIntegerNode.h \
+ /usr/local/include/sbml/math/ASTCnRationalNode.h \
+ /usr/local/include/sbml/math/ASTCnRealNode.h \
+ /usr/local/include/sbml/math/ASTCnExponentialNode.h \
+ /usr/local/include/sbml/FunctionDefinition.h \
+ /usr/local/include/sbml/InitialAssignment.h \
+ /usr/local/include/sbml/SpeciesReference.h \
+ /usr/local/include/sbml/ModifierSpeciesReference.h \
+ /usr/local/include/sbml/ListOf.h /usr/local/include/sbml/Model.h \
+ /usr/local/include/sbml/UnitKind.h /usr/local/include/sbml/Unit.h \
+ /usr/local/include/sbml/UnitDefinition.h \
+ /usr/local/include/sbml/CompartmentType.h \
+ /usr/local/include/sbml/SpeciesType.h \
+ /usr/local/include/sbml/Compartment.h /usr/local/include/sbml/Species.h \
+ /usr/local/include/sbml/Parameter.h \
+ /usr/local/include/sbml/LocalParameter.h \
+ /usr/local/include/sbml/Reaction.h /usr/local/include/sbml/KineticLaw.h \
+ /usr/local/include/sbml/SimpleSpeciesReference.h \
+ /usr/local/include/sbml/Rule.h /usr/local/include/sbml/AlgebraicRule.h \
+ /usr/local/include/sbml/AssignmentRule.h \
+ /usr/local/include/sbml/RateRule.h /usr/local/include/sbml/Constraint.h \
+ /usr/local/include/sbml/Event.h \
+ /usr/local/include/sbml/EventAssignment.h \
+ /usr/local/include/sbml/Delay.h \
+ /usr/local/include/sbml/StoichiometryMath.h \
+ /usr/local/include/sbml/Trigger.h /usr/local/include/sbml/Priority.h \
+ /usr/local/include/sbml/SBMLReader.h \
+ /usr/local/include/sbml/SBMLWriter.h \
+ /usr/local/include/sbml/math/FormulaParser.h \
+ /usr/local/include/sbml/util/Stack.h \
+ /usr/local/include/sbml/math/FormulaFormatter.h \
+ /usr/local/include/sbml/util/StringBuffer.h \
+ /usr/local/include/sbml/math/MathML.h \
+ /usr/local/include/sbml/extension/ASTBasePlugin.h \
+ /usr/local/include/sbml/math/L3ParserSettings.h \
+ /usr/local/include/sbml/math/L3Parser.h \
+ /usr/local/include/sbml/math/L3FormulaFormatter.h \
+ /usr/local/include/sbml/util/IdentifierTransformer.h \
+ /usr/local/include/sbml/util/ElementFilter.h \
+ ../src/sbmlsolver/cvodeData.h ../src/sbmlsolver/integratorSettings.h \
+ ../src/sbmlsolver/exportdefs.h ../src/sbmlsolver/interpol.h \
+ ../src/sbmlsolver/odeModel.h /usr/local/include/cvodes/cvodes.h \
+ /usr/local/include/sundials/sundials_nvector.h \
+ /usr/local/include/sundials/sundials_types.h \
+ /usr/local/include/sundials/sundials_config.h \
+ /usr/local/include/cvodes/cvodes_dense.h \
+ /usr/local/include/sundials/sundials_dense.h \
+ /usr/local/include/sundials/sundials_smalldense.h \
+ ../src/sbmlsolver/compiler.h ../src/sbmlsolver/arithmeticCompiler.h \
+ ../src/sbmlsolver/ASTIndexNameNode.h ../src/sbmlsolver/variableIndex.h \
+ ../src/sbmlsolver/drawGraph.h ../src/sbmlsolver/odeConstruct.h \
+ ../src/sbmlsolver/odeSolver.h ../src/sbmlsolver/integratorInstance.h \
+ ../src/sbmlsolver/sbmlResults.h ../src/sbmlsolver/processAST.h \
+ ../src/sbmlsolver/charBuffer.h ../src/sbmlsolver/sbml.h \
+ ../src/sbmlsolver/solverError.h ../src/sbmlsolver/util.h interactive.h \
+ printModel.h options.h commandLine.h \
+ ../src/sbmlsolver/integratorInstance.h
+
+/usr/include/stdc-predef.h:
+
+../src/config.h:
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs.h:
+
+/usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/string.h:
+
+/usr/include/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:
+
+/usr/local/include/sbml/SBMLTypes.h:
+
+/usr/local/include/sbml/common/sbmlfwd.h:
+
+/usr/local/include/sbml/common/libsbml-namespace.h:
+
+/usr/local/include/sbml/common/libsbml-config.h:
+
+/usr/local/include/sbml/common/libsbml-config-common.h:
+
+/usr/local/include/sbml/common/libsbml-version.h:
+
+/usr/local/include/sbml/common/extern.h:
+
+/usr/local/include/sbml/SBMLDocument.h:
+
+/usr/local/include/sbml/SBMLError.h:
+
+/usr/local/include/sbml/xml/XMLError.h:
+
+/usr/local/include/sbml/xml/XMLExtern.h:
+
+/usr/local/include/sbml/util/util.h:
+
+/usr/local/include/sbml/SBMLNamespaces.h:
+
+/usr/local/include/sbml/xml/XMLNamespaces.h:
+
+/usr/local/include/sbml/common/operationReturnValues.h:
+
+/usr/local/include/sbml/common/common.h:
+
+/usr/include/errno.h:
+
+/usr/include/x86_64-linux-gnu/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/x86_64-linux-gnu/asm/errno.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/5/include/float.h:
+
+/usr/include/math.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/huge_val.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathdef.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+
+/usr/local/include/sbml/util/memory.h:
+
+/usr/local/include/sbml/SBMLErrorLog.h:
+
+/usr/local/include/sbml/xml/XMLErrorLog.h:
+
+/usr/local/include/sbml/SBase.h:
+
+/usr/local/include/sbml/SBMLTypeCodes.h:
+
+/usr/local/include/sbml/annotation/RDFAnnotation.h:
+
+/usr/local/include/sbml/annotation/RDFAnnotationParser.h:
+
+/usr/local/include/sbml/xml/XMLAttributes.h:
+
+/usr/local/include/sbml/annotation/ModelHistory.h:
+
+/usr/local/include/sbml/util/List.h:
+
+/usr/local/include/sbml/xml/XMLNode.h:
+
+/usr/local/include/sbml/xml/XMLToken.h:
+
+/usr/local/include/sbml/xml/XMLOutputStream.h:
+
+/usr/local/include/sbml/annotation/Date.h:
+
+/usr/local/include/sbml/annotation/ModelCreator.h:
+
+/usr/local/include/sbml/annotation/CVTerm.h:
+
+/usr/local/include/sbml/SyntaxChecker.h:
+
+/usr/local/include/sbml/SBMLConstructorException.h:
+
+/usr/local/include/sbml/ExpectedAttributes.h:
+
+/usr/local/include/sbml/SBMLTransforms.h:
+
+/usr/local/include/sbml/math/ASTNode.h:
+
+/usr/local/include/sbml/math/FormulaTokenizer.h:
+
+/usr/local/include/sbml/math/ASTFunction.h:
+
+/usr/local/include/sbml/math/ASTBase.h:
+
+/usr/local/include/sbml/math/ASTTypes.h:
+
+/usr/local/include/sbml/xml/XMLInputStream.h:
+
+/usr/local/include/sbml/math/ASTFunctionBase.h:
+
+/usr/local/include/sbml/math/ASTNaryFunctionNode.h:
+
+/usr/local/include/sbml/math/ASTUnaryFunctionNode.h:
+
+/usr/local/include/sbml/math/ASTBinaryFunctionNode.h:
+
+/usr/local/include/sbml/math/ASTCiFunctionNode.h:
+
+/usr/local/include/sbml/math/ASTLambdaFunctionNode.h:
+
+/usr/local/include/sbml/math/ASTPiecewiseFunctionNode.h:
+
+/usr/local/include/sbml/math/ASTCSymbol.h:
+
+/usr/local/include/sbml/math/ASTCSymbolTimeNode.h:
+
+/usr/local/include/sbml/math/ASTCiNumberNode.h:
+
+/usr/local/include/sbml/math/ASTCSymbolDelayNode.h:
+
+/usr/local/include/sbml/math/ASTCSymbolAvogadroNode.h:
+
+/usr/local/include/sbml/math/ASTConstantNumberNode.h:
+
+/usr/local/include/sbml/math/ASTCnBase.h:
+
+/usr/local/include/sbml/math/ASTQualifierNode.h:
+
+/usr/local/include/sbml/math/ASTSemanticsNode.h:
+
+/usr/local/include/sbml/math/ASTNumber.h:
+
+/usr/local/include/sbml/math/ASTCnIntegerNode.h:
+
+/usr/local/include/sbml/math/ASTCnRationalNode.h:
+
+/usr/local/include/sbml/math/ASTCnRealNode.h:
+
+/usr/local/include/sbml/math/ASTCnExponentialNode.h:
+
+/usr/local/include/sbml/FunctionDefinition.h:
+
+/usr/local/include/sbml/InitialAssignment.h:
+
+/usr/local/include/sbml/SpeciesReference.h:
+
+/usr/local/include/sbml/ModifierSpeciesReference.h:
+
+/usr/local/include/sbml/ListOf.h:
+
+/usr/local/include/sbml/Model.h:
+
+/usr/local/include/sbml/UnitKind.h:
+
+/usr/local/include/sbml/Unit.h:
+
+/usr/local/include/sbml/UnitDefinition.h:
+
+/usr/local/include/sbml/CompartmentType.h:
+
+/usr/local/include/sbml/SpeciesType.h:
+
+/usr/local/include/sbml/Compartment.h:
+
+/usr/local/include/sbml/Species.h:
+
+/usr/local/include/sbml/Parameter.h:
+
+/usr/local/include/sbml/LocalParameter.h:
+
+/usr/local/include/sbml/Reaction.h:
+
+/usr/local/include/sbml/KineticLaw.h:
+
+/usr/local/include/sbml/SimpleSpeciesReference.h:
+
+/usr/local/include/sbml/Rule.h:
+
+/usr/local/include/sbml/AlgebraicRule.h:
+
+/usr/local/include/sbml/AssignmentRule.h:
+
+/usr/local/include/sbml/RateRule.h:
+
+/usr/local/include/sbml/Constraint.h:
+
+/usr/local/include/sbml/Event.h:
+
+/usr/local/include/sbml/EventAssignment.h:
+
+/usr/local/include/sbml/Delay.h:
+
+/usr/local/include/sbml/StoichiometryMath.h:
+
+/usr/local/include/sbml/Trigger.h:
+
+/usr/local/include/sbml/Priority.h:
+
+/usr/local/include/sbml/SBMLReader.h:
+
+/usr/local/include/sbml/SBMLWriter.h:
+
+/usr/local/include/sbml/math/FormulaParser.h:
+
+/usr/local/include/sbml/util/Stack.h:
+
+/usr/local/include/sbml/math/FormulaFormatter.h:
+
+/usr/local/include/sbml/util/StringBuffer.h:
+
+/usr/local/include/sbml/math/MathML.h:
+
+/usr/local/include/sbml/extension/ASTBasePlugin.h:
+
+/usr/local/include/sbml/math/L3ParserSettings.h:
+
+/usr/local/include/sbml/math/L3Parser.h:
+
+/usr/local/include/sbml/math/L3FormulaFormatter.h:
+
+/usr/local/include/sbml/util/IdentifierTransformer.h:
+
+/usr/local/include/sbml/util/ElementFilter.h:
+
+../src/sbmlsolver/cvodeData.h:
+
+../src/sbmlsolver/integratorSettings.h:
+
+../src/sbmlsolver/exportdefs.h:
+
+../src/sbmlsolver/interpol.h:
+
+../src/sbmlsolver/odeModel.h:
+
+/usr/local/include/cvodes/cvodes.h:
+
+/usr/local/include/sundials/sundials_nvector.h:
+
+/usr/local/include/sundials/sundials_types.h:
+
+/usr/local/include/sundials/sundials_config.h:
+
+/usr/local/include/cvodes/cvodes_dense.h:
+
+/usr/local/include/sundials/sundials_dense.h:
+
+/usr/local/include/sundials/sundials_smalldense.h:
+
+../src/sbmlsolver/compiler.h:
+
+../src/sbmlsolver/arithmeticCompiler.h:
+
+../src/sbmlsolver/ASTIndexNameNode.h:
+
+../src/sbmlsolver/variableIndex.h:
+
+../src/sbmlsolver/drawGraph.h:
+
+../src/sbmlsolver/odeConstruct.h:
+
+../src/sbmlsolver/odeSolver.h:
+
+../src/sbmlsolver/integratorInstance.h:
+
+../src/sbmlsolver/sbmlResults.h:
+
+../src/sbmlsolver/processAST.h:
+
+../src/sbmlsolver/charBuffer.h:
+
+../src/sbmlsolver/sbml.h:
+
+../src/sbmlsolver/solverError.h:
+
+../src/sbmlsolver/util.h:
+
+interactive.h:
+
+printModel.h:
+
+options.h:
+
+commandLine.h:
+
+../src/sbmlsolver/integratorInstance.h:

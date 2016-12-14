@@ -6,9 +6,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include </home/chuanfuyap/SOSLib/buildSOSlib/src/sbmlsolver/odeSolver.h>
-#include </home/chuanfuyap/SOSLib/buildSOSlib/src/sbmlsolver/sbmlResults.h>
-#include </home/chuanfuyap/SOSLib/buildSOSlib/src/sbmlsolver/solverError.h>
+#include "solverLibraries/include/sbmlsolver/odeSolver.h"
+#include "solverLibraries/include/sbmlsolver/sbmlResults.h"
+#include "solverLibraries/include/sbmlsolver/solverError.h"
 
 typedef struct output {
     double* vals;
