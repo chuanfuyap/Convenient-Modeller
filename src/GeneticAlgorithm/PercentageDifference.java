@@ -62,17 +62,28 @@ public class PercentageDifference implements Runnable {
         
         pop.pop.get(index).setMet(estMet);
         pop.pop.get(index).setFlux(estFlux);
+        int mettrack;
+        int fluxtrack;
+        if(expMet!=null){
+            mettrack = expMet.size();
+        }else{
+            mettrack = 0;
+        }
+        if(expFlux!=null){
+            fluxtrack = expFlux.size();
+        }else{
+            fluxtrack = 9;
+        }
         
-        int mettrack = expMet.size();
-        int fluxtrack = expFlux.size();
         
         if(bioSystem.goodsolution()==false){
             pop.pop.get(index).setF(1e-100);
         }else{
+            if(expMet!=null){
             for (Compound comp : Compounds){
                 if(comp.getBoundaryCondition()==false){
                     String ID = comp.getID();
-                    if(expMet.get(ID)!=null){
+                    if(expMet.containsKey(ID)==true && (double) expMet.get(ID)>0){
                         double difference =(double) expMet.get(ID)-(double)estMet.get(ID);
                         double percentagedifference=0;
                         if((double) expMet.get(ID)>0){
@@ -81,15 +92,21 @@ public class PercentageDifference implements Runnable {
                             percentagedifference = Math.abs(difference)*100;
                         }                        
                         mettotal+=Math.pow(percentagedifference, 2);
+                    }else if (expMet.get(ID)==null){
+                        mettrack--;
                     }else{
-                        mettrack--;                       
+                        mettrack--;
                     }
                 }
             }
-
+            }else{
+                mettrack=0;
+            }
+            
+            if(expFlux!=null){
             for(ModelReaction reaction : Reactions){
                 String ID = reaction.getReactionID();
-                if(expFlux.get(ID)!=null){
+                if(expFlux.containsKey(ID)==true && (double) expFlux.get(ID)>0){
                     double difference = (double) expFlux.get(ID) - (double) estFlux.get(ID);
                     double percentagedifference=0;
                     if((double) expFlux.get(ID)>0){
@@ -98,20 +115,33 @@ public class PercentageDifference implements Runnable {
                         percentagedifference = Math.abs(difference)*100;
                     }
                     fluxtotal+=Math.pow(percentagedifference, 2);
+                }else if (expFlux.get(ID)==null){
+                    fluxtrack--;
                 }else{
                     fluxtrack--;
                 }
             }
+            }else{
+                fluxtrack=0;
+            }
+            
+            if(mettrack==0){
+                double fluxdifference = fluxtotal/fluxtrack;
+                summed_error=fluxdifference;
+            }else if (fluxtrack==0){
+                double metdifference = mettotal/mettrack;
+                summed_error=metdifference;
+            }else{
+                double metdifference = mettotal/mettrack;
+                metdifference*=0.5;
+                double fluxdifference = fluxtotal/fluxtrack;
+                fluxdifference*=0.5;
 
-            double metdifference = mettotal/mettrack;            
-            metdifference*=0.5;
-            double fluxdifference = fluxtotal/fluxtrack;            
-            fluxdifference*=0.5;
-
-            summed_error+=metdifference+fluxdifference;
+                summed_error+=metdifference+fluxdifference;
+            }
 
             f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
-
+            System.out.println(f);
             pop.pop.get(index).setF(f);
         }
         

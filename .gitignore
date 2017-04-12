@@ -3,3 +3,5 @@
 /src/SteadyState/SOSlibJNIC/dist/
 /src/SteadyState/SOSLib/build/
 /src/SteadyState/SOSLib/dist/
+/nbproject/private/
+/build/

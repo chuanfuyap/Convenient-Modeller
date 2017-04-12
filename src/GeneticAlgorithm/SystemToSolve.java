@@ -78,22 +78,40 @@ public class SystemToSolve {
         HashMap tcdata;
         if(SS==true){
             ssdata = data.getSSdata();
+            boolean do_we_have_metabolites = is_there_metabolites(ssdata);
+            boolean do_we_have_fluxes = is_there_fluxes(ssdata);
             //storing the initial concentration of the active compounds and the SS value from input data for PE;
             activeConc = new double[activeCompNum];
             metConc = new double[activeCompNum];
             int ticktock=0;
+            if (do_we_have_metabolites!=false){
             for (Compound compound : Compounds){
                 if (compound.getBoundaryCondition()==false){
-                    metConc[ticktock] = (double) ssdata.get(compound.getID());
-                    metMap.put(compound.getID(), ssdata.get(compound.getID()));
-                    activeConc[ticktock] = metConc[ticktock];
-                    ticktock++;                
+                    if(ssdata.containsKey(compound.getID())==true){
+                        metConc[ticktock] = (double) ssdata.get(compound.getID());
+                        metMap.put(compound.getID(), ssdata.get(compound.getID()));
+                        activeConc[ticktock] = metConc[ticktock];
+                        ticktock++;
+                    }else{
+                        activeConc[ticktock] = compound.getConcentration();
+                        ticktock++;
+                    }
                 }
             }
-
+            }else{
+                metMap = null;
+                for (Compound compound : Compounds){
+                    if (compound.getBoundaryCondition()==false){
+                        activeConc[ticktock] = compound.getConcentration();
+                        ticktock++;
+                    }
+                }
+            }
+            
+            
             flux = new double[Reactions.size()];
-            ticktock=0;
-            for (ModelReaction reaction : Reactions){
+            
+            for(ModelReaction reaction : Reactions){
                 int numSub = reaction.getSubstrates().size();
                 int numProd = reaction.getProducts().size();
 
@@ -107,12 +125,24 @@ public class SystemToSolve {
                 fRateCIndex.add(totalParameters);
                 rRateCIndex.add(totalParameters+1);
                 totalParameters+=para;
-
-                flux[ticktock] = (double) ssdata.get(reaction.getReactionID());
-                fluxMap.put(reaction.getReactionID(),ssdata.get(reaction.getReactionID()));
-                ticktock++;
             }
-        }else{
+            
+            ticktock=0;
+            if (do_we_have_fluxes!=false){
+            for (ModelReaction reaction : Reactions){
+                
+                if(ssdata.containsKey(reaction.getReactionID())==true){
+                    flux[ticktock] = (double) ssdata.get(reaction.getReactionID());
+                    fluxMap.put(reaction.getReactionID(),ssdata.get(reaction.getReactionID()));
+                    ticktock++;
+                }
+            }
+            }else{
+                fluxMap =null;
+            }
+        }
+        
+        else{
             tcdata= data.getTCdata();
             for (Compound compound : Compounds){
                 if(compound.getBoundaryCondition()==false){
@@ -303,5 +333,29 @@ public class SystemToSolve {
     
     public boolean goodsolution(){
         return goodbad;
+    }
+    
+    private boolean is_there_metabolites(HashMap data){
+        boolean is_it_there = false;
+        
+        for (Compound compound : Compounds){
+            if(compound.getBoundaryCondition()==false){
+                String compound_ID = compound.getID();
+                is_it_there = data.containsKey(compound_ID);
+            }
+        }
+        
+        return is_it_there;
+    }
+    
+    private boolean is_there_fluxes(HashMap data){
+        boolean is_it_there = false;
+        
+        for (ModelReaction reaction : Reactions){
+            String reaction_ID = reaction.getReactionID();
+            is_it_there = data.containsKey(reaction_ID);
+        }
+        
+        return is_it_there;
     }
 }

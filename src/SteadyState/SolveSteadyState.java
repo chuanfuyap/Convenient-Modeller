@@ -66,7 +66,7 @@ public class SolveSteadyState {
         int Steps = 10;
         boolean dampsolution=false;
         boolean NRDSolve=false;
-        for (int i =0; i < 4 && dampsolution==false; i++){
+        for (int i =0; i < 5 && dampsolution==false; i++){
             //runs NR with damping
             try{
                 NRDSolve=NewtonRaphsonWithDamping(VV, NRDTolerance1);
@@ -81,11 +81,11 @@ public class SolveSteadyState {
             //determine if NRD was succesful, if not, it will run ODEsolver and use new values for further NRD runs
             if (NRDSolve==true){
                 dampsolution=true;
-            }else if(NRDSolve==false && i < 3){
+            }else if(NRDSolve==false && i < 4){
                 double[] odesolvedvalue = ode.runsolver(Parameters, Steps);
                 for(double num : odesolvedvalue){
                     if(num==0.0){
-                        i=4;
+                        i=5;
                     }
                 }
                 Steps*=10;

@@ -56,7 +56,11 @@ public class ReadData {
                 SSvalues = new double[temp2.length];
                 
                 for (int j =0; j<temp2.length; j++){
-                    SSvalues[j]=Double.parseDouble(temp2[j]);
+                    if(temp2[j].equals("N/A")||temp2[j].equals("null")|| temp2[j]==null){
+                        SSvalues[j]=-1;
+                    }else{
+                        SSvalues[j]=Double.parseDouble(temp2[j]);
+                    }
                 }
                 
                 for (int i =0; i<IDs.length;i++){
@@ -83,7 +87,11 @@ public class ReadData {
                     double[] timeCourse = new double[row-1];
                     
                     for(int j=1; j<row;j++){
-                        timeCourse[j-1] = Double.parseDouble(timeCoursedata[j][i]);
+                        if(timeCoursedata[j][i].equals("N/A")||timeCoursedata[j][i].equals("null")|| timeCoursedata[j][i]==null){
+                            timeCourse[j-1]=-1;
+                        }else{
+                            timeCourse[j-1] = Double.parseDouble(timeCoursedata[j][i]);
+                        }
                     }                 
                     TCdata.put(IDs[i], timeCourse);
                 }                
@@ -121,6 +129,4 @@ public class ReadData {
         
         return timecourse;
     }
-        
 }
-
