@@ -69,19 +69,4 @@ public class Individual {
         f=fitness;
     }
     
-    public void setMet(HashMap estMet){
-        metConc=estMet;
-    }
-    
-    public void setFlux(HashMap estFlux){
-        flux=estFlux;
-    }
-    
-    public HashMap getMet(){
-        return metConc;
-    }
-    
-    public HashMap getFlux(){
-        return flux;
-    }
 }

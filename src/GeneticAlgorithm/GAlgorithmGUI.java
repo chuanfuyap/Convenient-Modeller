@@ -56,36 +56,12 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
         this.maxgens=maxgen;
         this.plateaulimit=plateau;
         this.plagueCount=plague;
-        if (SS==true){  //if steadystate
-            MetData = bioSystem.getMetMap();                        //storing the metabolite conc, mapping to the respective metabolite IDs
-            FluxData= bioSystem.getFluxMap();                       //storing the flux value, mapping to the respective reaction IDs
-        }else{  // if timecourse
-            //to be added in due time
-        }
+       
         nparam = bioSystem.getParametersCount();                    //get the number of parameters from systemtosolve object
         population = new Population(nparam);    //generate new population
         population.initializePopulation(bioSystem, popsize);                          //initialize the new population    
         
-        fitness = new FitnessEvaluation(bioSystem, MetData, FluxData);      //object for fitness evaluation 
-    }
-    public GAlgorithmGUI(SystemToSolve bioSystem, Boolean SS) {
-        plateaulimit=225;
-        popsize = 100;
-        maxgens = 10001;
-        plagueCount = 5;
-        
-        this.bioSystem = bioSystem;                                 //generate systemtosolve object from the sbml file and inputdata txt file
-        if (SS==true){  //if steadystate
-            MetData = bioSystem.getMetMap();                        //storing the metabolite conc, mapping to the respective metabolite IDs
-            FluxData= bioSystem.getFluxMap();                       //storing the flux value, mapping to the respective reaction IDs
-        }else{  // if timecourse
-            //to be added in due time
-        }
-        nparam = bioSystem.getParametersCount();                    //get the number of parameters from systemtosolve object
-        population = new Population(nparam);    //generate new population
-        population.initializePopulation(bioSystem, popsize);                          //initialize the new population    
-        
-        fitness = new FitnessEvaluation(bioSystem, MetData, FluxData);      //object for fitness evaluation 
+        fitness = new FitnessEvaluation(bioSystem);      //object for fitness evaluation 
     }
     
     @Override

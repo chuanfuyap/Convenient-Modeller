@@ -17,8 +17,6 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 import odeBridge.TCodesolve;
 import odeBridge.TCodesolvePK;
-import odeBridge.odesolve;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.validator.ModelOverdeterminedException;
 
 /**
@@ -33,7 +31,6 @@ public class SystemToSolve {
     private ArrayList<Compound> Compounds;
     private ArrayList<ModelReaction> Reactions;
     private ArrayList<Enzyme> Enzymes;
-    private Model Model;
     private int activeCompNum;
     private double[] estimatedMet;
     private double[] estimatedFlux;
@@ -51,14 +48,13 @@ public class SystemToSolve {
     private HashMap TCestFluxMap = new HashMap<>();
     private SBMLFile modelreactions;
     private String link;
-    private boolean SS;
+    private boolean SSorTC;
     private ReadData data;
     private boolean goodbad=false;
-    private boolean reachplateau=false;
        
     public SystemToSolve(String Link, ReadData data) throws IOException, XMLStreamException, ModelOverdeterminedException{
         this.data=data;
-        SS = data.SSorTC();
+        SSorTC = data.SSorTC();
         File SBMLFile = new File(Link);
         this.modelreactions = new SBMLFile(SBMLFile);
         this.Compounds=modelreactions.returncompounds();
@@ -76,7 +72,7 @@ public class SystemToSolve {
         
         HashMap ssdata;
         HashMap tcdata;
-        if(SS==true){
+        if(SSorTC==true){
             ssdata = data.getSSdata();
             boolean do_we_have_metabolites = is_there_metabolites(ssdata);
             boolean do_we_have_fluxes = is_there_fluxes(ssdata);
@@ -144,16 +140,31 @@ public class SystemToSolve {
         
         else{
             tcdata= data.getTCdata();
+            boolean do_we_have_metabolites = is_there_metabolites(tcdata);
+            boolean do_we_have_fluxes = is_there_fluxes(tcdata);
+            boolean do_we_have_proteins = is_there_proteins(tcdata);
+            if (do_we_have_metabolites!=false){
             for (Compound compound : Compounds){
                 if(compound.getBoundaryCondition()==false){
-                
+                if(tcdata.containsKey(compound.getID())==true){
                 TCmetMap.put(compound.getID(), (double[]) tcdata.get(compound.getID()));
-                
+                }
                 }
             }
-            for (Enzyme enzyme : Enzymes){
-                TCprotMap.put(enzyme.getID(), (double[]) tcdata.get(enzyme.getID()));
+            }else{
+                TCmetMap =null;
             }
+            
+            if (do_we_have_proteins!=false){
+            for (Enzyme enzyme : Enzymes){
+                if(tcdata.containsKey(enzyme.getID())==true){
+                TCprotMap.put(enzyme.getID(), (double[]) tcdata.get(enzyme.getID()));
+                }
+            }
+            }else{
+                TCprotMap =null;
+            }
+            
             for (ModelReaction reaction : Reactions){
                 
                 int numSub = reaction.getSubstrates().size();
@@ -169,17 +180,25 @@ public class SystemToSolve {
                 fRateCIndex.add(totalParameters);
                 rRateCIndex.add(totalParameters+1);
                 totalParameters+=para;
-                
-                TCfluxMap.put(reaction.getReactionID(), (double[]) tcdata.get(reaction.getReactionID()));
             }
-        }        
+            
+            if (do_we_have_fluxes!=false){
+            for (ModelReaction reaction : Reactions){
+                if(tcdata.containsKey(reaction.getReactionID())==true){
+                    TCfluxMap.put(reaction.getReactionID(), (double[]) tcdata.get(reaction.getReactionID()));
+                }
+            }
+            }else{
+                TCfluxMap =null;
+            }
+        }
     }
     
     public void runEst(double[] parameters) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, XMLStreamException, IOException {
         estimatedMet = new double[activeCompNum];
         estimatedFlux = new double[Reactions.size()];
         
-        if(SS==true){
+        if(SSorTC==true){
             SolveSteadyState steadystateresults = new SolveSteadyState(Compounds, Reactions, activeConc, parameters, link);
             
             if(steadystateresults.solveSS()==true){
@@ -192,7 +211,7 @@ public class SystemToSolve {
             
         }else{
             double[] time = data.returnTime();
-            double[] parameter = new double[getParametersCount()];  
+            double[] parameter = parameters;  
             int activeCompNum=0;
             for (Compound comp: Compounds){
                 if (comp.getBoundaryCondition()==false){
@@ -229,22 +248,22 @@ public class SystemToSolve {
                 TCodesolve ode = new TCodesolve(link, variables, getParametersCount(), paranames, reactionID, reactionID2);
 
                 double output[][] = ode.runsolver(parameter, time);
-
-                for(int j=1;j<variables.length+1+reactionID2.length+proteinID.length;j++){
+                
+                for(int j=1;j<variables.length+1+reactionID2.length;j++){
                     double[] temparray = new double[time.length];
-                    for(int i =0;i<time.length;i++){                   
-                        temparray[i]=output[i][j];
+                    for(int k =0;k<time.length;k++){                   
+                        temparray[k]=output[k][j];
                     }
                     if((j-1)<activeCompNum){
-                        TCestMetMap.put(variables[j], temparray);
+                        TCestMetMap.put(variables[j-1], temparray);
                     }else{
-                        TCestFluxMap.put(reactionID2[j-activeCompNum],temparray);
+                        TCestFluxMap.put(reactionID2[j-activeCompNum-1],temparray);
                     }
                 }
             }
         }
     }
-
+    
     public double[] getEstMet(){
         return estimatedMet;
     }
@@ -335,6 +354,10 @@ public class SystemToSolve {
         return goodbad;
     }
     
+    public int timelength(){
+        return data.returnTime().length;
+    }
+    
     private boolean is_there_metabolites(HashMap data){
         boolean is_it_there = false;
         
@@ -357,5 +380,20 @@ public class SystemToSolve {
         }
         
         return is_it_there;
+    }
+    
+    private boolean is_there_proteins(HashMap data) {
+        boolean is_it_there = false;
+        
+        for (Enzyme enzyme : Enzymes){
+            String enzyme_ID = enzyme.getID();
+            is_it_there = data.containsKey(enzyme_ID);
+        }
+        
+        return is_it_there; 
+    }
+    
+    public boolean isitSSorTC(){
+        return SSorTC;
     }
 }

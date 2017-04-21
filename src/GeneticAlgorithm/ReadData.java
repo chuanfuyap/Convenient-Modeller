@@ -21,10 +21,9 @@ import java.util.HashMap;
 public class ReadData {
     private String[] IDs;
     private double[] SSvalues;
-    private ArrayList<double[]> TimeCourseValues= new ArrayList<>();
     private HashMap SSdata = new HashMap<>(); //steady state data
-    private HashMap TCdata = new HashMap<String, double[]>(); //time course data
-    private boolean SSorTC = true;
+    private HashMap TCdata = new HashMap<>(); //time course data
+    private boolean SSorTC = true;      //true for steady state, false for Time course data
     private ArrayList time=new ArrayList<>();
     
     //Boolean SS to determine data being estimated is of SteadyState or of Time Course data, TRUE IF SS
@@ -45,10 +44,10 @@ public class ReadData {
             String firstline = (String) lines.get(0);
             String[] temp = firstline.split("\\s");
             if(temp[0].equals("Time")){
-                SSorTC=false;
+                SSorTC=false;   //false for time course
             }
             
-            if (SSorTC==true){
+            if (SSorTC==true){  //true for steady state data
                 IDs= firstline.split("\\s");
                 
                 String secondline = (String) lines.get(1);
@@ -66,7 +65,7 @@ public class ReadData {
                 for (int i =0; i<IDs.length;i++){
                     SSdata.put(IDs[i],SSvalues[i]);
                 }
-            }else{
+            }else{      //handling time course data.
                 IDs=firstline.split("\\s");
                 int row = lines.size();
                 int col = IDs.length;
@@ -76,6 +75,7 @@ public class ReadData {
                 }
                 
                 String[][] timeCoursedata = new String[row][col];
+                
                 for (int i =0 ; i<row; i++){
                     String newline = (String) lines.get(i);
                     timeCoursedata[i] = newline.split("\\s");
@@ -129,4 +129,6 @@ public class ReadData {
         
         return timecourse;
     }
+    
 }
+

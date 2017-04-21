@@ -23,29 +23,24 @@ import java.util.concurrent.TimeUnit;
  */
 public class FitnessEvaluation  {
     
-    HashMap expMet;             //expected metconc values
-    HashMap expFlux;            //expected flux values
     SystemToSolve bioSystem;
     ArrayList<Compound> Compounds;
     ArrayList<ModelReaction> Reactions;
     int missing = 0;            //to keep track of bad individuals
     ArrayList badindex = new ArrayList<>();
     ArrayList fitness = new ArrayList<>();
-//    List<Thread> threads = new ArrayList<>();
     ThreadPoolExecutor executor = null;
-    public FitnessEvaluation(SystemToSolve bioSystem, HashMap expMet, HashMap expFlux){
-        this.expMet=expMet;
-        this.expFlux=expFlux;
+    public FitnessEvaluation(SystemToSolve bioSystem){
         this.bioSystem=bioSystem;
         this.Compounds=bioSystem.getCompounds();
         this.Reactions=bioSystem.getReactions();
     }
     
     public void InitialEvaluation(Population pop) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
-
+    
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
         for(int i =0; i < pop.pop.size();i++){        
-            PercentageDifference PET = new PercentageDifference(bioSystem, expMet, expFlux, pop, i);
+            PercentageError PET = new PercentageError(bioSystem, pop, i);
             executor.execute(PET);
         }
         executor.shutdown();
@@ -74,7 +69,7 @@ public class FitnessEvaluation  {
 
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
         for(int i =0; i < pop.pop.size();i++){        
-            PercentageDifference PET = new PercentageDifference(bioSystem, expMet, expFlux, pop, i);
+            PercentageError PET = new PercentageError(bioSystem, pop, i);
             executor.execute(PET);
         }
         executor.shutdown();
