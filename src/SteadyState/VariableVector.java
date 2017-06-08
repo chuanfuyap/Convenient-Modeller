@@ -48,6 +48,7 @@ public class VariableVector {
             if (Compounds.get(i).getBoundaryCondition()==false ){
                 metName[counter]=Compounds.get(i).getName();
                 metConc[counter]=activeConc[counter];
+//                System.out.println(metConc[counter]);
                 metMap.put(Compounds.get(i).getName(), activeConc[counter]);
                 counter++;
                 

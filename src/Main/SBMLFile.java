@@ -109,7 +109,7 @@ public class SBMLFile {
             Enzyme e = null;
             ArrayList<LocalParameter> parameters = new ArrayList<LocalParameter>();
             int regulation =1;
-            Compound mod = null;
+            ArrayList<Compound> mod = new ArrayList();
             String isitPK = reaction.getName();
             String[] tokens = isitPK.split("\\s");
             
@@ -173,12 +173,12 @@ public class SBMLFile {
                                 regulation = 2; 
                                 ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
                                 Species s = msr.getSpeciesInstance();
-                                mod = new Compound(s);
+                                mod.add( new Compound(s) );
                             }else if (sbo==20||sbo==206||sbo==207||sbo==597){
                                 regulation = 3; 
                                 ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
                                 Species s = msr.getSpeciesInstance();
-                                mod = new Compound(s);
+                                mod.add( new Compound(s) );
                             }
                         }
                     }
@@ -186,8 +186,12 @@ public class SBMLFile {
 
                 if (regulation>1){
                     mReaction.setEnzyme(e);
-                    mReaction.setRegulation(regulation);
                     mReaction.setModifier(mod);
+                    if(mod.size()==2){
+                        mReaction.setRegulation(4);
+                    }else if (mod.size()==1){
+                        mReaction.setRegulation(regulation);
+                    }
                     ModelReaction im = new ModelReaction(e, mReaction, parameters);
                     allthereactions.add(im);
                 }else{
@@ -203,12 +207,21 @@ public class SBMLFile {
             reactioninfo[i][0]=i+1;
             reactioninfo[i][1]=allthereactions.get(i).getEnzyme().getName();
             if(allthereactions.get(i).getRegulation()>1){
-                if(allthereactions.get(i).getRegulation()==2){
-                    reactioninfo[i][2]=allthereactions.get(i).getModifier().getName();
-                    reactioninfo[i][3]="N/A";
-                }else if(allthereactions.get(i).getRegulation()==3){
-                    reactioninfo[i][2]="N/A";
-                    reactioninfo[i][3]=allthereactions.get(i).getModifier().getName();
+                switch (allthereactions.get(i).getRegulation()) {
+                    case 2:
+                        reactioninfo[i][2]=allthereactions.get(i).getModifier().get(0).getName();
+                        reactioninfo[i][3]="N/A";
+                        break;
+                    case 3:
+                        reactioninfo[i][2]="N/A";
+                        reactioninfo[i][3]=allthereactions.get(i).getModifier().get(0).getName();
+                        break;
+                    case 4:
+                        reactioninfo[i][2]=allthereactions.get(i).getModifier().get(0).getName();
+                        reactioninfo[i][3]=allthereactions.get(i).getModifier().get(1).getName();
+                        break;
+                    default:
+                        break;
                 }
             }else {
                 reactioninfo[i][2]="N/A";
@@ -427,7 +440,6 @@ public class SBMLFile {
                 String id = para.getId();
                 reactionIDlist.add(reactions.get(i).getId());
             }
-            
         }
         
         String[] array = reactionIDlist.toArray(new String[reactionIDlist.size()]);

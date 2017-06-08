@@ -15,8 +15,6 @@ import java.util.ArrayList;
  */
 public class MetaboliteRateFunction {
     
-//    private int stoichio1, stoichio2;
-//    private String reactionname1, reactionname2;
     private ArrayList stoichio1 = new ArrayList<>();
     private ArrayList stoichio2 = new ArrayList<>();
     private ArrayList<String> reactionname1 = new ArrayList<>(); 
@@ -49,8 +47,15 @@ public class MetaboliteRateFunction {
             ArrayList<String> subnames =new ArrayList<>();
             ArrayList<String> prodnames =new ArrayList<>();           
             if(Reaction.getRegulation()>1){
-                modifiers.add(Reaction.getModifier().getName());
-                allcompounds.add(Reaction.getModifier().getName());
+                if(Reaction.getRegulation()<4){
+                    modifiers.add(Reaction.getModifier().get(0).getName());
+                    allcompounds.add(Reaction.getModifier().get(0).getName());
+                }else if (Reaction.getRegulation()==4){
+                    modifiers.add(Reaction.getModifier().get(0).getName());
+                    allcompounds.add(Reaction.getModifier().get(0).getName());
+                    modifiers.add(Reaction.getModifier().get(1).getName());
+                    allcompounds.add(Reaction.getModifier().get(1).getName());
+                }
             }
             
             

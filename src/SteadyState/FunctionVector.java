@@ -79,6 +79,7 @@ public class FunctionVector {
             }
             
         }
+//        System.out.println();
         
         FVector = MatrixUtils.createColumnRealMatrix(Fvalues);
         

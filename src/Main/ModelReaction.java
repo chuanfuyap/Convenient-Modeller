@@ -27,16 +27,12 @@ public class ModelReaction {
     private Enzyme enzyme;
     private String a, b, e, p, q;                       //for storing species id.
     private String aName, bName, pName, qName;          //for storing species Name.
-    private double[] uniUniParameters = new double[]{1, 1, 1, 1};
-    private double[] uniBiRandomParameters = new double[]{1, 1, 1, 1, 1, 1};
-    private double[] biUniRandomParameters = new double[]{1, 1, 1, 1, 1, 1};
-    private double[] biBiRandomParameters = new double[]{1, 1, 1, 1, 1, 1, 1, 1};
-    private boolean CKinetics = true, proteinkinetics; 
+    private boolean proteinkinetics;
     private String[] subName, subID, prodName, prodID;
     private ArrayList<Double> CKparameters = new ArrayList<>();  //parameters for convenience kinetics
     private int regulation;                     //determines type of regulation, 1 for none, 2 for activation, 3 for inhibition
     private ArrayList substoichio, prodstoichio;
-    private Compound modifier;
+    private ArrayList<Compound> modifier;
     private ArrayList<Parameter> PKparameters = new ArrayList();
     private ArrayList<Parameter> GKparameters = new ArrayList();
     
@@ -56,33 +52,17 @@ public class ModelReaction {
         proteinkinetics=mReaction.getPKinetics();
         regulation=mReaction.getRegulation();
         if (regulation>1){
-            modifier=mReaction.getModifier();
+            modifier=mReaction.getModifiers();
         }
         
-        if (CKinetics==true){
-            for (int i = 0; i < substrates.size(); i++) {
-                subID[i] = substrates.get(i).getID();
-                subName[i] = substrates.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
-            
-            for (int i = 0; i < products.size(); i++) {
-                prodID[i] = products.get(i).getID();
-                prodName[i] = products.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
-        }else{
-            a = substrates.get(0).getID();            
-            aName = substrates.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            if (substrates.size() > 1) {
-                b = substrates.get(1).getID();
-                bName = substrates.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
+        for (int i = 0; i < substrates.size(); i++) {
+            subID[i] = substrates.get(i).getID();
+            subName[i] = substrates.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
+        }
 
-            p = products.get(0).getID();
-            pName = products.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            if (products.size() > 1) {
-                q = products.get(1).getID();
-                qName = products.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
+        for (int i = 0; i < products.size(); i++) {
+            prodID[i] = products.get(i).getID();
+            prodName[i] = products.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
         }
         
         e = enzyme.getID().replaceAll("\\W", "").replaceAll("\\s", "");
@@ -105,35 +85,19 @@ public class ModelReaction {
         proteinkinetics=mReaction.getPKinetics();
         regulation=mReaction.getRegulation();
         if (regulation>1){
-            modifier=mReaction.getModifier();
+            modifier=mReaction.getModifiers();
         }
         
-        if (CKinetics==true){
-            for (int i = 0; i < substrates.size(); i++) {
-                subID[i] = substrates.get(i).getID();
-                subName[i] = substrates.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
-            
-            for (int i = 0; i < products.size(); i++) {
-                prodID[i] = products.get(i).getID();
-                prodName[i] = products.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
-        }else{
-            a = substrates.get(0).getID();            
-            aName = substrates.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            if (substrates.size() > 1) {
-                b = substrates.get(1).getID();
-                bName = substrates.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
-
-            p = products.get(0).getID();
-            pName = products.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            if (products.size() > 1) {
-                q = products.get(1).getID();
-                qName = products.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", "");
-            }
+        for (int i = 0; i < substrates.size(); i++) {
+            subID[i] = substrates.get(i).getID();
+            subName[i] = substrates.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
         }
 
+        for (int i = 0; i < products.size(); i++) {
+            prodID[i] = products.get(i).getID();
+            prodName[i] = products.get(i).getName().replaceAll("\\W", "").replaceAll("\\s", "");
+        }
+        
         e = enzyme.getID().replaceAll("\\W", "").replaceAll("\\s", "");
     }
     
@@ -143,26 +107,8 @@ public class ModelReaction {
 
         int nSub = substrates.size();
         int nProds = products.size();
-        if (CKinetics == true){
-            reactionRate = getCKinetics();
-        }else{
-            if (nSub == 1 && nProds == 1) {
-                reactionRate = get11Reaction();
+        reactionRate = getCKinetics();
 
-            } else if (nSub == 2 && nProds == 1) {
-                reactionRate = get21Reaction();
-
-            } else if (nSub == 1 && nProds == 2) {
-                reactionRate = get12Reaction();
-
-            } /*else if (nSub == 2 && nProds == 2) {
-                reactionRate = get22Reaction();
-            }*/
-            else{
-                reactionRate = get22Reaction();
-            }
-        }
-        
         KineticLaw kl = new KineticLaw();
         ASTNode mathmlnode = ASTNode.readMathMLFromString(reactionRate);
         kl.setMath(mathmlnode);
@@ -192,23 +138,7 @@ public class ModelReaction {
     public String getID() {
         return mReaction.getReactionID();
     }
-    
-    public double[] getUniUniParameters() {
-        return uniUniParameters;
-    }
-
-    public double[] getUniBiRandomParameters() {
-        return uniBiRandomParameters;
-    }
-
-    public double[] getBiUniRandomParameters() {
-        return biUniRandomParameters;
-    }
-
-    public double[] getBiBiRandomParameters() {
-        return biBiRandomParameters;
-    }
-    
+        
     private String getCKinetics(){
         parameters.clear();
         String equation="";
@@ -236,12 +166,23 @@ public class ModelReaction {
             prodparams.add(prodparam);
         }
         
-        if (regulation == 2){
-            Ka.setId("Ka"+modifier.getName().replaceAll("\\W", "").replaceAll("\\s", ""));
-            parameters.add(Ka);
-        }else if(regulation == 3){
-            Ki.setId("Ki"+modifier.getName().replaceAll("\\W", "").replaceAll("\\s", ""));
-            parameters.add(Ki);
+        switch (regulation) {
+            case 2:
+                Ka.setId("Ka"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", ""));
+                parameters.add(Ka);
+                break;
+            case 3:
+                Ki.setId("Ki"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", ""));
+                parameters.add(Ki);
+                break;
+            case 4:
+                Ka.setId("Ka"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", ""));
+                parameters.add(Ka);
+                Ki.setId("Ki"+modifier.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", ""));
+                parameters.add(Ki);
+                break;
+            default:
+                break;
         }
         
         for (int i = 0; i < subparams.size(); i++) {
@@ -327,58 +268,97 @@ public class ModelReaction {
         }
         prod+="</apply>" + "\n";
         String top ="";
-        if (regulation==1){
-            top +=    "<apply>\n" +
+        switch (regulation) {
+            case 1:
+                top +=  "<apply>\n" +
                         "<times/>\n" +
                         "<ci>" + e+ "  </ci>\n" +
                         "<apply>" + "\n"+
                         "<minus/>\n"+
                         sub+prod+
-                         "</apply>" + "\n"+
+                        "</apply>" + "\n"+
                         "</apply>" + "\n";
-        
-        } else if (regulation == 2){
-            top+=   "<apply>\n" +
-                    "    <times/>\n" +
-                    "    <apply>\n" +
-                    "      <times/>\n" +
-                    "<ci>" + e+ "  </ci>\n" +
-                    "      <apply>\n" +
-                    "        <plus/>\n" +
-                    "        <cn type=\"integer\"> 1 </cn>\n" +
-                    "        <apply>\n" +
-                    "          <divide/>\n" +
-                    "          <ci>"+ modifier.getID() +"</ci>\n" +
-                    "          <ci> Ka"+modifier.getName().replaceAll("\\W", "").replaceAll("\\s", "") +"</ci>\n" + 
-                    "        </apply>\n" +
-                    "      </apply>\n" +
-                    "    </apply>\n" +
-                    "<apply>" + "\n"+
-                    "<minus/>\n"+
+                break;
+            case 2:
+                top+=   "<apply>\n" +
+                        "    <times/>\n" +
+                        "    <apply>\n" +
+                        "      <times/>\n" +
+                        "<ci>" + e+ "  </ci>\n" +
+                        "      <apply>\n" +
+                        "        <plus/>\n" +
+                        "        <cn type=\"integer\"> 1 </cn>\n" +
+                        "        <apply>\n" +
+                        "          <divide/>\n" +
+                        "          <ci>"+ modifier.get(0).getID() +"</ci>\n" +
+                        "          <ci> Ka"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "") +"</ci>\n" +
+                        "        </apply>\n" +
+                        "      </apply>\n" +
+                        "    </apply>\n" +
+                        "<apply>" + "\n"+
+                        "<minus/>\n"+
                         sub+prod+
-                         "</apply>" + "\n"+
+                        "</apply>" + "\n"+
                         "</apply>" + "\n";
-        }else {
-            top+=   "<apply>\n" +
-                    "    <times/>\n" +
-                    "    <apply>\n" +
-                    "      <times/>\n" +
-                    "<ci>" + e+ "  </ci>\n" +
-                    "<apply>\n" +
-                    "        <divide/>\n" +
-                    "        <ci>  Ki"+modifier.getName().replaceAll("\\W", "").replaceAll("\\s", "") +" </ci>\n" +
-                    "        <apply>\n" +
-                    "          <plus/>\n" +
-                    "          <ci>  Ki"+modifier.getName().replaceAll("\\W", "").replaceAll("\\s", "")+" </ci>\n" +     
-                    "          <ci> "+ modifier.getID() +" </ci>\n"+      
-                    "        </apply>\n" +
-                    "      </apply>\n" +
-                    "    </apply>\n" +
-                    "<apply>" + "\n"+
-                    "<minus/>\n"+
-                    sub+prod+
-                     "</apply>" + "\n"+
-                    "</apply>" + "\n";
+                break;
+            case 3:
+                top+=   "<apply>\n" +
+                        "    <times/>\n" +
+                        "    <apply>\n" +
+                        "      <times/>\n" +
+                        "<ci>" + e+ "  </ci>\n" +
+                        "<apply>\n" +
+                        "        <divide/>\n" +
+                        "        <ci>  Ki"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "") +" </ci>\n" +
+                        "        <apply>\n" +
+                        "          <plus/>\n" +
+                        "          <ci>  Ki"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "")+" </ci>\n" +
+                        "          <ci> "+ modifier.get(0).getID() +" </ci>\n"+
+                        "        </apply>\n" +
+                        "      </apply>\n" +
+                        "    </apply>\n" +
+                        "<apply>" + "\n"+
+                        "<minus/>\n"+
+                        sub+prod+
+                        "</apply>" + "\n"+
+                        "</apply>" + "\n";
+                break;
+            case 4:
+                top+=   "              <apply>\n" +
+                        "                <times/>\n" +
+                        "                <apply>\n" +
+                        "                  <times/>\n" +
+                        "                  <apply>\n" +
+                        "                    <times/>\n" +
+                        "                    <ci>" + e+ "  </ci>\n" +
+                        "                    <apply>\n" +
+                        "                      <plus/>\n" +
+                        "                      <cn type=\"integer\"> 1 </cn>\n" +
+                        "                      <apply>\n" +
+                        "                        <divide/>\n" +
+                        "                        <ci>"+ modifier.get(0).getID() +"</ci>\n" +
+                        "                        <ci> Ka"+modifier.get(0).getName().replaceAll("\\W", "").replaceAll("\\s", "") +"</ci>\n" +
+                        "                      </apply>\n" +
+                        "                    </apply>\n" +
+                        "                  </apply>\n" +
+                        "                  <apply>\n" +
+                        "                    <divide/>\n" +
+                        "                    <ci>  Ki"+modifier.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", "") +" </ci>\n" +
+                        "                    <apply>\n" +
+                        "                      <plus/>\n" +
+                        "                      <ci>  Ki"+modifier.get(1).getName().replaceAll("\\W", "").replaceAll("\\s", "")+" </ci>\n" +
+                        "                      <ci> "+ modifier.get(1).getID() +" </ci>\n"+
+                        "                    </apply>\n" +
+                        "                  </apply>\n" +
+                        "                </apply>\n" +
+                        "                <apply>\n" +
+                        "                  <minus/>\n" +
+                        sub+prod+
+                        "</apply>" + "\n"+
+                        "</apply>" + "\n";
+                break;
+            default:
+                break;
         }
         
         //building equation for the denominator
@@ -594,371 +574,6 @@ public class ModelReaction {
         return equation;
     }
     
-    private String get11Reaction() {
-        Parameter KA = new Parameter("K" + aName);
-        KA.setValue(getUniUniParameters()[0]);
-        Parameter KB = new Parameter("K" + pName);
-        KB.setValue(getUniUniParameters()[1]);
-        Parameter KmA = new Parameter("Km" + aName);
-        KmA.setValue(getUniUniParameters()[2]);
-        Parameter KmP = new Parameter("Km" + pName);
-        KmP.setValue(getUniUniParameters()[3]);
-
-        parameters.add(KA);
-        parameters.add(KB);
-        parameters.add(KmA);
-        parameters.add(KmP);
-        return "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" \n >"
-                + "<apply>" + "\n"
-                + "   <divide />" + "\n"
-                + "   <apply>" + "\n"
-                + "       <minus />" + "\n"
-                + "       <apply>" + "\n"
-                + "           <times />" + "\n"
-                + "           <ci>K" + aName + "</ci>" + "\n"
-                + "           <ci>" + e + "</ci>" + "\n"
-                + "           <ci>" + a + "</ci>" + "\n"
-                + "       </apply>" + "\n"
-                + "       <apply>" + "\n"
-                + "           <times />" + "\n"
-                + "           <ci>K" + pName + "</ci>" + "\n"
-                + "           <ci>" + e + "</ci>" + "\n"
-                + "           <ci>" + p + "</ci>" + "\n"
-                + "       </apply>" + "\n"
-                + "   </apply>" + "\n"
-                + "       <apply>" + "\n"
-                + "           <plus />" + "\n"
-                + "           <cn type=\"integer\">1</cn>" + "\n"
-                + "       <apply>" + "\n"
-                + "           <divide />" + "\n"
-                + "           <ci>" + a + "</ci>" + "\n"
-                + "           <ci>Km" + aName + "</ci>" + "\n"
-                + "       </apply>" + "\n"
-                + "       <apply>" + "\n"
-                + "           <divide />" + "\n"
-                + "           <ci>" + p + "</ci>" + "\n"
-                + "           <ci>Km" + pName + "</ci>" + "\n"
-                + "       </apply>" + "\n"
-                + "   </apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</math>";
-    }
-    
-    private String get21Reaction() {
-        
-        Parameter KiA = new Parameter("Ki" + aName);
-        KiA.setValue(getBiUniRandomParameters()[2]);
-        Parameter KiB = new Parameter("Ki" + bName);
-        KiB.setValue(getBiUniRandomParameters()[4]);
-        Parameter KmB = new Parameter("Km" + bName);
-        KmB.setValue(getBiUniRandomParameters()[5]);
-        Parameter KmP = new Parameter("Km" + pName);
-        KmP.setValue(getBiUniRandomParameters()[3]);
-        Parameter Vr = new Parameter("Vr" + e);
-        Vr.setValue(getBiUniRandomParameters()[1]);
-        Parameter Vf = new Parameter("Vf" + e);
-        Vf.setValue(getBiUniRandomParameters()[0]);
-
-        parameters.add(Vf);
-        parameters.add(Vr);
-        parameters.add(KiA);
-        parameters.add(KmB);
-        parameters.add(KiB);
-        parameters.add(KmP);
-        
-        return "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" \n> "         
-            + "<apply>" + "\n"
-            + "  <divide/>" + "\n" 
-            + " <apply>" + "\n"
-            + "    <minus/>" + "\n" 
-            + "    <apply>" + "\n"
-            + "      <divide/>" + "\n"
-            + "      <apply>" + "\n"
-            + "        <times/>" + "\n"
-            + "        <apply>" + "\n"
-            + "          <times/>" + "\n"
-            + "          <apply>" + "\n"
-            + "            <times/>" + "\n"
-            + "            <ci> Vf" + e+ "</ci>" + "\n"
-            + "            <ci>" + e + "</ci>" + "\n"
-            + "          </apply>" + "\n"
-            + "          <ci>" + a + "</ci>" + "\n"
-            + "        </apply>" + "\n"
-            + "        <ci>" + b + "</ci>" + "\n"
-            + "      </apply>" + "\n"
-            + "      <apply>" + "\n"
-            + "        <times/>" + "\n"
-            + "        <ci>Ki" + aName + "</ci>" + "\n"
-            + "        <ci>Km" + bName + "</ci>" + "\n"
-            + "      </apply>" + "\n"
-            + "    </apply>" + "\n"
-            + "    <apply>" + "\n"
-            + "      <divide/>" + "\n"
-            + "      <apply>" + "\n"
-            + "        <times/>" + "\n"
-            + "        <apply>" + "\n"
-            + "          <times/>" + "\n"
-            + "          <ci> Vr" + e + "  </ci>" + "\n"
-            + "          <ci> " + e + " </ci>" + "\n"
-            + "        </apply>" + "\n"
-            + "        <ci> " + p + " </ci>" + "\n"
-            + "      </apply>" + "\n"
-            + "      <ci> Km" + pName + " </ci>" + "\n"
-            + "    </apply>" + "\n"
-            + "  </apply>" + "\n"
-            + "  <apply>" + "\n"
-            + "    <plus/>" + "\n"
-            + "    <apply>" + "\n"
-            + "      <plus/>" + "\n"
-            + "      <apply>" + "\n"
-            + "        <plus/>" + "\n"
-            + "        <apply>" + "\n"
-            + "          <plus/>" + "\n"
-            + "          <cn type=\"integer\"> 1 </cn>" + "\n"
-            + "          <apply>" + "\n"
-            + "            <divide/>" + "\n"
-            + "               <ci>" + a + "</ci>" + "\n"
-            + "               <ci>Ki" + aName + "</ci>" + "\n"
-            + "          </apply>" + "\n"
-            + "        </apply>" + "\n"
-            + "        <apply>" + "\n"
-            + "          <divide/>" + "\n"
-            + "               <ci>" + b + "</ci>" + "\n"
-            + "               <ci>Ki" + bName + "</ci>" + "\n"
-            + "        </apply>" + "\n"
-            + "      </apply>" + "\n"
-            + "      <apply>" + "\n"
-            + "        <divide/>" + "\n"
-            + "        <apply>" + "\n"
-            + "          <times/>" + "\n"
-            + "               <ci>" + a + "</ci> " + "\n"
-            + "               <ci>" + b + "</ci>" + "\n"
-            + "        </apply>" + "\n"
-            + "        <apply>" + "\n"
-            + "          <times/>" + "\n"
-            + "               <ci>Ki" + aName + "</ci> " + "\n"
-            + "               <ci>Km" + bName + "</ci> " + "\n"
-            + "        </apply>" + "\n"
-            + "      </apply>" + "\n"
-            + "    </apply>" + "\n"
-            + "    <apply>" + "\n"
-            + "      <divide/>" + "\n"
-            + "               <ci>" + p + "</ci>" + "\n"
-            + "               <ci>Km" + pName + "</ci>" + "\n"
-            + "    </apply>" + "\n"
-            + "  </apply>" + "\n"
-            + "</apply>" + "\n"
-            + "</math>" + "\n";
-    }
-    
-    private String get12Reaction() {
-        
-        Parameter KmA = new Parameter("Km" + aName);
-        KmA.setValue(getUniBiRandomParameters()[2]);
-        Parameter KmP = new Parameter("Km" + pName);
-        KmP.setValue(getUniBiRandomParameters()[4]);
-        Parameter KiQ = new Parameter("Ki" + qName);
-        KiQ.setValue(getUniBiRandomParameters()[5]);
-        Parameter Vr = new Parameter("Vr" + e);
-        Vr.setValue(getUniBiRandomParameters()[1]);
-        Parameter KiP = new Parameter ("Ki" + pName);
-        KiP.setValue(getUniBiRandomParameters()[3]);
-        Parameter Vf = new Parameter("Vf" + e);
-        Vf.setValue(getUniBiRandomParameters()[0]);
-        
-        parameters.add(Vf);
-        parameters.add(Vr);
-        parameters.add(KmA);
-        parameters.add(KiP);
-        parameters.add(KmP);
-        parameters.add(KiQ);
-        
-        return "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" \n >"
-                + "<apply>" + "\n"
-                + "<divide /> " + "\n"
-                + "<apply>" + "\n"
-                + "<minus /> " + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>Vf" + e + "</ci> " + "\n"
-                + "<ci>" + e + "</ci> " + "\n"
-                + "<ci>" + a + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "<ci>Km" + aName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>Vr" + e +"</ci>" + "\n"
-                + "<ci>" + e + "</ci> " + "\n"
-                + "<ci>" + p + "</ci>" + "\n"
-                + "<ci>" + q + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>Km" + pName + "</ci>" + "\n"
-                + "<ci>Ki" + qName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<plus /> " + "\n"
-                + "<cn type=\"integer\">1</cn>" + "\n"
-                + "<apply>" + "\n"
-                + " <divide /> " + "\n"
-                + "<ci>" + a + "</ci>" + "\n"
-                + "<ci>Km" + aName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<ci>" + p + "</ci>" + "\n"
-                + "<ci>Ki" + pName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + " <times /> " + "\n"
-                + "<ci>" + p + "</ci>" + "\n"
-                + "<ci>" + q + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>Km" + pName + "</ci> " + "\n"
-                + "<ci>Ki" + qName + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide /> " + "\n"
-                + "<ci>" + q + "</ci> " + "\n"
-                + "<ci>Ki" + qName + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + " </math>" + "\n";
-        
-    }
-    
-    private String get22Reaction() {
-        
-        Parameter Vf = new Parameter("Vf" + e);
-        Vf.setValue(getBiBiRandomParameters()[0]);
-        Parameter Vr = new Parameter("Vr" + e);
-        Vr.setValue(getBiBiRandomParameters()[1]);
-        Parameter KiA = new Parameter("Ki" + aName);
-        KiA.setValue(getBiBiRandomParameters()[2]);
-        Parameter KmB = new Parameter("Km" + bName);
-        KmB.setValue(getBiBiRandomParameters()[3]);
-        Parameter KiB = new Parameter("Ki" + bName);
-        KiB.setValue(getBiBiRandomParameters()[4]);
-        Parameter KmP = new Parameter("Km" + pName);
-        KmP.setValue(getBiBiRandomParameters()[5]);
-        Parameter KiP = new Parameter("Ki" + pName);
-        KiP.setValue(getBiBiRandomParameters()[6]);
-        Parameter KiQ = new Parameter("Ki" + qName);
-        KiQ.setValue(getBiBiRandomParameters()[7]);
-        
-        parameters.add(Vf);
-        parameters.add(Vr);
-        parameters.add(KiA);
-        parameters.add(KmB);
-        parameters.add(KiB);
-        parameters.add(KmP);
-        parameters.add(KiP);
-        parameters.add(KiQ);
-        
-        return "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" \n >"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + "<minus />" + "\n"
-                + "<apply>" + "\n"
-                + "<divide /> " + "\n"
-                + "<apply>" + "\n"
-                + "<times /> " + "\n"
-                + "<ci>Vf" + e + "</ci> " + "\n"
-                + "<ci>" + e + "</ci> " + "\n"
-                + "<ci>" + a + "</ci> " + "\n"
-                + "<ci>" + b + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>" + "Ki" + aName + "</ci> " + "\n"
-                + "<ci>" + "Km" + bName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>Vr" + e + "</ci>" + "\n"
-                + "<ci>" + e + "</ci> " + "\n"
-                + "<ci>" + p + "</ci> " + "\n"
-                + "<ci>" + q + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>" + "Km" + pName + "</ci> " + "\n"
-                + "<ci>" + "Ki" + qName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<plus /> " + "\n"
-                + "<cn type=\"integer\">1</cn>"
-                + "<apply>" + "\n"
-                + "<divide /> " + "\n"
-                + "<ci>" + a + "</ci>" + "\n"
-                + "<ci>" + "Ki" + aName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<ci>" + b + "</ci> " + "\n"
-                + "<ci>" + "Ki" + bName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide /> " + "\n"
-                + "<ci>" + p + "</ci>" + "\n"
-                + "<ci>" + "Ki" + pName + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<ci>" + q + "</ci>" + "\n"
-                + "<ci>" + "Ki" + qName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + " <apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + "<times /> " + "\n"
-                + "<ci>" + a + "</ci> " + "\n"
-                + "<ci>" + b + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>" + "Ki" + aName + "</ci> " + "\n"
-                + "<ci>" + "Km" + bName + "</ci> " + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<divide />" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>" + p + "</ci>" + "\n"
-                + "<ci>" + q + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "<apply>" + "\n"
-                + "<times />" + "\n"
-                + "<ci>" + "Km" + pName + "</ci>" + "\n"
-                + "<ci>" + "Ki" + qName + "</ci>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</apply>" + "\n"
-                + "</math>";
-    }
-    
     public MetabolicReaction getMyReaction() {
         return mReaction;
     }
@@ -986,28 +601,7 @@ public class ModelReaction {
     public ArrayList getProductsStoichio() {
         return mReaction.getProductStoichio();
     }
-    
-    
-    public void setBiBiRandomParameters(double[] d) {
-        biBiRandomParameters = d;
-    }
-    
-    public void setUniUniParameters(double[] d) {
-        uniUniParameters = d;
-    }
-    
-    public void setUniBiRandomParameters(double[] d) {
-        uniBiRandomParameters = d;
-    }
-    
-    public void setBiUniRandomParameters(double[] d) {
-        biUniRandomParameters = d;
-    }
-    
-    public void setCKineticsParameters(double[] d){
         
-    }
-    
     public KineticLaw getProteinKinetics(){
         Parameter translate = new Parameter("Ktl" + e);
         translate.setValue(1);
@@ -1078,13 +672,13 @@ public class ModelReaction {
         return regulation;
     }
     
-    public Compound getModifier(){
+    public ArrayList<Compound> getModifier(){
         return modifier;
     }
     public void setRegulation(int reg){
         regulation=reg;
     }
-    public void setModifier(Compound comp){
+    public void setModifier(ArrayList<Compound> comp){
         modifier=comp;
     }
     

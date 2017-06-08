@@ -51,7 +51,9 @@ public class SystemToSolve {
     private boolean SSorTC;
     private ReadData data;
     private boolean goodbad=false;
-       
+    
+    private double[] metabolites;
+    
     public SystemToSolve(String Link, ReadData data) throws IOException, XMLStreamException, ModelOverdeterminedException{
         this.data=data;
         SSorTC = data.SSorTC();
@@ -204,6 +206,7 @@ public class SystemToSolve {
             if(steadystateresults.solveSS()==true){
                 estMetMap = steadystateresults.getSolvedMMap();
                 estFluxMap = steadystateresults.getSolvedFMap();
+                metabolites = steadystateresults.getSolvedVector();
                 goodbad=true;
             }else{
                 goodbad=false;
@@ -395,5 +398,9 @@ public class SystemToSolve {
     
     public boolean isitSSorTC(){
         return SSorTC;
+    }
+    
+    public double[] get_MetVector(){
+        return metabolites;
     }
 }

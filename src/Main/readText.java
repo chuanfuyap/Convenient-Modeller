@@ -40,9 +40,11 @@ public class readText {
             
         } catch (Exception e) {
         }
+//        System.out.println(counter);
         fakeparameters=new double[counter];
         for (int i =0; i<number.size(); i++){
             fakeparameters[i]=number.get(i);
+//            System.out.println(fakeparameters[i]);
         }
     }
     

@@ -30,7 +30,7 @@ public class MetabolicReaction {
     private ArrayList<Double> prodconc;
     private boolean proteinkinetics=false;
     private int regulation;
-    private Compound modifier;
+    private ArrayList<Compound> modifiers;
     
     public MetabolicReaction(String name){
         id = id + 1;
@@ -44,25 +44,20 @@ public class MetabolicReaction {
         prodconc = new ArrayList<Double>();   
         regulation=1;
     }
-    public MetabolicReaction (String name, int regulation, Compound modifier){
-        this(name);
-        this.regulation=regulation;
-        this.modifier=modifier;
-    }
-    
+        
     public MetabolicReaction(Reaction reaction){
         this.reaction = reaction;
         this.name = reaction.getName();
         ID = reaction.getId();
         id+=1;
-        substrates = new ArrayList<Compound>();
-        products = new ArrayList<Compound>();
+        substrates = new ArrayList<>();
+        products = new ArrayList<>();
         substratesStoichio = new ArrayList();
         productsStoichio = new ArrayList();
-        subconc = new ArrayList<Double>();
-        prodconc = new ArrayList<Double>();
+        subconc = new ArrayList<>();
+        prodconc = new ArrayList<>();
         regulation=1;
-        //1 is none, 2 is activator, 3 is inhibitor
+        //1 is none, 2 is activator, 3 is inhibitor, 4 both activator+inhibitor
     }
     
     public void setID(String ID){
@@ -165,8 +160,8 @@ public class MetabolicReaction {
     public int getProductStoicCo(int i){
        return Integer.parseInt(productsStoichio.get(i).toString()); 
     }
-    public Compound getModifier(){
-        return modifier;
+    public ArrayList<Compound> getModifiers(){
+        return modifiers;
     }
     
     public int getRegulation(){
@@ -177,8 +172,8 @@ public class MetabolicReaction {
         regulation = num;
     }
     
-    public void setModifier(Compound mod){
-        modifier=mod;
+    public void setModifier(ArrayList<Compound> mod){
+        modifiers=mod;
     }
     
     public String toString() {

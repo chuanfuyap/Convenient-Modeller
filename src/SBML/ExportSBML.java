@@ -181,11 +181,23 @@ public class ExportSBML {
             int regulation = modelreaction.getRegulation();
             
             if(regulation>1){
-                Compound modifier = modelreaction.getModifier();
-                Species mod = new Species(modifier.getID());
-                mod.setName(mod.getName());
-                ModifierSpeciesReference modsf = new ModifierSpeciesReference(mod);
-                reaction.addModifier(modsf);
+                if(regulation<4){
+                    ArrayList<Compound> modifier = modelreaction.getModifier();
+                    Species mod = new Species(modifier.get(0).getID());
+                    mod.setName(mod.getName());
+                    ModifierSpeciesReference modsf = new ModifierSpeciesReference(mod);
+                    reaction.addModifier(modsf);
+                }else if(regulation==4){
+                    ArrayList<Compound> modifier = modelreaction.getModifier();
+                    Species mod = new Species(modifier.get(0).getID());
+                    mod.setName(mod.getName());
+                    ModifierSpeciesReference modsf = new ModifierSpeciesReference(mod);
+                    reaction.addModifier(modsf);
+                    Species mod2 = new Species(modifier.get(1).getID());
+                    mod2.setName(mod2.getName());
+                    ModifierSpeciesReference modsf2 = new ModifierSpeciesReference(mod2);
+                    reaction.addModifier(modsf2);
+                }
             }
             
             KineticLaw kineticLaw= null;
@@ -223,51 +235,59 @@ public class ExportSBML {
                     reactant.setSBOTerm(11);
                 }
                 reaction.getListOfModifiers().get(0).setSBOTerm(460);           //460 SBO for enzymatic catalyst
-                if(regulation==2){
-                    reaction.getListOfModifiers().get(1).setSBOTerm(534);      //533 SBO for catalytic activator;
-                }
-                if(regulation ==3){
-                    reaction.getListOfModifiers().get(1).setSBOTerm(20);        //20 SBO for inhibitor
+                switch (regulation) {
+                    case 2:
+                        reaction.getListOfModifiers().get(1).setSBOTerm(534);      //533 SBO for catalytic activator;
+                        break;
+                    case 3:
+                        reaction.getListOfModifiers().get(1).setSBOTerm(20);        //20 SBO for inhibitor
+                        break;
+                    case 4:
+                        reaction.getListOfModifiers().get(1).setSBOTerm(534);      //533 SBO for catalytic activator;
+                        reaction.getListOfModifiers().get(2).setSBOTerm(20);        //20 SBO for inhibitor
+                        break;
+                    default:
+                        break;
                 }
             }catch (Exception e) {
                 System.out.println("Cannot Build Equation. Error 6 "+modelreaction.getName());
             }
             
-            if (modelreaction.getPkinetics()==true){
-                String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
-                Reaction genereaction = new Reaction("mRNA"+proteinname);        
-                genereaction.setName(proteinname+" transcription");
-                genereaction.setReversible(false);
-                
-                Enzyme enz = modelreaction.getEnzyme();
-                Species gene = new Species("mRNA"+enz.getID());
-                gene.setName("mRNA "+enz.getName());
-                SpeciesReference genesf = new SpeciesReference(gene);
-                genesf.setStoichiometry(1);
-                genereaction.addProduct(genesf);
-                
-                KineticLaw genekineticLaw= null;
-                genekineticLaw = modelreaction.getGeneKinetics();
-                
-                genereaction.setKineticLaw(genekineticLaw);
-                ArrayList<Parameter> tempparameters3 = modelreaction.getGKparameters();
-                
-                //for loop to convert parameters to local parameter that are subsequently added to the kineticlaw.
-                for (int i=0; i< tempparameters3.size(); i++){
-                    LocalParameter localparameter = new LocalParameter(tempparameters3.get(i));
-                    genekineticLaw.addLocalParameter(localparameter);
-                }
-                
-                Species s1 = myModel.createSpecies("mRNA"+enz.getID(), "mRNA "+enz.getName(), compartment);
-                s1.setBoundaryCondition(false);
-                s1.setInitialConcentration(1);
-                s1.setSBOTerm(250);                 //250 SBO term for ribonucleic acid
-                
-                myModel.addReaction(genereaction);
-                genereaction.setSBOTerm(342);                   //342 SBOterm for molecular or genetic interaction;
-                genereaction.getKineticLaw().setSBOTerm(44);                 //44 SBOterm for mass action rate law for irreversible reactions
-                
-            }
+//            if (modelreaction.getPkinetics()==true){
+//                String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
+//                Reaction genereaction = new Reaction("mRNA"+proteinname);        
+//                genereaction.setName(proteinname+" transcription");
+//                genereaction.setReversible(false);
+//                
+//                Enzyme enz = modelreaction.getEnzyme();
+//                Species gene = new Species("mRNA"+enz.getID());
+//                gene.setName("mRNA "+enz.getName());
+//                SpeciesReference genesf = new SpeciesReference(gene);
+//                genesf.setStoichiometry(1);
+//                genereaction.addProduct(genesf);
+//                
+//                KineticLaw genekineticLaw= null;
+//                genekineticLaw = modelreaction.getGeneKinetics();
+//                
+//                genereaction.setKineticLaw(genekineticLaw);
+//                ArrayList<Parameter> tempparameters3 = modelreaction.getGKparameters();
+//                
+//                //for loop to convert parameters to local parameter that are subsequently added to the kineticlaw.
+//                for (int i=0; i< tempparameters3.size(); i++){
+//                    LocalParameter localparameter = new LocalParameter(tempparameters3.get(i));
+//                    genekineticLaw.addLocalParameter(localparameter);
+//                }
+//                
+//                Species s1 = myModel.createSpecies("mRNA"+enz.getID(), "mRNA "+enz.getName(), compartment);
+//                s1.setBoundaryCondition(false);
+//                s1.setInitialConcentration(1);
+//                s1.setSBOTerm(250);                 //250 SBO term for ribonucleic acid
+//                
+//                myModel.addReaction(genereaction);
+//                genereaction.setSBOTerm(342);                   //342 SBOterm for molecular or genetic interaction;
+//                genereaction.getKineticLaw().setSBOTerm(44);                 //44 SBOterm for mass action rate law for irreversible reactions
+//                
+//            }
             if (modelreaction.getPkinetics()==true){
                 String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
                 
@@ -277,9 +297,9 @@ public class ExportSBML {
                 
                 Enzyme enz = modelreaction.getEnzyme();
                 
-                Species gene = new Species("mRNA"+enz.getID());
-                gene.setName("mRNA "+enz.getName());
-                ModifierSpeciesReference genesf = new ModifierSpeciesReference(gene);
+//                Species gene = new Species("mRNA"+enz.getID());
+////                gene.setName("mRNA "+enz.getName());
+//                ModifierSpeciesReference genesf = new ModifierSpeciesReference(gene);
                 Species prot = new Species(enz.getID());
                 prot.setName(enz.getName());
                 SpeciesReference protsf = new SpeciesReference(prot);
@@ -378,11 +398,23 @@ public class ExportSBML {
             int regulation = modelreaction.getRegulation();
             
             if(regulation>1){
-                Compound modifier = modelreaction.getModifier();
-                Species mod = new Species(modifier.getID());
-                mod.setName(mod.getName());
-                ModifierSpeciesReference modsf = new ModifierSpeciesReference(mod);
-                reaction.addModifier(modsf);
+                if(regulation<4){
+                    ArrayList<Compound> modifier = modelreaction.getModifier();
+                    Species mod = new Species(modifier.get(0).getID());
+                    mod.setName(mod.getName());
+                    ModifierSpeciesReference modsf = new ModifierSpeciesReference(mod);
+                    reaction.addModifier(modsf);
+                }else if(regulation==4){
+                    ArrayList<Compound> modifier = modelreaction.getModifier();
+                    Species mod = new Species(modifier.get(0).getID());
+                    mod.setName(mod.getName());
+                    ModifierSpeciesReference modsf = new ModifierSpeciesReference(mod);
+                    reaction.addModifier(modsf);
+                    Species mod2 = new Species(modifier.get(1).getID());
+                    mod2.setName(mod2.getName());
+                    ModifierSpeciesReference modsf2 = new ModifierSpeciesReference(mod2);
+                    reaction.addModifier(modsf2);
+                }
             }
             
             KineticLaw kineticLaw= null;
@@ -423,51 +455,59 @@ public class ExportSBML {
                     reactant.setSBOTerm(11);
                 }
                 reaction.getListOfModifiers().get(0).setSBOTerm(460);           //460 SBO for enzymatic catalyst
-                if(regulation==2){
-                    reaction.getListOfModifiers().get(1).setSBOTerm(534);      //533 SBO for catalytic activator;
-                }
-                if(regulation ==3){
-                    reaction.getListOfModifiers().get(1).setSBOTerm(20);        //20 SBO for inhibitor
+                switch (regulation) {
+                    case 2:
+                        reaction.getListOfModifiers().get(1).setSBOTerm(534);      //533 SBO for catalytic activator;
+                        break;
+                    case 3:
+                        reaction.getListOfModifiers().get(1).setSBOTerm(20);        //20 SBO for inhibitor
+                        break;
+                    case 4:
+                        reaction.getListOfModifiers().get(1).setSBOTerm(534);      //533 SBO for catalytic activator;
+                        reaction.getListOfModifiers().get(2).setSBOTerm(20);        //20 SBO for inhibitor
+                        break;
+                    default:
+                        break;
                 }
             }catch (Exception e) {
                 System.out.println("Cannot Build Equation. Error 6 "+modelreaction.getName());
             }
             
-            if (modelreaction.getPkinetics()==true){
-                String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
-                Reaction genereaction = new Reaction("mRNA"+proteinname);        
-                genereaction.setName(proteinname+" transcription");
-                genereaction.setReversible(false);
-                
-                Enzyme enz = modelreaction.getEnzyme();
-                Species gene = new Species("mRNA"+enz.getID());
-                gene.setName("mRNA "+enz.getName());
-                SpeciesReference genesf = new SpeciesReference(gene);
-                genesf.setStoichiometry(1);
-                genereaction.addProduct(genesf);
-                
-                KineticLaw genekineticLaw= null;
-                genekineticLaw = modelreaction.getGeneKinetics();
-                
-                genereaction.setKineticLaw(genekineticLaw);
-                ArrayList<Parameter> tempparameters3 = modelreaction.getGKparameters();
-                
-                //for loop to convert parameters to local parameter that are subsequently added to the kineticlaw.
-                for (int i=0; i< tempparameters3.size(); i++){
-                    LocalParameter localparameter = new LocalParameter(tempparameters3.get(i));
-                    genekineticLaw.addLocalParameter(localparameter);
-                }
-                
-                Species s1 = myModel.createSpecies("mRNA"+enz.getID(), "mRNA "+enz.getName(), compartment);
-                s1.setBoundaryCondition(false);
-                s1.setInitialConcentration(1);
-                s1.setSBOTerm(250);                 //250 SBO term for ribonucleic acid
-                
-                myModel.addReaction(genereaction);
-                genereaction.setSBOTerm(342);                   //342 SBOterm for molecular or genetic interaction;
-                genereaction.getKineticLaw().setSBOTerm(44);                 //44 SBOterm for mass action rate law for irreversible reactions
-                
-            }
+//            if (modelreaction.getPkinetics()==true){
+//                String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
+//                Reaction genereaction = new Reaction("mRNA"+proteinname);        
+//                genereaction.setName(proteinname+" transcription");
+//                genereaction.setReversible(false);
+//                
+//                Enzyme enz = modelreaction.getEnzyme();
+//                Species gene = new Species("mRNA"+enz.getID());
+//                gene.setName("mRNA "+enz.getName());
+//                SpeciesReference genesf = new SpeciesReference(gene);
+//                genesf.setStoichiometry(1);
+//                genereaction.addProduct(genesf);
+//                
+//                KineticLaw genekineticLaw= null;
+//                genekineticLaw = modelreaction.getGeneKinetics();
+//                
+//                genereaction.setKineticLaw(genekineticLaw);
+//                ArrayList<Parameter> tempparameters3 = modelreaction.getGKparameters();
+//                
+//                //for loop to convert parameters to local parameter that are subsequently added to the kineticlaw.
+//                for (int i=0; i< tempparameters3.size(); i++){
+//                    LocalParameter localparameter = new LocalParameter(tempparameters3.get(i));
+//                    genekineticLaw.addLocalParameter(localparameter);
+//                }
+//                
+//                Species s1 = myModel.createSpecies("mRNA"+enz.getID(), "mRNA "+enz.getName(), compartment);
+//                s1.setBoundaryCondition(false);
+//                s1.setInitialConcentration(1);
+//                s1.setSBOTerm(250);                 //250 SBO term for ribonucleic acid
+//                
+//                myModel.addReaction(genereaction);
+//                genereaction.setSBOTerm(342);                   //342 SBOterm for molecular or genetic interaction;
+//                genereaction.getKineticLaw().setSBOTerm(44);                 //44 SBOterm for mass action rate law for irreversible reactions
+//                
+//            }
             if (modelreaction.getPkinetics()==true){
                 String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
                 
@@ -477,15 +517,15 @@ public class ExportSBML {
                 
                 Enzyme enz = modelreaction.getEnzyme();
                 
-                Species gene = new Species("mRNA"+enz.getID());
-//                gene.setName("mRNA "+enz.getName());
-                ModifierSpeciesReference genesf = new ModifierSpeciesReference(gene);
+//                Species gene = new Species("mRNA"+enz.getID());
+////                gene.setName("mRNA "+enz.getName());
+//                ModifierSpeciesReference genesf = new ModifierSpeciesReference(gene);
                 Species prot = new Species(enz.getID());
                 prot.setName(enz.getName());
                 SpeciesReference protsf = new SpeciesReference(prot);
                 protsf.setStoichiometry(1);
                 
-                proteinreaction.addModifier(genesf);
+//                proteinreaction.addModifier(genesf);
                 proteinreaction.addProduct(protsf);
                 
                 KineticLaw proteinkineticLaw= null;

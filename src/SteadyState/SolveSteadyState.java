@@ -79,6 +79,7 @@ public class SolveSteadyState {
                 }
             }
             //determine if NRD was succesful, if not, it will run ODEsolver and use new values for further NRD runs
+//            System.out.println(NRDSolve);
             if (NRDSolve==true){
                 dampsolution=true;
             }else if(NRDSolve==false && i < 4){
