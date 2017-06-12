@@ -381,7 +381,9 @@ public class JacobianMatrix {
             if(reaction.getRegulation()>1){
                 mod2reaction.put(reaction.getName(), reaction.getModifier());
             }else{
-                mod2reaction.put(reaction.getName(), "N/A");
+                ArrayList NA = new ArrayList();
+                NA.add(new Compound("N/A", 0.0));
+                mod2reaction.put(reaction.getName(), NA);
             }            
         }
         

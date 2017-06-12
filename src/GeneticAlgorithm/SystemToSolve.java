@@ -116,7 +116,11 @@ public class SystemToSolve {
                 int regulation = reaction.getRegulation();
                 int para =2;
                 if(regulation>1){
-                    para+=1;
+                    if(regulation<4){
+                        para+=1;
+                    }else if(regulation==4){
+                        para+=2;
+                    }
                 }
                 para+=numSub;
                 para+=numProd;
@@ -175,7 +179,11 @@ public class SystemToSolve {
                 int regulation = reaction.getRegulation();
                 int para =2;
                 if(regulation>1){
-                    para+=1;
+                    if(regulation<4){
+                        para+=1;
+                    }else if(regulation==4){
+                        para+=2;
+                    }
                 }
                 para+=numSub;
                 para+=numProd;
