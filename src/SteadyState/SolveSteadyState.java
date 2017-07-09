@@ -257,7 +257,7 @@ public class SolveSteadyState {
         }
         
         double avg = total/values.length;
-        System.out.println(avg+"\n");
+//        System.out.println(avg+"\n");
         if (Math.abs(avg) <= Tolerance){
             solved=true;
         }
