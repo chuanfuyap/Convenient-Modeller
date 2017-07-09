@@ -209,7 +209,7 @@ public class SystemToSolve {
         estimatedFlux = new double[Reactions.size()];
         
         if(SSorTC==true){
-            SolveSteadyState steadystateresults = new SolveSteadyState(Compounds, Reactions, activeConc, parameters, link);
+            SolveSteadyState steadystateresults = new SolveSteadyState(Compounds, Reactions, parameters, link);
             
             if(steadystateresults.solveSS()==true){
                 estMetMap = steadystateresults.getSolvedMMap();

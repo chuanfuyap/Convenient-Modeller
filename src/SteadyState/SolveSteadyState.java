@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
-import odeBridge.odesolve;
+import odeBridge.odesolveSS;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.sbml.jsbml.validator.ModelOverdeterminedException;
@@ -25,9 +25,9 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
  */
 public class SolveSteadyState {
     
-    private double Tolerance = 5E-12;
-    private double NRDTolerance1 = 5E-5;
-    private double NRDTolerance2 = 5E-9;
+    private double Tolerance = 5E-7;
+    private double NRDTolerance1 = 5E-3;
+    private double NRDTolerance2 = 5E-5;
     private int maxiteration = 100;
     private int dampingiteration = 200;
     private ArrayList<Compound> Compounds;
@@ -36,20 +36,19 @@ public class SolveSteadyState {
     private double[] Parameters;
     private double[] dampedvector;
     private double[] dampedvector2;
+    private double[] odesolvedvalue;
     private HashMap dampedMap = new HashMap<>();
     private HashMap solvedMap = new HashMap<>();
-   private boolean secondrun = false;
+    private boolean secondrun = false;
     private String link;
-    private double[] activeConc;
     private boolean solution=false;
     
     //the SSvalue input here is for when doing parameter estimation it would be close to the ideal solution
-    public SolveSteadyState(ArrayList<Compound> Compounds, ArrayList<ModelReaction> Reactions, double[] activeConc, double[] Parameters, String link) {
+    public SolveSteadyState(ArrayList<Compound> Compounds, ArrayList<ModelReaction> Reactions, double[] Parameters, String link) {
         this.Compounds=Compounds;
         this.Reactions=Reactions;
         this.Parameters=Parameters;                             //parameters being solved
         this.link=link;
-        this.activeConc=activeConc;
     }
     
     public boolean solveSS() throws InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, ModelOverdeterminedException, XMLStreamException, IOException {
@@ -59,39 +58,29 @@ public class SolveSteadyState {
         String[] paranames = sbmlfile.getParameterNames();
         String[] reactionID = sbmlfile.getReactionID();
         
-        odesolve ode = new odesolve(link, compID, Parameters.length, paranames, reactionID);        //things needed to solve steady state
-        VariableVector VV = new VariableVector(Compounds, activeConc);                              //things needed to solve steady state
+        odesolveSS ode = new odesolveSS(link, compID, Parameters.length, paranames, reactionID);        //things needed to solve steady state
+        
+        odesolvedvalue = ode.runsolver(Parameters);
+                
+        VariableVector VV = new VariableVector(Compounds, odesolvedvalue);                              //things needed to solve steady state
         
         //RUN NEWTONRAPHSON WITH DAMPING, it will call odesolver up to 10000s if it fails to bring it towards a solution
-        int Steps = 10;
         boolean dampsolution=false;
         boolean NRDSolve=false;
-        for (int i =0; i < 5 && dampsolution==false; i++){
-            //runs NR with damping
-            try{
-                NRDSolve=NewtonRaphsonWithDamping(VV, NRDTolerance1);
-            }catch(Exception e){
-                if(dampedvector==null){
-                    dampedvector = new double[compID.length];
-                    for (int k = 0 ; k<compID.length; k++){
-                        dampedvector[k]=0;
-                    }
+        //runs NR with damping
+        try{
+            NRDSolve=NewtonRaphsonWithDamping(VV, NRDTolerance1);
+        }catch(Exception e){
+            if(dampedvector==null){
+                dampedvector = new double[compID.length];
+                for (int k = 0 ; k<compID.length; k++){
+                    dampedvector[k]=0;
                 }
             }
-            //determine if NRD was succesful, if not, it will run ODEsolver and use new values for further NRD runs
-//            System.out.println(NRDSolve);
-            if (NRDSolve==true){
-                dampsolution=true;
-            }else if(NRDSolve==false && i < 4){
-                double[] odesolvedvalue = ode.runsolver(Parameters, Steps);
-                for(double num : odesolvedvalue){
-                    if(num==0.0){
-                        i=5;
-                    }
-                }
-                Steps*=10;
-                VV= new VariableVector(Compounds, odesolvedvalue);                
-            }
+        }
+//        System.out.println(NRDSolve);
+        if (NRDSolve==true){
+            dampsolution=true;
         }
         
         //AFTER DAMPING is done, it continues with normal newton raphson to refine answer
@@ -115,7 +104,7 @@ public class SolveSteadyState {
                 }
                 
             }
-            
+//            System.out.println(NRsolve);
             if(NRsolve==false){
                 solvedvector=dampedvector;
                 solvedMap=dampedMap;
@@ -175,6 +164,7 @@ public class SolveSteadyState {
                             count++;
                         }
                     }
+//                    System.out.println("damping done");
                 }
             }else{
                 String[] compID = ActiveCompoundIDs();
@@ -260,12 +250,14 @@ public class SolveSteadyState {
         RealMatrix tempmatrix = FunctionVector.getVector();
         
         double[] values = tempmatrix.getColumn(0);
+//        System.out.println("damping");
         double total=0;
         for (double num : values){
-            total+=Math.abs(num);
+            total+=Math.abs(num*num);
         }
         
         double avg = total/values.length;
+        System.out.println(avg+"\n");
         if (Math.abs(avg) <= Tolerance){
             solved=true;
         }
@@ -280,10 +272,10 @@ public class SolveSteadyState {
         
         double total=0;
         for(double num : functionvalue){
-            total+=Math.abs(num);
+            total+=Math.abs(num*num);
         }
         double avg = total/functionvalue.length;
-        
+//        System.out.println(avg+"\n");
         if(avg<=Tolerance){
             solved=true;
             solvedvector=variablevector;
