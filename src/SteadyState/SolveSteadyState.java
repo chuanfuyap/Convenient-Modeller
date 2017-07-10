@@ -25,9 +25,9 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
  */
 public class SolveSteadyState {
     
-    private double Tolerance = 5E-7;
-    private double NRDTolerance1 = 5E-3;
-    private double NRDTolerance2 = 5E-5;
+    private double Tolerance = 1E-7;
+    private double NRDTolerance1 = 1E-5;
+    private double NRDTolerance2 = 1E-6;
     private int maxiteration = 100;
     private int dampingiteration = 200;
     private ArrayList<Compound> Compounds;
