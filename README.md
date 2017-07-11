@@ -24,4 +24,5 @@ libSBML version 5.X.X https://sourceforge.net/projects/sbml/files/libsbml/5.13.0
 SUNDIALS version 2.3 http://computation.llnl.gov/projects/sundials/sundials-software
 
 Relevant project:
+
 soslibJNIC https://github.com/chuanfuyap/soslibJNIC
