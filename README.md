@@ -1,5 +1,5 @@
 # GRaPe2
-GRaPe2 (Gene-Reaction-Protein integration) is a software which simplifies construction of kinetic models for cell metabolism, with optional integration of proteomics data.
+GRaPe2 (Gene-Reaction-Protein integration) is a software which simplifies construction of kinetic models for cell metabolism, with optional integration of proteomics data. These are the source code (Except for the file called GRaPe2.jar).
 
 This software requires the following libraries to run:-
 
@@ -23,6 +23,5 @@ libSBML version 5.X.X https://sourceforge.net/projects/sbml/files/libsbml/5.13.0
 
 SUNDIALS version 2.3 http://computation.llnl.gov/projects/sundials/sundials-software
 
-
-To be added:
-fitting to time-course data.
+Relevant project:
+soslibJNIC https://github.com/chuanfuyap/soslibJNIC
