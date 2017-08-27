@@ -25,6 +25,7 @@ public class Compound {
     public Compound(String name, double concentration) {
         
         this.ID=generateID();
+        //this.unique_id = SpeciesID.getID();
         this.name = name;
         this.concentration = concentration;
         boundaryCondition = false;

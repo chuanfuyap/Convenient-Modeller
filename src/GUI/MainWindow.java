@@ -115,7 +115,7 @@ public class MainWindow extends javax.swing.JFrame {
             Enzyme e = null;
             ArrayList<LocalParameter> parameters = new ArrayList<LocalParameter>();
             int regulation =1;
-            Compound mod = null;
+            ArrayList<Compound> mod = new ArrayList();
             String isitPK = reaction.getName();
             String[] tokens = isitPK.split("\\s");
             
@@ -179,12 +179,12 @@ public class MainWindow extends javax.swing.JFrame {
                                 regulation = 2; 
                                 ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
                                 Species s = msr.getSpeciesInstance();
-                                mod = new Compound(s);
+                                mod.add( new Compound(s) );
                             }else if (sbo==20||sbo==206||sbo==207||sbo==597){
                                 regulation = 3; 
                                 ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
                                 Species s = msr.getSpeciesInstance();
-                                mod = new Compound(s);
+                                mod.add( new Compound(s) );
                             }
                         }
                     }
@@ -192,9 +192,13 @@ public class MainWindow extends javax.swing.JFrame {
 
                 if (regulation>1){
                     mReaction.setEnzyme(e);
-                    mReaction.setRegulation(regulation);
                     mReaction.setModifier(mod);
-                    ModelReaction im = new ModelReaction(e, mReaction);
+                    if(mod.size()==2){
+                        mReaction.setRegulation(4);
+                    }else if (mod.size()==1){
+                        mReaction.setRegulation(regulation);
+                    }
+                    ModelReaction im = new ModelReaction(e, mReaction, parameters);
                     allthereactions.add(im);
                 }else{
                     mReaction.setEnzyme(e);
@@ -209,12 +213,21 @@ public class MainWindow extends javax.swing.JFrame {
             reactioninfo[i][0]=i+1;
             reactioninfo[i][1]=allthereactions.get(i).getEnzyme().getName();
             if(allthereactions.get(i).getRegulation()>1){
-                if(allthereactions.get(i).getRegulation()==2){
-                    reactioninfo[i][2]=allthereactions.get(i).getModifier().getName();
-                    reactioninfo[i][3]="N/A";
-                }else if(allthereactions.get(i).getRegulation()==3){
-                    reactioninfo[i][2]="N/A";
-                    reactioninfo[i][3]=allthereactions.get(i).getModifier().getName();
+                switch (allthereactions.get(i).getRegulation()) {
+                    case 2:
+                        reactioninfo[i][2]=allthereactions.get(i).getModifier().get(0).getName();
+                        reactioninfo[i][3]="N/A";
+                        break;
+                    case 3:
+                        reactioninfo[i][2]="N/A";
+                        reactioninfo[i][3]=allthereactions.get(i).getModifier().get(0).getName();
+                        break;
+                    case 4:
+                        reactioninfo[i][2]=allthereactions.get(i).getModifier().get(0).getName();
+                        reactioninfo[i][3]=allthereactions.get(i).getModifier().get(1).getName();
+                        break;
+                    default:
+                        break;
                 }
             }else {
                 reactioninfo[i][2]="N/A";
@@ -680,55 +693,46 @@ public class MainWindow extends javax.swing.JFrame {
                 if(column==2||column==3){
                 String activator = (String) ReactionTable.getValueAt(row, 2);
                 String inhibitor = (String) ReactionTable.getValueAt(row, 3);
-                int regulation =1 ;
-                Compound modifier=null;
-                 if(!activator.equals("N/A")&&!inhibitor.equals("N/A")){
-                            String message = "More than 1 modifier found in this reaction. \nPlease select only 1 modifier for this reaction.";
-                            Object[] options = {"Activator","Inhibitor"}; 
-                            int input;
-                            input = (int)JOptionPane.showOptionDialog(null, message,"Please pick a modifier.",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,null,options,null);
-                            if(input==0){
-                                regulation=2;
-                                for ( int i =0; i<allthespecies.size();i++){
-                                if(activator.equals(allthespecies.get(i).getName())){
-                                    modifier=allthespecies.get(i);
-                                    }
-                                }
-                                ReactionTable.setValueAt("N/A",row,3);
-                            }else{
-                                regulation=3;
-                                for ( int i =0; i<allthespecies.size();i++){
-                                    if(inhibitor.equals(allthespecies.get(i).getName())){
-                                        modifier=allthespecies.get(i);
-                                    }
-                                }
-                                ReactionTable.setValueAt("N/A",row,2);
-                            }
+                int regulation;
+                ArrayList<Compound> modifier= new ArrayList();
+                if(!activator.equals("N/A")&&!inhibitor.equals("N/A")){
+                    regulation=4;
+                    if(activator.equals(inhibitor)){
+                        JOptionPane.showMessageDialog( null, "Having the same activator and inhibitor is not advised.", "Not a good idea", JOptionPane.ERROR_MESSAGE);
+                    }
+                    for ( int i =0; i<allthespecies.size();i++){
+                        if(activator.equals(allthespecies.get(i).getName())){
+                            modifier.add(allthespecies.get(i));
+                        }
+                    }
+                    for ( int i =0; i<allthespecies.size();i++){
+                        if(inhibitor.equals(allthespecies.get(i).getName())){
+                            modifier.add(allthespecies.get(i));
+                        }
+                    }
+                } else{
+                    if(activator.equals("N/A")){
+                        if(inhibitor.equals("N/A")){
+                            regulation=1;
                         }else{
-                        
-                        if(activator.equals("N/A")){
-                            if(inhibitor.equals("N/A")){
-                                regulation=1;
-                            }else{
-                                regulation=3;
-                                for ( int i =0; i<allthespecies.size();i++){
-                                    if(inhibitor.equals(allthespecies.get(i).getName())){
-                                        modifier=allthespecies.get(i);
-                                    }
-                                }
-                            }
-                        }else{
-                            regulation=2;
+                            regulation=3;
                             for ( int i =0; i<allthespecies.size();i++){
-                                if(activator.equals(allthespecies.get(i).getName())){
-                                    modifier=allthespecies.get(i);
+                                if(inhibitor.equals(allthespecies.get(i).getName())){
+                                    modifier.add(allthespecies.get(i));
                                 }
                             }
                         }
-                        
+                    }else {
+                        regulation=2;
+                        for ( int i =0; i<allthespecies.size();i++){
+                            if(activator.equals(allthespecies.get(i).getName())){
+                                modifier.add(allthespecies.get(i));
+                            }
                         }
-                        allthereactions.get(editreaction).setRegulation(regulation);
-                        allthereactions.get(editreaction).setModifier(modifier);
+                    }
+                }
+                    allthereactions.get(editreaction).setRegulation(regulation);
+                    allthereactions.get(editreaction).setModifier(modifier);
                 }
             }
             
@@ -1599,8 +1603,6 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             if(checkModel()){
-                System.out.println(checkModel());
-            System.out.println("all is well");
             modelName = ModelNameTextField.getText();
             
             JFileChooser fc = new JFileChooser();
@@ -1610,6 +1612,18 @@ public class MainWindow extends javax.swing.JFrame {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
                 ExportSBML modelConvertor=null;
+//                for(int i =0;i<allthereactions.size();i++){
+//                    int idtrack = i+1;
+//                    allthereactions.get(i).setReactionID("R"+idtrack);
+//                }
+//                for(int i =0;i<allthespecies.size();i++){
+//                    int idtrack = i+1;
+//                    allthespecies.get(i).setID("S"+idtrack);
+//                }
+//                for(int i =0;i<alltheenzymes.size();i++){
+//                    int idtrack = i+1;
+//                    alltheenzymes.get(i).setID("E"+idtrack);
+//                }
                 if(GAdone){
                     modelConvertor = new ExportSBML(allthereactions, allthespecies, alltheenzymes, modelName, parameters);
                 }else{
@@ -1789,10 +1803,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_DeleteEnzymeActionPerformed
 
     private void saveModelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveModelButtonActionPerformed
-        
+       
         try {
+            
             if(checkModel()){
-            System.out.println("all is well");
             modelName = ModelNameTextField.getText();
             
             JFileChooser fc = new JFileChooser();
@@ -1802,15 +1816,29 @@ public class MainWindow extends javax.swing.JFrame {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
                 ExportSBML modelConvertor=null;
-                if(frame.GeneticAlgorithm.isDone()==true){
-                    System.out.println("working");
+                if(frame==null){
+                    GAdone=false;
+                }
+                else if(frame.GeneticAlgorithm.isDone()==true){
                     parameters = frame.getParameters();
                     for(double num : parameters){
                         System.out.println(num);
                     }
                     GAdone=true;
                 }
-                if(GAdone){
+//                for(int i =0;i<allthereactions.size();i++){
+//                    int idtrack = i+1;
+//                    allthereactions.get(i).setReactionID("R"+idtrack);
+//                }
+//                for(int i =0;i<allthespecies.size();i++){
+//                    int idtrack = i+1;
+//                    allthespecies.get(i).setID("S"+idtrack);
+//                }
+//                for(int i =0;i<alltheenzymes.size();i++){
+//                    int idtrack = i+1;
+//                    alltheenzymes.get(i).setID("E"+idtrack);
+//                }
+                if(GAdone){                    
                     modelConvertor = new ExportSBML(allthereactions, allthespecies, alltheenzymes, modelName, parameters);
                 }else{
                     modelConvertor = new ExportSBML(allthereactions, allthespecies, alltheenzymes, modelName);
@@ -1944,7 +1972,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (column == 4){
                 String activator = (String) ReactionTable.getValueAt(row, 2);
                 String inhibitor = (String) ReactionTable.getValueAt(row, 3);
-                Compound modifier = null;
+                ArrayList<Compound> modifier = new ArrayList();
                 boolean proteinkinetics = (boolean) ReactionTable.getValueAt(row, 5);
                 String enz = (String) ReactionTable.getValueAt(row, 1);
                 int editreaction =-1;
@@ -2080,49 +2108,40 @@ public class MainWindow extends javax.swing.JFrame {
                         }
                         
                         if(!activator.equals("N/A")&&!inhibitor.equals("N/A")){
-                            String message = "More than 1 modifier found in this reaction. \nPlease select only 1 modifier for this reaction.";
-                            Object[] options = {"Activator","Inhibitor"}; 
-                            int input;
-                            input = (int)JOptionPane.showOptionDialog(null, message,"Please pick a modifier.",JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,null,options,null);
-                            if(input==0){
+                            regulation=4;
+                            if(activator.equals(inhibitor)){
+                                JOptionPane.showMessageDialog( null, "Having the same activator and inhibitor is not advised.", "Not a good idea", JOptionPane.ERROR_MESSAGE);
+                            }
+                            for (int i =0; i<allthespecies.size();i++){
+                                if(activator.equals(allthespecies.get(i).getName())){
+                                    modifier.add(allthespecies.get(i));
+                                }
+                            }
+                            for ( int i =0; i<allthespecies.size();i++){
+                                if(inhibitor.equals(allthespecies.get(i).getName())){
+                                    modifier.add(allthespecies.get(i));
+                                }
+                            }
+                        } else{
+                            if(activator.equals("N/A")){
+                                if(inhibitor.equals("N/A")){
+                                    regulation=1;
+                                }else{
+                                    regulation=3;
+                                    for ( int i =0; i<allthespecies.size();i++){
+                                        if(inhibitor.equals(allthespecies.get(i).getName())){
+                                            modifier.add(allthespecies.get(i));
+                                        }
+                                    }
+                                }
+                            }else {
                                 regulation=2;
                                 for ( int i =0; i<allthespecies.size();i++){
-                                if(activator.equals(allthespecies.get(i).getName())){
-                                    modifier=allthespecies.get(i);
-                                    }
-                                }
-                                ReactionTable.setValueAt("N/A",row,3);
-                            }else{
-                                regulation=3;
-                                for ( int i =0; i<allthespecies.size();i++){
-                                    if(inhibitor.equals(allthespecies.get(i).getName())){
-                                        modifier=allthespecies.get(i);
-                                    }
-                                }
-                                ReactionTable.setValueAt("N/A",row,2);
-                            }
-                        }else{
-                        
-                        if(activator.equals("N/A")){
-                            if(inhibitor.equals("N/A")){
-                                regulation=1;
-                            }else{
-                                regulation=3;
-                                for ( int i =0; i<allthespecies.size();i++){
-                                    if(inhibitor.equals(allthespecies.get(i).getName())){
-                                        modifier=allthespecies.get(i);
+                                    if(activator.equals(allthespecies.get(i).getName())){
+                                        modifier.add(allthespecies.get(i));
                                     }
                                 }
                             }
-                        }else{
-                            regulation=2;
-                            for ( int i =0; i<allthespecies.size();i++){
-                                if(activator.equals(allthespecies.get(i).getName())){
-                                    modifier=allthespecies.get(i);
-                                }
-                            }
-                        }
-                        
                         }
                         
                         ArrayList<Compound> subS = new ArrayList<>();
@@ -2276,10 +2295,6 @@ public class MainWindow extends javax.swing.JFrame {
                 for (int c = 0; c < allthespecies.size(); c++) {
                     headerFileName += allthespecies.get(c).getName() + "\t";
                     headerFileID += allthespecies.get(c).getID() + "\t";
-                }
-                for (int e = 0; e < alltheenzymes.size(); e++) {
-                    headerFileName += alltheenzymes.get(e).getName() + "\t";
-                    headerFileID += alltheenzymes.get(e).getID() + "\t";
                 }
                 for (int r = 0; r < allthereactions.size(); r++) {
                     headerFileName += allthereactions.get(r).getName() + "\t";
@@ -2566,6 +2581,9 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

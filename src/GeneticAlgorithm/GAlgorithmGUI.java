@@ -32,8 +32,6 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
     private int plateaulimit;
     private int plagueCount;
     
-    private HashMap MetData;           //map holding the metabolic conc data STEADY STATE
-    private HashMap FluxData;          //map holding the reaction flux data STEADY STATE
     private double[] params;            //array to hold the final estimated parameter
 
     private Population population;
@@ -43,7 +41,6 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
     public FitnessEvaluation fitness;
     private boolean cancellation = false;
     
-    private List<Thread> threads = new ArrayList<>();                                   //list of threads ready for parallely fitness measurements
     private ArrayList<Individual> elite = new ArrayList<>();                            //arraylist of elite individuals, which is eessentially a top % population according to fitness                   
     private ArrayList<Integer> unwantedclones= new ArrayList<>();                       //for some odd reason
     private ArrayList<Individual> clonearmy = new ArrayList<>();                        //creating a population clone to allow for elite arraylist to pull out top 10% of fit individual
@@ -103,73 +100,23 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
             for (int i = 0; i < maxgens && !cancellation; i++) {                                     //optimization with GA begins
                 int counter = i+1;
                 
-                for(int j=0;j<population.pop.size(); j++){                          //loop to remove individuals that have duplicated fitness
-                    unwantedclones.clear();
-                    
-                    for(int k=(j+1);k<population.pop.size(); k++){                  //idea of this is that it will check everything after as indeces before this would have been scanned/checked
-                        if(population.pop.get(j).getF()==population.pop.get(k).getF()){
-                            unwantedclones.add(k);
-                        }
-                    }
-                    
-                    if(unwantedclones.size()>0){
-                        Collections.reverse(unwantedclones);
-                        
-                        for(Object index : unwantedclones){
-                            int num = (int) index;
-                            population.pop.remove(num);
-                        }
-                    }
-                }
-                
-                elite.clear();
-                clonearmy.clear();                                                  //clear the clonearmy to be ready for next generation
-                int elitecount = (int) (population.pop.size()*0.1);
-                
-                for(int k =0;k<population.pop.size();k++){
-                    Individual clone = population.clone(population.pop.get(k));
-                    clonearmy.add(clone);
-                }
-                
-                for(int j =0;j<elitecount;j++){
-                    double big =1e-100;
-                    int track=-1;
-                    for(int k =0;k<clonearmy.size();k++){                           //find the fittest individual in the population
-                        if(clonearmy.get(k).getF()>big){
-                            big = clonearmy.get(k).getF();
-                            track=k;
-                        }
-                    }
-                    Individual clone = population.clone(clonearmy.get(track));
-                    elite.add(clone);
-                    clonearmy.remove(track);                                        //remove previously fittest to rinse repeat and find the second fittest and so on
-                }
-                
-                threads.clear();
-                
-                ArrayList<Individual> children = population.nextGeneration();       //produce offspring for the population +10% growth
-                ArrayList<Individual> mutants = population.randomMutation();        //mutate 10% of the population
-                ArrayList<Individual> evolve = population.mutate(elite);            //mutate the elites
-                Individual royalty = population.royalbirth(elite);                  //1 offspring from the elite
-                Individual mutantroyalty = population.clone(royalty);
-                population.mutateIndividual(mutantroyalty);                         //mutation on the elite offspring;
-                
-                newgeneration = new Population(nparam);
-                newgeneration.pop.addAll(children);
-                newgeneration.pop.addAll(mutants);
-                newgeneration.pop.addAll(evolve);
-                newgeneration.pop.add(royalty);
-                newgeneration.pop.add(mutantroyalty);
-                
-                fitness.evaluatePop(newgeneration);
-                
-                population.pop.addAll(newgeneration.pop);
-                
-                if((counter)%plagueCount==0){                                                     //plague to kill off the weakest individuals, refreshing the population, keeping only 100
+                removeClones();
+            
+                if((counter)%plagueCount==0){                                       //plague to kill off the weakest individuals, refreshing the population
+                    if(population.pop.size()>population.getInitialCount() ){
                     population.plague();
+                    }
                 }
-                
-                best_ever=1e-35;
+
+                elite = searchforElites((int) (population.pop.size()*0.1));
+
+                newgeneration = spawnNextgen();
+
+                population.pop.addAll(newgeneration.pop);
+
+                removeClones();
+
+                best_ever=1e-50;
                 for(int j =0; j<population.pop.size();j++){                         //reconfirm the fittest individual
                     if(population.pop.get(j).getF()>best_ever){
                         best_ever=population.pop.get(j).getF();
@@ -226,6 +173,93 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
     
     public void cancelGA(boolean cancel){
         cancellation=cancel;
+    }
+    
+    private void removeClones(){
+        for(int j=0;j<population.pop.size()-1; j++){                          //loop to remove individuals that have duplicated fitness
+            unwantedclones.clear();
+            double[] current = population.pop.get(j).getOutput();
+            for(int k=(j+1);k<population.pop.size(); k++){                  //idea of this is that it will check everything after as indeces before this would have been scanned/checked
+                
+                double[] after = population.pop.get(k).getOutput();
+                boolean clone = isitSame(current, after);
+                if(clone){                        
+                    unwantedclones.add(k);
+                }
+            }
+            if(unwantedclones.size()>0){
+                Collections.reverse(unwantedclones);
+
+                for(Object index : unwantedclones){
+                    int num = (int) index;
+                    population.pop.remove(num);
+                }
+            }
+        }
+    }
+    
+    private boolean isitSame(double[] current, double[] after){
+        boolean same=false;
+        double total=0;
+        
+        for(int i=0; i<current.length; i++){
+            double difference=current[i]-after[i];
+            total+=difference*difference;
+        }
+        
+        total = total/current.length;
+        
+        if(Math.sqrt(total)<1E-10){
+            same=true;
+        }            
+        return same;
+    }
+    
+    private Population spawnNextgen() throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
+        ArrayList<Individual> children = population.nextGeneration();       //produce offspring for the population +10% growth
+        ArrayList<Individual> mutants = population.randomMutation();        //mutate 10% of the population 
+        ArrayList<Individual> evolve = population.mutate(elite);            //mutate the elites
+        Individual royalty = population.royalbirth(elite);                  //1 offspring from the elite
+        Individual mutantroyalty = population.clone(royalty);
+        population.mutateIndividual(mutantroyalty);                         //mutation on the elite offspring;
+
+        Population nextgen = new Population(nparam);
+        nextgen.pop.addAll(children);
+        nextgen.pop.addAll(mutants);
+        nextgen.pop.addAll(evolve);
+        nextgen.pop.add(royalty);
+        nextgen.pop.add(mutantroyalty);
+
+        fitness.evaluatePop(nextgen);
+        
+        return nextgen;
+    }
+    
+    private ArrayList<Individual> searchforElites(int size){
+        ArrayList<Individual> search = new ArrayList();
+        clonearmy.clear();                                                  //clear the clonearmy to be ready for next generation
+        int elitecount = size;
+
+        for(int k =0;k<population.pop.size();k++){
+            Individual clone = population.clone(population.pop.get(k));
+            clonearmy.add(clone);
+        }
+
+        for(int j =0;j<elitecount;j++){
+            double big =1e-100;
+            int track=-1;
+            for(int k =0;k<clonearmy.size();k++){                           //find the fittest individual in the population
+                if(clonearmy.get(k).getF()>big){
+                    big = clonearmy.get(k).getF();
+                    track=k;
+                }
+            }
+            Individual clone = population.clone(clonearmy.get(track));
+            search.add(clone);
+            clonearmy.remove(track);                                        //remove previously fittest to rinse repeat and find the second fittest and so on
+        }
+        
+        return search;
     }
     
 }

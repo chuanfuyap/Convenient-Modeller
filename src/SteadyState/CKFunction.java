@@ -15,16 +15,15 @@ public class CKFunction {
     private double N, D; //numerator and denominator
     private double N2, D2; //numerator and denominator for Partial Derivate
     private int numSub, numProd, numKP, regulation;
-    private double Enz, Vf, Vr, KMod, modifier;
+    private double Enz, Vf, Vr, KMod, modifier, KMod2, modifier2;
     private double[] KSub, KProd;
     private double freg = 1;
     private Double[] Sub, Prod, KiPa;
     private ArrayList substoichio, prodstoichio;
      
-    public CKFunction (ArrayList<Double> Substrates, ArrayList<Double> Products, ArrayList<Double> Parameters, double E, int regulation, double modifier, ArrayList substoichio, ArrayList prodstoichio){//E = Enzyme
+    public CKFunction (ArrayList<Double> Substrates, ArrayList<Double> Products, ArrayList<Double> Parameters, double E, int regulation, ArrayList<Double> modifier, ArrayList substoichio, ArrayList prodstoichio){//E = Enzyme
         this.substoichio = substoichio;
         this.prodstoichio = prodstoichio;
-        this.modifier=modifier;
         this.regulation=regulation;
         
         numSub = Substrates.size();
@@ -36,13 +35,25 @@ public class CKFunction {
         KiPa = Parameters.toArray(new Double[numKP]);
         Enz = E;
         
+//        for(double num : KiPa){
+//            System.out.println(num);
+//        }
+//        System.out.println();
+        
         Vf = KiPa[0]; Vr = KiPa[1];
         KSub = new double[numSub];
         KProd = new double[numProd];
         int track = 2;
         if(regulation==2||regulation==3){
             KMod=KiPa[track];
+//            System.out.println("mod\t" +KMod);
             track++;
+        }else if (regulation == 4){
+            KMod=KiPa[track];
+            track++;
+            KMod2=KiPa[track];
+            track++;
+//            System.out.println("mod\t"+KMod+"\t"+KMod2);
         }
         for(int i =0; i<numSub;i++){
             KSub[i]=KiPa[track];
@@ -54,11 +65,19 @@ public class CKFunction {
         }
         
         if(regulation == 2){
-            freg= 1 + (modifier/KMod);
+            freg= 1 + (modifier.get(0)/KMod);
+            this.modifier=modifier.get(0);
         }
         
         if(regulation == 3){
-            freg= KMod / (KMod+ modifier);
+            freg= KMod / (KMod+ modifier.get(0));
+            this.modifier=modifier.get(0);
+        }
+        
+        if(regulation == 4){
+            freg = (1 + (modifier.get(0)/KMod)) * (KMod / (KMod+ modifier.get(1)));
+            this.modifier=modifier.get(0);
+            this.modifier2=modifier.get(1);
         }
         
         double topsub = 1;
@@ -96,7 +115,6 @@ public class CKFunction {
     }
     
     public double SolveFunction(){
-//        System.out.println(N+"\t"+D);
         return (N/D);
     }
     
@@ -161,8 +179,7 @@ public class CKFunction {
     
     public double getPartialDerivateWithMod(){
         double value=0;
-        double newN=1;
-        double newD=D;
+        double RHS=Enz/D;
         
         double topsub = 1;
         for (int i =0; i <numSub; i ++){
@@ -172,20 +189,22 @@ public class CKFunction {
         for(int i =0; i<numProd; i++){
             topprod*=Math.pow((Prod[i]/KProd[i]), (int)prodstoichio.get(i));
         }
-        newN*= ((Vf*topsub)-(Vr*topprod));
         
-        if(regulation==2){
-            value=(Enz*newN)/(KMod*newD);
-        }
-        if(regulation==3){
-            double top=-newD*KMod*Enz*newN;
-            double btm=(KMod*newD)+(modifier*newD);
-            double btm2=Math.pow(btm,2);
-            
-            value=top/btm;
-            
-        }
+        RHS*=((Vf*topsub)-(Vr*topprod));
         
+        switch (regulation) {
+            case 2:
+                value = RHS/KMod;
+                break;
+            case 3:
+                double top=-RHS*KMod;
+                double btm=Math.pow((KMod+modifier),2);
+                value = top/btm;
+                break;
+            default:
+                break;
+        }
+                
         return value;
     }
 
@@ -196,7 +215,7 @@ public class CKFunction {
         double dN, dD, ddN;
         
         if(regulation==2){
-                if(subORprod==true){
+                if(subORprod==true){        //sub
                     dN=Enz;
                     ddN=Vf;
 
@@ -405,4 +424,130 @@ public class CKFunction {
         return N2/D2;
     }
     
+    public double getPartialDerivateWithDoubleMod(int ActivatorOrInhibitor){
+        double value=0;
+        double RHS=Enz/D;
+        double activation = 1 + (modifier/KMod);
+        double inhibition = KMod / (KMod+ modifier2);
+        
+        double topsub = 1;
+        for (int i =0; i <numSub; i ++){
+            topsub*=Math.pow((Sub[i]/KSub[i]),(int)substoichio.get(i));
+        }
+        double topprod = 1;
+        for(int i =0; i<numProd; i++){
+            topprod*=Math.pow((Prod[i]/KProd[i]), (int)prodstoichio.get(i));
+        }
+        
+        RHS*=((Vf*topsub)-(Vr*topprod));
+        
+        switch (ActivatorOrInhibitor) {
+            case 1:
+                value = RHS/KMod;
+                value*=inhibition;
+                break;
+            case 2:
+                double top=-(RHS*KMod2*activation);
+                double btm=Math.pow((KMod2+modifier2),2);
+                value = top/btm;
+                break;
+            default:
+                break;
+        }
+                
+        return value;
+    }
+    
+    public double getPartialDerivateWithDoubleModSubProd(int ActivatorOrInhibitor, boolean subORprod, int index){
+        double value = 0;
+        double dN, dD, dRHS;
+        double RHS=Enz/D;
+        double activation = 1 + (modifier/KMod);
+        double inhibition = KMod / (KMod+ modifier2);
+        double LHS = activation*inhibition;
+        
+        double topsub = 1;
+        for (int i =0; i <numSub; i ++){
+            topsub*=Math.pow((Sub[i]/KSub[i]),(int)substoichio.get(i));
+        }
+        double topprod = 1;
+        for(int i =0; i<numProd; i++){
+            topprod*=Math.pow((Prod[i]/KProd[i]), (int)prodstoichio.get(i));
+        }
+        
+        RHS*=((Vf*topsub)-(Vr*topprod));
+        
+        if(subORprod==true){
+            dN=Enz*Vf;
+            dD=1;
+            for(int i=0; i < numSub;i++){
+                if(i==index){
+                    double temp1 = Math.pow(Sub[i], (int)substoichio.get(i)-1);
+                    double temp2 = Math.pow(KSub[i], (int)substoichio.get(i));
+                    dN*=((int)substoichio.get(i))*(temp1/temp2);
+                    
+                    double sub=0;
+                    for(int j=1; j<(int)substoichio.get(i)+1;j++){
+                        sub+=j*(Math.pow((Sub[i]/KSub[i]),j-1));
+                    }
+                    dD*=sub;
+                }else{
+                    dN*=Math.pow((Sub[i]/KSub[i]),(int)substoichio.get(i));
+                    
+                    double sub=0;
+                    for(int j=0; j<(int)substoichio.get(i)+1;j++){              //because these becomes a constant in the differentiation
+                        sub+=Math.pow((Sub[i]/KSub[i]),j);                      //so i can just add them up and multiply to whatever its differentiated
+                    }
+                    dD*=sub;
+                }
+            }
+            N2 = (D*dN) - (N*dD);
+            D2 = Math.pow(D, 2);
+        }else{
+            dN=Enz*Vr;
+            dD=1;
+            for(int i=0; i < numProd;i++){
+                if(i==index){
+                    double temp1 = Math.pow(Prod[i], (int)prodstoichio.get(i)-1);
+                    double temp2 = Math.pow(KProd[i], (int)prodstoichio.get(i));
+                    dN*=-((int)prodstoichio.get(i))*(temp1/temp2);
+                    
+                    double prod=0;
+                    for(int j=1; j<(int)prodstoichio.get(i)+1;j++){
+                        prod+=j*(Math.pow((Prod[i]/KProd[i]),j-1));
+                    }
+                    dD*=prod;
+                }else{
+                    dN*=Math.pow((Prod[i]/KProd[i]),(int)prodstoichio.get(i));
+                    
+                    double prod=0;
+                    for(int j=0; j<(int)prodstoichio.get(i)+1;j++){             //because these becomes a constant in the differentiation
+                        prod+=Math.pow((Prod[i]/KProd[i]),j);                   //so i can just add them up and multiply to whatever its differentiated
+                    }
+                    dD*=prod;
+                }
+            }            
+            N2 = (D*dN) - (N*dD);
+            D2 = Math.pow(D, 2);
+        }
+        
+        dRHS= N2/D2;
+        
+        switch (ActivatorOrInhibitor) {
+            case 1:
+                double dLHS = inhibition/KMod;
+                value = (dLHS*RHS) + (LHS*dRHS);
+                break;
+            case 2:
+                double top=-(KMod2*activation);
+                double btm=Math.pow((KMod2+modifier2),2);
+                dLHS = top/btm;
+                value = (dLHS*RHS) + (LHS*dRHS);
+                break;
+            default:
+                break;
+        }
+        
+        return value;
+    }
 }

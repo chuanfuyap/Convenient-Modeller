@@ -14,7 +14,7 @@ import com.sun.jna.Pointer;
  *
  * @author chuanfuyap
  */
-public class odesolve {
+public class SSodesolve {
     private String link;
     private int parametercount;
     private String[] varyingmetabolites;
@@ -23,7 +23,7 @@ public class odesolve {
     private double[] outputarray;
     
     
-    public odesolve(String sbmllink, String[] variables, int count, String[] names, String[] rID){
+    public SSodesolve(String sbmllink, String[] variables, int count, String[] names, String[] rID){
         link=sbmllink;
         parametercount=count;
         varyingmetabolites=variables;
@@ -31,16 +31,16 @@ public class odesolve {
         reactionID=rID;
     }
     public interface soslibbridge extends Library{
-        soslibbridge bridge = (soslibbridge) Native.loadLibrary("./lib/SOSLib/dist/SOSlibJNIC.so", soslibbridge.class);
+        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/home/chuanfuyap/NetBeansProjects/SoSLibLinkv3/dist/sosLibLinkv3.so", soslibbridge.class);
         
-        ByValue runSolver(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID, int time);
-        void outputCleanup(Pointer pVals);
+        ByValue runSolver3(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID);
+        void outputCleanup3(Pointer pVals);
         
     }
     
-    public double[] runsolver(double[] newparam, int time) {
+    public double[] runsolver(double[] newparam) {
         soslibbridge runlib = soslibbridge.bridge;
-        int num = varyingmetabolites.length;
+        int num = varyingmetabolites.length+1;          //added extra ONE number to store the time steps needed to finish ode solution
         outputarray = new double[num];
         int vnamesize = 0;
         int pnamesize = 0;
@@ -87,14 +87,14 @@ public class odesolve {
             offset += reactionID[i].length() + 1;
         }
         
-        ByValue values = runlib.runSolver(link, variableNames, num, parameter, parameterIDs, parametercount, reactionIDs, time);
+        ByValue values = runlib.runSolver3(link, variableNames, num, parameter, parameterIDs, parametercount, reactionIDs);
         
         for (int i=0; i<num; i++) {
             // extract each double value from the buffer held by the struct
             outputarray[i] = values.vals.getDouble(i * Native.getNativeSize(Double.TYPE));
         }
         
-        runlib.outputCleanup(values.vals);
+        runlib.outputCleanup3(values.vals);
         values.clear();
         
         return outputarray;

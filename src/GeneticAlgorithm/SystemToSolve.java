@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 import odeBridge.TCodesolve;
-import odeBridge.TCodesolvePK;
 import org.sbml.jsbml.validator.ModelOverdeterminedException;
 
 /**
@@ -36,6 +35,8 @@ public class SystemToSolve {
     private double[] estimatedFlux;
     private ArrayList<Integer> fRateCIndex = new ArrayList<>(); //rate constant index
     private ArrayList<Integer> rRateCIndex = new ArrayList<>();
+    private ArrayList<Integer> kaRateCIndex = new ArrayList<>(); //rate constant index
+    private ArrayList<Integer> kiRateCIndex = new ArrayList<>();
     private HashMap metMap = new HashMap<>();
     private HashMap fluxMap = new HashMap<>();
     private HashMap estMetMap = new HashMap<>();
@@ -51,7 +52,9 @@ public class SystemToSolve {
     private boolean SSorTC;
     private ReadData data;
     private boolean goodbad=false;
-       
+    
+    private double[] metabolites;
+    
     public SystemToSolve(String Link, ReadData data) throws IOException, XMLStreamException, ModelOverdeterminedException{
         this.data=data;
         SSorTC = data.SSorTC();
@@ -114,12 +117,32 @@ public class SystemToSolve {
                 int regulation = reaction.getRegulation();
                 int para =2;
                 if(regulation>1){
-                    para+=1;
+                    if(regulation<4){
+                        para+=1;
+                    }else if(regulation==4){
+                        para+=2;
+                    }
                 }
                 para+=numSub;
                 para+=numProd;
                 fRateCIndex.add(totalParameters);
                 rRateCIndex.add(totalParameters+1);
+                if(regulation>1){
+                    switch (regulation) {
+                        case 2:                            
+                            kaRateCIndex.add(totalParameters+2);
+                            break;
+                        case 3:
+                            kiRateCIndex.add(totalParameters+2);
+                            break;
+                        case 4:
+                            kaRateCIndex.add(totalParameters+2);
+                            kiRateCIndex.add(totalParameters+3);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 totalParameters+=para;
             }
             
@@ -173,12 +196,32 @@ public class SystemToSolve {
                 int regulation = reaction.getRegulation();
                 int para =2;
                 if(regulation>1){
-                    para+=1;
+                    if(regulation<4){
+                        para+=1;
+                    }else if(regulation==4){
+                        para+=2;
+                    }
                 }
                 para+=numSub;
                 para+=numProd;
                 fRateCIndex.add(totalParameters);
                 rRateCIndex.add(totalParameters+1);
+                if(regulation>1){
+                    switch (regulation) {
+                        case 2:
+                            kaRateCIndex.add(totalParameters+2);
+                            break;
+                        case 3:
+                            kiRateCIndex.add(totalParameters+2);
+                            break;
+                        case 4:
+                            kaRateCIndex.add(totalParameters+2);
+                            kiRateCIndex.add(totalParameters+3);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 totalParameters+=para;
             }
             
@@ -199,11 +242,12 @@ public class SystemToSolve {
         estimatedFlux = new double[Reactions.size()];
         
         if(SSorTC==true){
-            SolveSteadyState steadystateresults = new SolveSteadyState(Compounds, Reactions, activeConc, parameters, link);
+            SolveSteadyState steadystateresults = new SolveSteadyState(Compounds, Reactions, parameters, link);
             
             if(steadystateresults.solveSS()==true){
                 estMetMap = steadystateresults.getSolvedMMap();
                 estFluxMap = steadystateresults.getSolvedFMap();
+                metabolites = steadystateresults.getSolvedVector();
                 goodbad=true;
             }else{
                 goodbad=false;
@@ -233,32 +277,19 @@ public class SystemToSolve {
                 }
             }
 
-            if(proteinID.length>0){
-                TCodesolvePK ode = new TCodesolvePK(link, variables, getParametersCount(), paranames, reactionID, reactionID2, proteinID);
+            TCodesolve ode = new TCodesolve(link, variables, getParametersCount(), paranames, reactionID, reactionID2);
 
-                double output[][] = ode.runsolver(parameter, time);
+            double output[][] = ode.runsolver(parameter, time);
 
-                for(int j=1;j<variables.length+1+reactionID2.length+proteinID.length;j++){
-                    double[] temparray = new double[time.length];
-                    for(int i =0;i<time.length;i++){                   
-                        temparray[i]=output[i][j];
-                    }
+            for(int j=1;j<variables.length+1+reactionID2.length;j++){
+                double[] temparray = new double[time.length];
+                for(int k =0;k<time.length;k++){                   
+                    temparray[k]=output[k][j];
                 }
-            }else{
-                TCodesolve ode = new TCodesolve(link, variables, getParametersCount(), paranames, reactionID, reactionID2);
-
-                double output[][] = ode.runsolver(parameter, time);
-                
-                for(int j=1;j<variables.length+1+reactionID2.length;j++){
-                    double[] temparray = new double[time.length];
-                    for(int k =0;k<time.length;k++){                   
-                        temparray[k]=output[k][j];
-                    }
-                    if((j-1)<activeCompNum){
-                        TCestMetMap.put(variables[j-1], temparray);
-                    }else{
-                        TCestFluxMap.put(reactionID2[j-activeCompNum-1],temparray);
-                    }
+                if((j-1)<activeCompNum){
+                    TCestMetMap.put(variables[j-1], temparray);
+                }else{
+                    TCestFluxMap.put(reactionID2[j-activeCompNum-1],temparray);
                 }
             }
         }
@@ -313,6 +344,24 @@ public class SystemToSolve {
         int[] rateindex = new int[rRateCIndex.size()];
         for(int i=0;i<rateindex.length; i++){
             rateindex[i]=rRateCIndex.get(i);
+        }
+        
+        return rateindex;
+    }
+    
+    public int[] giverKiIndex(){
+        int[] rateindex = new int[kiRateCIndex.size()];
+        for(int i=0;i<rateindex.length; i++){
+            rateindex[i]=kiRateCIndex.get(i);
+        }
+        
+        return rateindex;
+    }
+    
+    public int[] giverKaIndex(){
+        int[] rateindex = new int[kaRateCIndex.size()];
+        for(int i=0;i<rateindex.length; i++){
+            rateindex[i]=kaRateCIndex.get(i);
         }
         
         return rateindex;
@@ -395,5 +444,9 @@ public class SystemToSolve {
     
     public boolean isitSSorTC(){
         return SSorTC;
+    }
+    
+    public double[] get_MetVector(){
+        return metabolites;
     }
 }

@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
-import odeBridge.odesolve;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
+import odeBridge.SSodesolve;
 import org.sbml.jsbml.validator.ModelOverdeterminedException;
 
 /*
@@ -25,31 +23,22 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
  */
 public class SolveSteadyState {
     
-    private double Tolerance = 5E-12;
-    private double NRDTolerance1 = 5E-5;
-    private double NRDTolerance2 = 5E-9;
-    private int maxiteration = 100;
-    private int dampingiteration = 200;
     private ArrayList<Compound> Compounds;
     private ArrayList<ModelReaction> Reactions;
     private double[] solvedvector;
     private double[] Parameters;
-    private double[] dampedvector;
-    private double[] dampedvector2;
-    private HashMap dampedMap = new HashMap<>();
     private HashMap solvedMap = new HashMap<>();
-   private boolean secondrun = false;
     private String link;
-    private double[] activeConc;
     private boolean solution=false;
+    private double[] initialValues;
     
     //the SSvalue input here is for when doing parameter estimation it would be close to the ideal solution
-    public SolveSteadyState(ArrayList<Compound> Compounds, ArrayList<ModelReaction> Reactions, double[] activeConc, double[] Parameters, String link) {
+    public SolveSteadyState(ArrayList<Compound> Compounds, ArrayList<ModelReaction> Reactions, double[] Parameters, String link) {
         this.Compounds=Compounds;
         this.Reactions=Reactions;
         this.Parameters=Parameters;                             //parameters being solved
         this.link=link;
-        this.activeConc=activeConc;
+        this.initialValues=getInitialConc();
     }
     
     public boolean solveSS() throws InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, ModelOverdeterminedException, XMLStreamException, IOException {
@@ -59,175 +48,29 @@ public class SolveSteadyState {
         String[] paranames = sbmlfile.getParameterNames();
         String[] reactionID = sbmlfile.getReactionID();
         
-        odesolve ode = new odesolve(link, compID, Parameters.length, paranames, reactionID);        //things needed to solve steady state
-        VariableVector VV = new VariableVector(Compounds, activeConc);                              //things needed to solve steady state
+        SSodesolve ode = new SSodesolve(link, compID, Parameters.length, paranames, reactionID);        //things needed to solve steady state
         
-        //RUN NEWTONRAPHSON WITH DAMPING, it will call odesolver up to 10000s if it fails to bring it towards a solution
-        int Steps = 10;
-        boolean dampsolution=false;
-        boolean NRDSolve=false;
-        for (int i =0; i < 5 && dampsolution==false; i++){
-            //runs NR with damping
-            try{
-                NRDSolve=NewtonRaphsonWithDamping(VV, NRDTolerance1);
-            }catch(Exception e){
-                if(dampedvector==null){
-                    dampedvector = new double[compID.length];
-                    for (int k = 0 ; k<compID.length; k++){
-                        dampedvector[k]=0;
-                    }
-                }
-            }
-            //determine if NRD was succesful, if not, it will run ODEsolver and use new values for further NRD runs
-            if (NRDSolve==true){
-                dampsolution=true;
-            }else if(NRDSolve==false && i < 4){
-                double[] odesolvedvalue = ode.runsolver(Parameters, Steps);
-                for(double num : odesolvedvalue){
-                    if(num==0.0){
-                        i=5;
-                    }
-                }
-                Steps*=10;
-                VV= new VariableVector(Compounds, odesolvedvalue);                
-            }
-        }
+        solvedvector = ode.runsolver(Parameters);
         
-        //AFTER DAMPING is done, it continues with normal newton raphson to refine answer
-        if (dampsolution==false){
-            //in the event that damping failed, it would be null, thus nothing happens, the hashmaps would be empty.
-            solution=false;
-        }else{
-            solution=true;
-            //this happens when damping is SUCCESSFUL
-            VariableVector newvector = new VariableVector(Compounds, dampedvector);            
-            //trying normal newton raphson
-            boolean NRsolve = false;
-            try{
-                NRsolve=NewtonRaphson(newvector);
-            }catch(Exception e){
-                VariableVector newervector = new VariableVector(Compounds, dampedvector);
-                try{
-                    secondrun=true;
-                    NRsolve=NewtonRaphsonWithDamping(newervector, NRDTolerance2);
-                }catch(Exception e2){
-                }
-                
-            }
-            
-            if(NRsolve==false){
-                solvedvector=dampedvector;
-                solvedMap=dampedMap;
-            }else{                
-                for (int j =0; j<solvedvector.length; j++){
-                    solvedMap.put(compID[j], solvedvector[j]);
-                }
-            }
+        double total=0;
+        for(int i=0;i<solvedvector.length-1;i++){
+            total+=solvedvector[i];
         }
+        if(total>0){//if soslib has error total would be 0 as theres no output, resulting in false solution, therefore not needing to move forward
+        double timepointNeeded = solvedvector[solvedvector.length-1]; //solvedvector includes an extra index which is the number of timepoints taken to solve the model. 
+        
+        if(timepointNeeded<1001.0){
+            double[]tempvector = new double[solvedvector.length-1];
+            for (int j =0; j<solvedvector.length-1; j++){
+                solvedMap.put(compID[j], solvedvector[j]);
+                tempvector[j]=solvedvector[j];
+            }
+            solvedvector=tempvector;
+            solution=wasitGood();       //added check for when there is CVODE error which gives me back initial values and a timepointNeed of 1
+        }
+        }
+//        System.out.println(solution);
         return solution;
-    }
-    
-    //NEWTONRAPHSON WITH INCREASING DAMPING METHOD
-    private boolean NewtonRaphsonWithDamping(VariableVector Variables, double DampingTolerance){
-        boolean canitbesolved=false;
-        boolean solved=false;
-        boolean NaN=false;
-        
-        FunctionVector Functions = new FunctionVector(Variables, Compounds, Reactions, Parameters);
-        JacobianMatrix Jacobian = new JacobianMatrix(Variables, Compounds, Reactions, Parameters);
-        
-        RealMatrix vvector = Variables.getVector();
-        RealMatrix fvector = Functions.getVector();        
-        RealMatrix inverse = MatrixUtils.inverse(Jacobian.getMatrix());
-        
-        double dampvalue=0;
-        for (double i = 0; i<dampingiteration && solved==false && NaN==false; i++){
-            if(dampvalue<32.0){
-                dampvalue = i/4;
-            }
-            double damping = Math.pow(2,-dampvalue);
-            RealMatrix damp = inverse.multiply(fvector).scalarMultiply(damping);
-            RealMatrix x1 = vvector.subtract(damp);
-            double[] newvalue= x1.getColumn(0);
-            
-            for (double num : newvalue){                //in case theres error which results in NULL values, which would return the method has failed
-                NaN=Double.isNaN(num);
-            }
-            
-            VariableVector VV2 = new VariableVector(Compounds, newvalue);
-            FunctionVector FV2 = new FunctionVector(VV2, Compounds, Reactions, Parameters);
-            JacobianMatrix JM2 = new JacobianMatrix(VV2, Compounds, Reactions, Parameters);
-
-            vvector = VV2.getVector();
-            fvector = FV2.getVector();
-            inverse = MatrixUtils.inverse(JM2.getMatrix());
-
-            if (secondrun==false) {
-                if (IsNRDSolved(FV2, VV2, DampingTolerance) == true) {
-                    solved = true;
-                    canitbesolved = true;
-                    dampedvector = vvector.getColumn(0);
-                    int count = 0;
-                    for (Compound comp : Compounds) {
-                        if (comp.getBoundaryCondition() == false) {
-                            dampedMap.put(comp.getID(), dampedvector[count]);
-                            count++;
-                        }
-                    }
-                }
-            }else{
-                String[] compID = ActiveCompoundIDs();
-                if (IsNRDSolved(FV2, VV2, DampingTolerance) == true) {
-                    solved=true;
-                    canitbesolved = true;
-                    dampedvector2=vvector.getColumn(0);
-                    solvedvector=dampedvector2;
-                    for (int j =0; j<dampedvector2.length; j++){
-                        solvedMap.put(compID[j], dampedvector2[j]);
-                    }
-                }
-            }
-        }
-        return canitbesolved;
-    }
-    
-    //NORMAL NEWTONRAPHSON METHOD
-    private boolean NewtonRaphson(VariableVector Variables){
-        boolean canitbesolved=false;
-        boolean solved=false;
-        boolean NaN=false;
-        FunctionVector Functions = new FunctionVector(Variables, Compounds, Reactions, Parameters);
-        JacobianMatrix Jacobian = new JacobianMatrix(Variables, Compounds, Reactions, Parameters);
-        
-        RealMatrix vvector = Variables.getVector();
-        RealMatrix fvector = Functions.getVector();        
-        RealMatrix inverse = MatrixUtils.inverse(Jacobian.getMatrix());
-        
-        for (int i = 0; i<maxiteration && solved==false && NaN==false; i++){
-            RealMatrix x1 = vvector.subtract(inverse.multiply(fvector));
-            double[] newvalue= x1.getColumn(0);
-            
-            for (double num : newvalue){                            //in case theres error which results in NULL values, which would return the method has failed
-                NaN=Double.isNaN(num);
-            }
-            
-            VariableVector testvvector = new VariableVector (Compounds, newvalue);
-            FunctionVector testfvector = new FunctionVector(testvvector, Compounds, Reactions, Parameters);
-            solved = NRSolve(testfvector, newvalue);
-            
-            VariableVector VV2 = new VariableVector (Compounds, newvalue);
-            FunctionVector FV2 = new FunctionVector(VV2, Compounds, Reactions, Parameters);
-            JacobianMatrix JM2 = new JacobianMatrix(VV2, Compounds, Reactions, Parameters);
-            vvector = VV2.getVector();
-            fvector = FV2.getVector();
-            inverse = MatrixUtils.inverse(JM2.getMatrix());
-            
-            if(solved==true){
-                canitbesolved=true;
-            }
-            
-        }
-        return canitbesolved;
     }
     
     //METHOD to store all the IDs of compounds that are active to be used when extracting variable conc from ODEsolver
@@ -251,44 +94,37 @@ public class SolveSteadyState {
         return activecompID;
     }
     
-    //check if the NewtonRaphson method solution has worked
-    private boolean IsNRDSolved(FunctionVector FunctionVector, VariableVector VVector, double Tolerance){
-        
-        boolean solved=false;
-        
-        RealMatrix tempmatrix = FunctionVector.getVector();
-        
-        double[] values = tempmatrix.getColumn(0);
-        double total=0;
-        for (double num : values){
-            total+=Math.abs(num);
+    private double[] getInitialConc(){
+        int numComp = 0;
+        for (Compound name : Compounds){
+            if (name.getBoundaryCondition()==false){
+                numComp++;
+            }
         }
-        
-        double avg = total/values.length;
-        if (Math.abs(avg) <= Tolerance){
-            solved=true;
+        initialValues = new double[numComp];
+        int tick = 0;
+        for (Compound comp : Compounds){
+            if (comp.getBoundaryCondition()==false){
+                initialValues[tick]=comp.getConcentration();
+                tick++;
+            }
         }
-        
-        return solved;
+        return initialValues;
     }
     
-    private boolean NRSolve(FunctionVector FunctionVector, double[] variablevector){
-        RealMatrix tempmatrix = FunctionVector.getVector();
-        double[] functionvalue = tempmatrix.getColumn(0);
-        boolean solved=false;
-        
+    private boolean wasitGood(){
+        boolean good = true;
         double total=0;
-        for(double num : functionvalue){
-            total+=Math.abs(num);
-        }
-        double avg = total/functionvalue.length;
-        
-        if(avg<=Tolerance){
-            solved=true;
-            solvedvector=variablevector;
+        for(int i =0; i<initialValues.length;i++){
+            double difference=initialValues[i]-solvedvector[i];
+            total+=difference;
         }
         
-        return solved;
+        if(total==0){
+            good=false;
+        }
+        
+        return good;
     }
     
     public double[] getSolvedVector(){
@@ -307,4 +143,5 @@ public class SolveSteadyState {
         return fb.getSolvedFunctions();
         
     }
+    
 }

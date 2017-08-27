@@ -38,9 +38,9 @@ public class FitnessEvaluation  {
     
     public void InitialEvaluation(Population pop) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
     
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
         for(int i =0; i < pop.pop.size();i++){        
-            PercentageError PET = new PercentageError(bioSystem, pop, i);
+            MAPE PET = new MAPE(bioSystem, pop, i);
             executor.execute(PET);
         }
         executor.shutdown();
@@ -67,9 +67,9 @@ public class FitnessEvaluation  {
     
     public void evaluatePop(Population pop) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
 
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
         for(int i =0; i < pop.pop.size();i++){        
-            PercentageError PET = new PercentageError(bioSystem, pop, i);
+            MAPE PET = new MAPE(bioSystem, pop, i);
             executor.execute(PET);
         }
         executor.shutdown();

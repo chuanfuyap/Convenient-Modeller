@@ -20,7 +20,7 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
  * @author chuanfuyap
  */
 
-public class PercentageError implements Runnable {
+public class MAPE implements Runnable {
     
     HashMap expMet;             //expected metconc values
     HashMap expFlux;            //expected flux values
@@ -36,7 +36,7 @@ public class PercentageError implements Runnable {
     Population pop;
     boolean SSorTC;
     
-    public PercentageError (SystemToSolve bioSystem, Population pop, int index){
+    public MAPE (SystemToSolve bioSystem, Population pop, int index){
         this.index=index;
         this.bioSystem=bioSystem;
         this.pop=pop;
@@ -51,12 +51,12 @@ public class PercentageError implements Runnable {
         double[] params = pop.pop.get(index).x;
         double f;
         double mettotal=0;
-        double fluxtotal=0;
+        double fluxtotal=0;        
         
         try {
             bioSystem.runEst(params);
         } catch (ModelOverdeterminedException | InstantiationException |IllegalAccessException | IllegalArgumentException | NoSuchMethodException | XMLStreamException | IOException ex) {
-            Logger.getLogger(PercentageError.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MAPE.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if(SSorTC==true){
@@ -106,6 +106,7 @@ public class PercentageError implements Runnable {
                     fluxtrack++;
                 }
             }
+            
             }
             if(mettrack==0){
                 double fluxdifference = fluxtotal/fluxtrack;
@@ -121,9 +122,27 @@ public class PercentageError implements Runnable {
 
                 summed_error+=metdifference+fluxdifference;
             }
-
+            
             f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
             pop.pop.get(index).setF(f);
+            
+            double[] output = new double[estMet.size()+estFlux.size()];
+            int counter=0;
+            for (Compound comp : Compounds){
+            if(comp.getBoundaryCondition()==false){
+                String ID = comp.getID();
+
+                output[counter]=(double) estMet.get(ID);
+                counter++;
+                }
+            }
+            for(ModelReaction react : Reactions ){
+                String ID = react.getMyReaction().getReactionID();
+                output[counter]=(double) estFlux.get(ID);
+                counter++;
+            }
+            
+            pop.pop.get(index).setOutput(output);
         }
         
         }
@@ -210,6 +229,25 @@ public class PercentageError implements Runnable {
 
             f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
             pop.pop.get(index).setF(f);
+            
+            double[] output = new double[TCMetEst.size()+TCMetEst.size()];
+            int counter=0;
+            for (Compound comp : Compounds){
+            if(comp.getBoundaryCondition()==false){
+                String ID = comp.getID();
+                double[] estFluxTC =(double[]) TCFluxEst.get(ID);
+                output[counter]=estFluxTC[timepoints-1];
+                counter++;
+                }
+            }
+            for(ModelReaction react : Reactions ){
+                String ID = react.getMyReaction().getReactionID();
+                double[] estFluxTC =(double[]) TCFluxEst.get(ID);
+                output[counter]=estFluxTC[timepoints-1];
+                counter++;
+            }
+            
+            pop.pop.get(index).setOutput(output);
         }
     }
     

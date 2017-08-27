@@ -21,32 +21,99 @@ public class Population {
     private Individual best;
     private RandomDataGenerator random = new RandomDataGenerator();     //apache maths random number generator for uniform distribution
     private Random generator = new Random();
+    private int initialcount;
     
     public Population(int nparam){
         this.nparam=nparam;        
     }
     
     public void initializePopulation(SystemToSolve bioSystem, int popsize) {
+        initialcount=popsize;
         
         int[] fRIndex=bioSystem.givefRIndex();          //storing all the forward rate parameter index
         int[] rRIndex=bioSystem.giverRIndex();          //storing all the reverse rate parameter index
+        int[] kiIndex=bioSystem.giverKiIndex();
+        int[] kaIndex=bioSystem.giverKaIndex();
         best = new Individual(nparam);                  //fittest individual in the entire population, ergo BEST
         
         for (int i = 0; i < popsize; i++) {             
             int counter=0;
             int counter2=0;
+            int counter3=0;
+            int counter4=0;
             Individual brandnew = new Individual(nparam);       //instead of having each individual store the number as string of binary code, 
             for (int j = 0; j < nparam; j++) {                  //a random with a given range is generated instead, and is the index value for base 10
                 if(counter<fRIndex.length && j==fRIndex[counter]) {       //for forward rate constant and backward rate constant range which is thought to have a smaller range in general
-                    double num = this.RN(-3, 8); // 3 8 are values extracted from SABIO-RK
+//                    double num = this.RN(3, 5.5); // yeast
+                    double num = this.RN(1, 3); // leaf
                     brandnew.x[j]=Math.pow(10, num);
                     counter++;
                 }else if (counter2<rRIndex.length && j==rRIndex[counter2]) {
-                    double num=this.RN(-3, -1); // -3 -1 are values extracted from SABIO-RK
+                    double num=this.RN(-4, -1); // yeast
                     brandnew.x[j]=Math.pow(10, num);
                     counter2++;
+                }else if (counter3<kaIndex.length && j==kaIndex[counter3]) {
+                    double num=this.RN(0.5, 2); // yeast
+                    brandnew.x[j]=Math.pow(10, num);
+                    counter3++;
+                }else if (counter4<kiIndex.length && j==kiIndex[counter4]) {
+                    double num=this.RN(-5, 2.5); // yeast
+                    brandnew.x[j]=Math.pow(10, num);
+                    counter4++;
                 }else{
-                    double num = this.RN(-5, 5); //-6 6 are values extracted from SABIO-RK
+//                    double num = this.RN(-4.7, 3.3); // yeast
+                    double num = this.RN(-2.5, 3); //leaf
+                    brandnew.x[j]=Math.pow(10, num);
+                }
+            }
+            
+            pop.add(brandnew);
+        }
+    }
+    
+    public void inheritPopulation(SystemToSolve bioSystem, int popsize, ArrayList ancestry) {
+        initialcount=popsize;
+        
+        for(Object kpset :ancestry){
+            double[] paraset = (double[]) kpset;
+            Individual ancient = new Individual(nparam);
+            ancient.x = paraset;
+            pop.add(ancient);
+        }
+                
+        int[] fRIndex=bioSystem.givefRIndex();          //storing all the forward rate parameter index
+        int[] rRIndex=bioSystem.giverRIndex();          //storing all the reverse rate parameter index
+        int[] kiIndex=bioSystem.giverKiIndex();
+        int[] kaIndex=bioSystem.giverKaIndex();
+        best = new Individual(nparam);                  //fittest individual in the entire population, ergo BEST
+        
+        for (int i = 0; i < popsize-ancestry.size(); i++) {             
+            int counter=0;
+            int counter2=0;
+            int counter3=0;
+            int counter4=0;
+            Individual brandnew = new Individual(nparam);       //instead of having each individual store the number as string of binary code, 
+            for (int j = 0; j < nparam; j++) {                  //a random with a given range is generated instead, and is the index value for base 10
+                if(counter<fRIndex.length && j==fRIndex[counter]) {       //for forward rate constant and backward rate constant range which is thought to have a smaller range in general
+                    double num = this.RN(3, 5.5); // yeast
+//                    double num = this.RN(1, 3); // leaf
+                    brandnew.x[j]=Math.pow(10, num);
+                    counter++;
+                }else if (counter2<rRIndex.length && j==rRIndex[counter2]) {
+                    double num=this.RN(-4, -1); // yeast
+                    brandnew.x[j]=Math.pow(10, num);
+                    counter2++;
+                }else if (counter3<kaIndex.length && j==kaIndex[counter3]) {
+                    double num=this.RN(0.5, 2); // yeast
+                    brandnew.x[j]=Math.pow(10, num);
+                    counter3++;
+                }else if (counter4<kiIndex.length && j==kiIndex[counter4]) {
+                    double num=this.RN(-5, 2.5); // yeast
+                    brandnew.x[j]=Math.pow(10, num);
+                    counter4++;
+                }else{
+                    double num = this.RN(-4.7, 3.3); // yeast
+//                    double num = this.RN(-2.5, 3); //leaf
                     brandnew.x[j]=Math.pow(10, num);
                 }
             }
@@ -190,7 +257,7 @@ public class Population {
     }
     
     public void plague(){
-        int deathcount=(int) (pop.size()-100);
+        int deathcount=(int) (pop.size()-initialcount);
         
         for(int count =0; count<deathcount;count++){
             double small =1e100;
@@ -213,5 +280,13 @@ public class Population {
             clone.x[i]=ind.x[i];
         }        
         return clone;
+    }
+    
+    public void updateInitialCount(int newcount){
+        initialcount = newcount;
+    }
+    
+    public int getInitialCount(){
+        return initialcount;
     }
 }

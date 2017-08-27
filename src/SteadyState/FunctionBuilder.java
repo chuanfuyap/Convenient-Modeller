@@ -9,7 +9,6 @@ import Main.ModelReaction;
 import Species.Compound;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.sbml.jsbml.LocalParameter;
 
 /**
  *
@@ -27,7 +26,6 @@ public class FunctionBuilder {
         int Tracker = 0;
         
         for (ModelReaction Reaction : Reactions){
-            double modifier =0;
             int numSub = Reaction.getSubstrates().size();
             int numProd = Reaction.getProducts().size();
             int numPara=2;
@@ -36,8 +34,8 @@ public class FunctionBuilder {
             
             if(regulation==2||regulation==3){
                 numPara+=1;
-                String modname = Reaction.getModifier().getName();                
-                modifier = (double) metmap.get(modname);
+            }else if (regulation == 4){
+                numPara+=2;
             }
             numPara+=numSub;
             numPara+=numProd;
@@ -45,13 +43,16 @@ public class FunctionBuilder {
             CKFunction Function;
             ArrayList<Compound> subs = Reaction.getSubstrates();
             ArrayList<Compound> prod = Reaction.getProducts();
+            ArrayList<Compound> mods = Reaction.getModifier();
             
             String ReactionName = Reaction.getName();
             String ReactionID = Reaction.getReactionID();
             
             ArrayList<Double> subconc = new ArrayList<>();
             ArrayList<Double> prodconc = new ArrayList<>();
+            ArrayList<Double> modconc = new ArrayList<>();
             ArrayList<Double> kpvalue = new ArrayList<>();
+            
             double enzconc = Reaction.getEnzyme().getConcentration();
             
             for (Compound substrate : subs){
@@ -60,6 +61,11 @@ public class FunctionBuilder {
             
             for (Compound product : prod){
                 prodconc.add((Double) metmap.get(product.getName()));
+            }
+            if(regulation>1){
+            for (Compound modifier : mods){
+                modconc.add((Double) metmap.get(modifier.getName()));
+            }
             }
             
             for (int i=0; i < numPara; i++){
@@ -70,10 +76,12 @@ public class FunctionBuilder {
             ArrayList substoichio = Reaction.getSubStoichio();
             ArrayList prodstoichio = Reaction.getProdStoichio();
             
-            Function = new CKFunction(subconc, prodconc, kpvalue, enzconc, regulation, modifier, substoichio, prodstoichio);
+//            System.out.println(Reaction.getName());
+            Function = new CKFunction(subconc, prodconc, kpvalue, enzconc, regulation, modconc, substoichio, prodstoichio);
             
             AllFunctions.put(ReactionName, Function);
             solvedFunctions.put(ReactionID, Function.SolveFunction());
+//            System.out.println(ReactionID+"\t"+Function.SolveFunction());
         }
         
     }
