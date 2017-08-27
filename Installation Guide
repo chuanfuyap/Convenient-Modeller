@@ -50,16 +50,14 @@ make install
 
 the paths should be /usr/local/lib
 
-
-
 CFLAGS=-fPIC if needed
 
 
 FOLLOWING COMPILATION AND INSTALLAION AND THERE IS ERROR:
 User can try the following: 
 
-write this into either .bash or .tcsh check in ps
-export LD_LIBRARY_PATH="/usr/local/lib" #fix for soslib 
+	write this into either .bash or .tcsh check by typing "ps" into terminal
+	export LD_LIBRARY_PATH="/usr/local/lib" #fix for soslib 
 
 
 
