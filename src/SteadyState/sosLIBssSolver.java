@@ -21,7 +21,7 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
  *
  * @author chuanfuyap
  */
-public class SolveSteadyState {
+public class sosLIBssSolver {
     
     private ArrayList<Compound> Compounds;
     private ArrayList<ModelReaction> Reactions;
@@ -33,7 +33,7 @@ public class SolveSteadyState {
     private double[] initialValues;
     
     //the SSvalue input here is for when doing parameter estimation it would be close to the ideal solution
-    public SolveSteadyState(ArrayList<Compound> Compounds, ArrayList<ModelReaction> Reactions, double[] Parameters, String link) {
+    public sosLIBssSolver(ArrayList<Compound> Compounds, ArrayList<ModelReaction> Reactions, double[] Parameters, String link) {
         this.Compounds=Compounds;
         this.Reactions=Reactions;
         this.Parameters=Parameters;                             //parameters being solved

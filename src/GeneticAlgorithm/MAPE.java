@@ -22,8 +22,8 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
 
 public class MAPE implements Runnable {
     
-    HashMap expMet;             //expected metconc values
-    HashMap expFlux;            //expected flux values
+//    HashMap expMet;             //expected metconc values
+//    HashMap expFlux;            //expected flux values
     HashMap TCexpMet;             //expected metconc values
     HashMap TCexpFlux;            //expected flux values
     SystemToSolve bioSystem;
@@ -49,83 +49,93 @@ public class MAPE implements Runnable {
     public void run() {
         double summed_error = 0.0;
         double[] params = pop.pop.get(index).x;
-        double f;
+//        double f;
         double mettotal=0;
         double fluxtotal=0;        
         
         try {
-            bioSystem.runEst(params);
+            bioSystem.solve_ODE_model(params, Integer.toHexString(this.hashCode()));
         } catch (ModelOverdeterminedException | InstantiationException |IllegalAccessException | IllegalArgumentException | NoSuchMethodException | XMLStreamException | IOException ex) {
             Logger.getLogger(MAPE.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ArrayList<ConditionInfo> conditions_list = bioSystem.get_Condition_List();
         
-        if(SSorTC==true){
-        
-        HashMap estMet = bioSystem.getEstMetMap();      //estimated metconc values
-        HashMap estFlux = bioSystem.getEstFluxMap();    //estimated flux values
-        expMet = bioSystem.getMetMap();      //estimated metconc values
-        expFlux = bioSystem.getFluxMap();    //estimated flux values
-        
-        int mettrack=0;
-        int fluxtrack=0;
+        if(SSorTC==true){       // for STEADY STATE output comparison and scoring
+            double[] f = new double[conditions_list.size()];
+        for(int i =0;i<conditions_list.size();i++){
+            
+            HashMap estMet = conditions_list.get(i).get_Solved_metmap();      //estimated metconc values
+            HashMap estFlux = conditions_list.get(i).get_Solved_fluxmap();    //estimated flux values
+            HashMap expMet = conditions_list.get(i).get_metabolites_info();      //expected metconc values
+            HashMap expFlux = conditions_list.get(i).get_fluxes_info();    //expected flux values
 
-        if(bioSystem.goodsolution()==false){
-            pop.pop.get(index).setF(1e-100);
-        }else{
-            if(expMet!=null){
-            for (Compound comp : Compounds){
-                if(comp.getBoundaryCondition()==false){
-                    String ID = comp.getID();
-                    if(expMet.containsKey(ID)==true && (double) expMet.get(ID)>=0){
-                        double difference =(double) expMet.get(ID)-(double)estMet.get(ID);
+            int mettrack=0;
+            int fluxtrack=0;
+
+            if(bioSystem.goodsolution()==false){
+                pop.pop.get(index).setF(1e-100);
+            }else{
+                if(expMet!=null){
+                for (Compound comp : Compounds){
+                    if(comp.getBoundaryCondition()==false){
+                        String ID = comp.getID();
+                        if(expMet.containsKey(ID)==true && (double) expMet.get(ID)>=0){
+                            double difference =(double) expMet.get(ID)-(double)estMet.get(ID);
+                            double percentagedifference=0;
+                            if((double) expMet.get(ID)>0){
+                                percentagedifference = (Math.abs(difference)/(double) expMet.get(ID))*100;
+                            }else{
+                                percentagedifference = Math.abs(difference)*100;
+                            }                        
+                            mettotal+=Math.pow(percentagedifference, 2);
+                            mettrack++;
+                        }
+                    }
+                }
+                }
+
+                if(expFlux!=null){
+                for(ModelReaction reaction : Reactions){
+                    String ID = reaction.getReactionID();
+                    if(expFlux.containsKey(ID)==true && (double) expFlux.get(ID)>=0){
+                        double difference = (double) expFlux.get(ID) - (double) estFlux.get(ID);
                         double percentagedifference=0;
-                        if((double) expMet.get(ID)>0){
-                            percentagedifference = (Math.abs(difference)/(double) expMet.get(ID))*100;
+                        if((double) expFlux.get(ID)>0){
+                            percentagedifference = (Math.abs(difference)/(double) expFlux.get(ID))*100;
                         }else{
                             percentagedifference = Math.abs(difference)*100;
-                        }                        
-                        mettotal+=Math.pow(percentagedifference, 2);
-                        mettrack++;
+                        }
+                        fluxtotal+=Math.pow(percentagedifference, 2);
+                        fluxtrack++;
                     }
                 }
-            }
-            }
-            
-            if(expFlux!=null){
-            for(ModelReaction reaction : Reactions){
-                String ID = reaction.getReactionID();
-                if(expFlux.containsKey(ID)==true && (double) expFlux.get(ID)>=0){
-                    double difference = (double) expFlux.get(ID) - (double) estFlux.get(ID);
-                    double percentagedifference=0;
-                    if((double) expFlux.get(ID)>0){
-                        percentagedifference = (Math.abs(difference)/(double) expFlux.get(ID))*100;
-                    }else{
-                        percentagedifference = Math.abs(difference)*100;
-                    }
-                    fluxtotal+=Math.pow(percentagedifference, 2);
-                    fluxtrack++;
-                }
-            }
-            
-            }
-            if(mettrack==0){
-                double fluxdifference = fluxtotal/fluxtrack;
-                summed_error=fluxdifference;
-            }else if (fluxtrack==0){
-                double metdifference = mettotal/mettrack;
-                summed_error=metdifference;
-            }else{
-                double metdifference = mettotal/mettrack;
-                metdifference*=0.5;
-                double fluxdifference = fluxtotal/fluxtrack;
-                fluxdifference*=0.5;
 
-                summed_error+=metdifference+fluxdifference;
+                }
+                
+                if(mettrack==0){
+                    double fluxdifference = fluxtotal/fluxtrack;
+                    summed_error=fluxdifference;
+                }else if (fluxtrack==0){
+                    double metdifference = mettotal/mettrack;
+                    summed_error=metdifference;
+                }else{
+                    double metdifference = mettotal/mettrack;
+                    metdifference*=0.5;
+                    double fluxdifference = fluxtotal/fluxtrack;
+                    fluxdifference*=0.5;
+
+                    summed_error+=metdifference+fluxdifference;
+                }
+
+                f[i] = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
+                
             }
-            
-            f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
-            pop.pop.get(index).setF(f);
-            
+        }
+            double sumf = 0;
+            for(double d: f)sumf+=d;
+            pop.pop.get(index).setF(sumf/f.length);
+            HashMap estMet = conditions_list.get(0).get_Solved_metmap();      //estimated metconc values
+            HashMap estFlux = conditions_list.get(0).get_Solved_fluxmap();    //estimated flux values
             double[] output = new double[estMet.size()+estFlux.size()];
             int counter=0;
             for (Compound comp : Compounds){
@@ -141,12 +151,11 @@ public class MAPE implements Runnable {
                 output[counter]=(double) estFlux.get(ID);
                 counter++;
             }
-            
+
             pop.pop.get(index).setOutput(output);
-        }
         
         }
-        else{
+        else{       //for TIME SERIES output comparison and scoring
             HashMap TCMetEst = bioSystem.getTCestmetMap();
             HashMap TCFluxEst = bioSystem.getTCestfluxMap();
             TCexpMet = bioSystem.getTCmetMap();
@@ -227,8 +236,8 @@ public class MAPE implements Runnable {
                 summed_error+=metdifference+fluxdifference;
             }
 
-            f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
-            pop.pop.get(index).setF(f);
+//            f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
+//            pop.pop.get(index).setF(f);
             
             double[] output = new double[TCMetEst.size()+TCMetEst.size()];
             int counter=0;

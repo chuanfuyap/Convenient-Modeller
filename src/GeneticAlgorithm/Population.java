@@ -23,8 +23,20 @@ public class Population {
     private Random generator = new Random();
     private int initialcount;
     
+    private ArrayList<double[]> Parameter_Range = new ArrayList<double[]>();
+    
+    private int[] fRIndex;
+    private int[] rRIndex;
+    private int[] kaIndex;
+    private int[] kiIndex;
+    
     public Population(int nparam){
         this.nparam=nparam;        
+    }
+    
+    public Population(int nparam,SystemToSolve bioSystem, ArrayList<double[]> All_Range){
+        this.nparam=nparam;
+        Parameter_Range = All_Range;        
     }
     
     public void initializePopulation(SystemToSolve bioSystem, int popsize) {
@@ -71,53 +83,33 @@ public class Population {
         }
     }
     
-    public void inheritPopulation(SystemToSolve bioSystem, int popsize, ArrayList ancestry) {
-        initialcount=popsize;
+    public Population(int nparam,SystemToSolve bioSystem, double[][] General_Range){
+        this.nparam=nparam;
+        fRIndex=bioSystem.givefRIndex();          //storing all the forward rate parameter index
+        rRIndex=bioSystem.giverRIndex();          //storing all the reverse rate parameter index
+        kaIndex=bioSystem.giverKaIndex();
+        kiIndex=bioSystem.giverKiIndex();
         
-        for(Object kpset :ancestry){
-            double[] paraset = (double[]) kpset;
-            Individual ancient = new Individual(nparam);
-            ancient.x = paraset;
-            pop.add(ancient);
-        }
-                
-        int[] fRIndex=bioSystem.givefRIndex();          //storing all the forward rate parameter index
-        int[] rRIndex=bioSystem.giverRIndex();          //storing all the reverse rate parameter index
-        int[] kiIndex=bioSystem.giverKiIndex();
-        int[] kaIndex=bioSystem.giverKaIndex();
-        best = new Individual(nparam);                  //fittest individual in the entire population, ergo BEST
-        
-        for (int i = 0; i < popsize-ancestry.size(); i++) {             
-            int counter=0;
-            int counter2=0;
-            int counter3=0;
-            int counter4=0;
-            Individual brandnew = new Individual(nparam);       //instead of having each individual store the number as string of binary code, 
-            for (int j = 0; j < nparam; j++) {                  //a random with a given range is generated instead, and is the index value for base 10
-                if(counter<fRIndex.length && j==fRIndex[counter]) {       //for forward rate constant and backward rate constant range which is thought to have a smaller range in general
-                    double num = this.RN(3, 5.5); // yeast
-//                    double num = this.RN(1, 3); // leaf
-                    brandnew.x[j]=Math.pow(10, num);
-                    counter++;
-                }else if (counter2<rRIndex.length && j==rRIndex[counter2]) {
-                    double num=this.RN(-4, -1); // yeast
-                    brandnew.x[j]=Math.pow(10, num);
-                    counter2++;
-                }else if (counter3<kaIndex.length && j==kaIndex[counter3]) {
-                    double num=this.RN(0.5, 2); // yeast
-                    brandnew.x[j]=Math.pow(10, num);
-                    counter3++;
-                }else if (counter4<kiIndex.length && j==kiIndex[counter4]) {
-                    double num=this.RN(-5, 2.5); // yeast
-                    brandnew.x[j]=Math.pow(10, num);
-                    counter4++;
-                }else{
-                    double num = this.RN(-4.7, 3.3); // yeast
-//                    double num = this.RN(-2.5, 3); //leaf
-                    brandnew.x[j]=Math.pow(10, num);
-                }
+        int counter=0;
+        int counter2=0;
+        int counter3=0;
+        int counter4=0;
+        for(int i =0; i<nparam; i++){
+            if(counter<fRIndex.length && i==fRIndex[counter]) {       //for forward rate constant and backward rate constant range which is thought to have a smaller range in general
+                Parameter_Range.add(General_Range[0]);
+                counter++;
+            }else if (counter2<rRIndex.length && i==rRIndex[counter2]) {
+                Parameter_Range.add(General_Range[1]);
+                counter2++;
+            }else if (counter3<kaIndex.length && i==kaIndex[counter3]) {
+                Parameter_Range.add(General_Range[2]);
+                counter3++;
+            }else if (counter4<kiIndex.length && i==kiIndex[counter4]) {
+                Parameter_Range.add(General_Range[3]);
+                counter4++;
+            }else{
+                Parameter_Range.add(General_Range[4]);
             }
-            pop.add(brandnew);
         }
     }
     
@@ -288,5 +280,21 @@ public class Population {
     
     public int getInitialCount(){
         return initialcount;
+    }
+    
+    public ArrayList<double[]> getRange(){
+        return Parameter_Range;
+    }
+    
+    public ArrayList<Individual> mutateAll(){
+        ArrayList<Individual> mutants = new ArrayList<>();
+        
+        for(int i =0 ; i<pop.size();i++){
+            Individual mutant = clone(pop.get(i));
+            mutateIndividual(mutant);
+            mutants.add(mutant);
+        }
+        
+        return mutants;
     }
 }

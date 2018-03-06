@@ -11,6 +11,7 @@ import Reaction.MetabolicReaction;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.KineticLaw;
@@ -36,12 +37,13 @@ public class SBMLFile {
     private final SBMLDocument sbmldoc;
     private final Model model;     
     private final ListOf<Reaction> reactions;
+    private final ListOf<Species> species;
     private KineticLaw KL=null;
     private ListOf<Reaction> modelReaction;
     private ListOf<Species> listofspecies;
     private ArrayList<ModelReaction>  allthereactions = new ArrayList<>();
-    private ArrayList<Compound> allthespecies = new ArrayList<Compound>();
-    private ArrayList<Enzyme> alltheenzymes = new ArrayList<Enzyme>();
+    private ArrayList<Compound> allthespecies = new ArrayList<>();
+    private ArrayList<Enzyme> alltheenzymes = new ArrayList<>();
     private String modelName;
     private ImportSBML sbmlmodel;
     private ListOf<LocalParameter> LLP;
@@ -59,7 +61,7 @@ public class SBMLFile {
         addReactionsToReactionList(modelReaction);
         reactions = (ListOf) model.getListOfReactions();
         addSpeciesToSpeciesList(listofspecies);
-        
+        species = (ListOf) model.getListOfSpecies();
     }
     private void addSpeciesToSpeciesList(ListOf<Species> listofspecies){
         for (int i = 0; i < listofspecies.size(); i++) {
@@ -402,6 +404,23 @@ public class SBMLFile {
             for (int j = 0; j< LLP.size(); j++){
                 LLP.get(j).setValue(parameters[track]);
                 track++;
+            }
+        }
+    }
+    
+    public void modExtMet(HashMap metData){
+        for(int i = 0; i<species.size();i++){
+            if (species.get(i).getBoundaryCondition()==true){
+                if(metData.containsKey(species.get(i).getId())==true){
+                    species.get(i).setValue((double) metData.get(species.get(i).getId()));
+                }
+            }
+        }
+    }
+    public void modEnzymes(HashMap enzData){
+        for(int i = 0; i<species.size();i++){
+            if(enzData.containsKey(species.get(i).getId())==true){
+                species.get(i).setValue((double) enzData.get(species.get(i).getId()));
             }
         }
     }
