@@ -5,8 +5,6 @@ This software requires the following libraries to run:-
 
 Java Libraries:
 
-Guava Google version18            https://github.com/google/guava/wiki/Release18
-
 Apache Common Maths version 3.5   http://archive.apache.org/dist/commons/math/
 
 Java Native Access (JNA)          https://github.com/java-native-access/jna
