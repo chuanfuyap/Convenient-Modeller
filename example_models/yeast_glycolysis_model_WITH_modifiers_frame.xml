@@ -1,0 +1,2177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!-- Created by output version X on 2017-56-14 at 18:56:22 BST with JSBML version 1.0-rc1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model name="Glycolysis">
+    <listOfCompartments>
+      <compartment size="1" id="Cell"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="GlucoseEx" id="S1" initialConcentration="74"/>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="Trehalose" id="S2" initialConcentration="0.0153879"/>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="Glycerol" id="S3" initialConcentration="0.15"/>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="Acetate" id="S4" initialConcentration="223"/>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="Succinate" id="S5" initialConcentration="0"/>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="Ethanol" id="S6" initialConcentration="221.89"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="GlucoseIn" id="S7" initialConcentration="0.1"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="ATP" id="S8" initialConcentration="4.29"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="Glucose6P" id="S9" initialConcentration="3.8"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="ADP" id="S10" initialConcentration="1.29"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="Fructose6P" id="S11" initialConcentration="0.74"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="Fructose-1,6P" id="S12" initialConcentration="11.8"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="DihydroacetoneP" id="S13" initialConcentration="1.161377849"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="GlyceraldehydeP" id="S14" initialConcentration="0.3158910288"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="NADH" id="S15" initialConcentration="0.29"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="NAD" id="S16" initialConcentration="1.503290302"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="BisPGlycrate" id="S17" initialConcentration="1E-5"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="3PGlycerate" id="S18" initialConcentration="0.69"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="2PGlycerate" id="S19" initialConcentration="0.09"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="PEnolPyruvate" id="S20" initialConcentration="0.1"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="Pyruvate" id="S21" initialConcentration="2.76"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="Acetaldehye" id="S22" initialConcentration="0.04"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="GluTransport" id="E1" initialConcentration="0.0020669379"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="Hexokinase" id="E2" initialConcentration="0.0130445703"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="GlucosePIsomerase" id="E3" initialConcentration="0.0150359237"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="TrehaloseSynthase" id="E4" initialConcentration="0.0025613466"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="PFructoseKinase" id="E5" initialConcentration="0.0159954112"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="Aldolase" id="E6" initialConcentration="0.01319835"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="GlycerolPDehydrogenase" id="E7" initialConcentration="0.0175329642"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="TriosePIsomerase" id="E8" initialConcentration="0.0099282798"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="GlyceraldehyePDehydrogenase" id="E9" initialConcentration="0.1190789983"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="PGlycerateKinase" id="E10" initialConcentration="0.0204260765"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="PGlcyerolMutase" id="E11" initialConcentration="0.0061999286"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="Enolase" id="E12" initialConcentration="0.0343448703"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="PyruvateKinase" id="E13" initialConcentration="0.123978876"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="ATPase" id="E14" initialConcentration="1"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="PyruvateDecarboxylase" id="E15" initialConcentration="0.0336973359"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="SuccinateDehydrogenase" id="E16" initialConcentration="1"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="AlcoholDehydrogenase" id="E17" initialConcentration="0.0595393732"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="AldehydeDehydrogenase" id="E18" initialConcentration="0.0523564618"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction name="GluTransport" id="R1" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S1" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S7" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E1" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E1 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE1 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S1 </ci>
+                        <ci> KmGlucoseEx </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE1 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S7 </ci>
+                        <ci> KmGlucoseIn </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S1 </ci>
+                      <ci> KmGlucoseEx </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S7 </ci>
+                      <ci> KmGlucoseIn </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE1"/>
+            <parameter value="1" id="VrE1"/>
+            <parameter value="1" id="KmGlucoseEx"/>
+            <parameter value="1" id="KmGlucoseIn"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="Hexokinase" id="R2" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S7" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S8" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S9" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S10" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E2" sboTerm="SBO:0000460"/>
+          <modifierSpeciesReference species="S9" sboTerm="SBO:0000020"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <times/>
+                  <ci> E2 </ci>
+                  <apply>
+                    <divide/>
+                    <ci> KiGlucose6P </ci>
+                    <apply>
+                      <plus/>
+                      <ci> KiGlucose6P </ci>
+                      <ci> S9 </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE2 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S7 </ci>
+                          <ci> KmGlucoseIn </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S8 </ci>
+                          <ci> KmATP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE2 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S9 </ci>
+                          <ci> KmGlucose6P </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S10 </ci>
+                          <ci> KmADP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S7 </ci>
+                        <ci> KmGlucoseIn </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S8 </ci>
+                        <ci> KmATP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S9 </ci>
+                        <ci> KmGlucose6P </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S10 </ci>
+                        <ci> KmADP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE2"/>
+            <parameter value="1" id="VrE2"/>
+            <parameter value="1" id="KiGlucose6P"/>
+            <parameter value="1" id="KmGlucoseIn"/>
+            <parameter value="1" id="KmATP"/>
+            <parameter value="1" id="KmGlucose6P"/>
+            <parameter value="1" id="KmADP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="GlucosePIsomerase" id="R3" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S9" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S11" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E3" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E3 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE3 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S9 </ci>
+                        <ci> KmGlucose6P </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE3 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S11 </ci>
+                        <ci> KmFructose6P </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S9 </ci>
+                      <ci> KmGlucose6P </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S11 </ci>
+                      <ci> KmFructose6P </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE3"/>
+            <parameter value="1" id="VrE3"/>
+            <parameter value="1" id="KmGlucose6P"/>
+            <parameter value="1" id="KmFructose6P"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="TrehaloseSynthase" id="R4" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="2" species="S9" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S8" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S2" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S10" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E4" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E4 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE4 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S9 </ci>
+                          <ci> KmGlucose6P </ci>
+                        </apply>
+                        <cn type="integer"> 2 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S8 </ci>
+                          <ci> KmATP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE4 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S2 </ci>
+                          <ci> KmTrehalose </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S10 </ci>
+                          <ci> KmADP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <plus/>
+                        <cn type="integer"> 1 </cn>
+                        <apply>
+                          <divide/>
+                          <ci> S9 </ci>
+                          <ci> KmGlucose6P </ci>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S9 </ci>
+                          <ci> KmGlucose6P </ci>
+                        </apply>
+                        <cn type="integer"> 2 </cn>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S8 </ci>
+                        <ci> KmATP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S2 </ci>
+                        <ci> KmTrehalose </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S10 </ci>
+                        <ci> KmADP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE4"/>
+            <parameter value="1" id="VrE4"/>
+            <parameter value="1" id="KmGlucose6P"/>
+            <parameter value="1" id="KmATP"/>
+            <parameter value="1" id="KmTrehalose"/>
+            <parameter value="1" id="KmADP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="PFructoseKinase" id="R5" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S11" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S8" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S12" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S10" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E5" sboTerm="SBO:0000460"/>
+          <modifierSpeciesReference species="S8" sboTerm="SBO:0000020"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <times/>
+                  <ci> E5 </ci>
+                  <apply>
+                    <divide/>
+                    <ci> KiATP </ci>
+                    <apply>
+                      <plus/>
+                      <ci> KiATP </ci>
+                      <ci> S8 </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE5 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S11 </ci>
+                          <ci> KmFructose6P </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S8 </ci>
+                          <ci> KmATP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE5 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S12 </ci>
+                          <ci> KmFructose16P </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S10 </ci>
+                          <ci> KmADP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S11 </ci>
+                        <ci> KmFructose6P </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S8 </ci>
+                        <ci> KmATP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S12 </ci>
+                        <ci> KmFructose16P </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S10 </ci>
+                        <ci> KmADP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE5"/>
+            <parameter value="1" id="VrE5"/>
+            <parameter value="1" id="KiATP"/>
+            <parameter value="1" id="KmFructose6P"/>
+            <parameter value="1" id="KmATP"/>
+            <parameter value="1" id="KmFructose16P"/>
+            <parameter value="1" id="KmADP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="Aldolase" id="R6" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S12" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S13" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S14" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E6" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E6 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE6 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S12 </ci>
+                        <ci> KmFructose16P </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE6 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S13 </ci>
+                          <ci> KmDihydroacetoneP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S14 </ci>
+                          <ci> KmGlyceraldehydeP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S12 </ci>
+                      <ci> KmFructose16P </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S13 </ci>
+                        <ci> KmDihydroacetoneP </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S14 </ci>
+                        <ci> KmGlyceraldehydeP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE6"/>
+            <parameter value="1" id="VrE6"/>
+            <parameter value="1" id="KmFructose16P"/>
+            <parameter value="1" id="KmDihydroacetoneP"/>
+            <parameter value="1" id="KmGlyceraldehydeP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="GlycerolPDehydrogenase" id="R7" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S13" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S15" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S3" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S16" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E7" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E7 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE7 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S13 </ci>
+                          <ci> KmDihydroacetoneP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S15 </ci>
+                          <ci> KmNADH </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE7 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S3 </ci>
+                          <ci> KmGlycerol </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S16 </ci>
+                          <ci> KmNAD </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S13 </ci>
+                        <ci> KmDihydroacetoneP </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S15 </ci>
+                        <ci> KmNADH </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S3 </ci>
+                        <ci> KmGlycerol </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S16 </ci>
+                        <ci> KmNAD </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE7"/>
+            <parameter value="1" id="VrE7"/>
+            <parameter value="1" id="KmDihydroacetoneP"/>
+            <parameter value="1" id="KmNADH"/>
+            <parameter value="1" id="KmGlycerol"/>
+            <parameter value="1" id="KmNAD"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="TriosePIsomerase" id="R8" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S13" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S14" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E8" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E8 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE8 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S13 </ci>
+                        <ci> KmDihydroacetoneP </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE8 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S14 </ci>
+                        <ci> KmGlyceraldehydeP </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S13 </ci>
+                      <ci> KmDihydroacetoneP </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S14 </ci>
+                      <ci> KmGlyceraldehydeP </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE8"/>
+            <parameter value="1" id="VrE8"/>
+            <parameter value="1" id="KmDihydroacetoneP"/>
+            <parameter value="1" id="KmGlyceraldehydeP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="GlyceraldehyePDehydrogenase" id="R9" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S14" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S16" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S17" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S15" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E9" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E9 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE9 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S14 </ci>
+                          <ci> KmGlyceraldehydeP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S16 </ci>
+                          <ci> KmNAD </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE9 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S17 </ci>
+                          <ci> KmBisPGlycrate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S15 </ci>
+                          <ci> KmNADH </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S14 </ci>
+                        <ci> KmGlyceraldehydeP </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S16 </ci>
+                        <ci> KmNAD </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S17 </ci>
+                        <ci> KmBisPGlycrate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S15 </ci>
+                        <ci> KmNADH </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE9"/>
+            <parameter value="1" id="VrE9"/>
+            <parameter value="1" id="KmGlyceraldehydeP"/>
+            <parameter value="1" id="KmNAD"/>
+            <parameter value="1" id="KmBisPGlycrate"/>
+            <parameter value="1" id="KmNADH"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="PGlycerateKinase" id="R10" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S17" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S10" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S18" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S8" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E10" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E10 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE10 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S17 </ci>
+                          <ci> KmBisPGlycrate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S10 </ci>
+                          <ci> KmADP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE10 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S18 </ci>
+                          <ci> Km3PGlycerate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S8 </ci>
+                          <ci> KmATP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S17 </ci>
+                        <ci> KmBisPGlycrate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S10 </ci>
+                        <ci> KmADP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S18 </ci>
+                        <ci> Km3PGlycerate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S8 </ci>
+                        <ci> KmATP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE10"/>
+            <parameter value="1" id="VrE10"/>
+            <parameter value="1" id="KmBisPGlycrate"/>
+            <parameter value="1" id="KmADP"/>
+            <parameter value="1" id="Km3PGlycerate"/>
+            <parameter value="1" id="KmATP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="PGlcyerolMutase" id="R11" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S18" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S19" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E11" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E11 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE11 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S18 </ci>
+                        <ci> Km3PGlycerate </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE11 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S19 </ci>
+                        <ci> Km2PGlycerate </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S18 </ci>
+                      <ci> Km3PGlycerate </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S19 </ci>
+                      <ci> Km2PGlycerate </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE11"/>
+            <parameter value="1" id="VrE11"/>
+            <parameter value="1" id="Km3PGlycerate"/>
+            <parameter value="1" id="Km2PGlycerate"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="Enolase" id="R12" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S19" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S20" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E12" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E12 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE12 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S19 </ci>
+                        <ci> Km2PGlycerate </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE12 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S20 </ci>
+                        <ci> KmPEnolPyruvate </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S19 </ci>
+                      <ci> Km2PGlycerate </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S20 </ci>
+                      <ci> KmPEnolPyruvate </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE12"/>
+            <parameter value="1" id="VrE12"/>
+            <parameter value="1" id="Km2PGlycerate"/>
+            <parameter value="1" id="KmPEnolPyruvate"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="PyruvateKinase" id="R13" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S20" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S10" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S21" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S8" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E13" sboTerm="SBO:0000460"/>
+          <modifierSpeciesReference species="S12" sboTerm="SBO:0000534"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <apply>
+                  <times/>
+                  <ci> E13 </ci>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S12 </ci>
+                      <ci> KaFructose16P </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE13 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S20 </ci>
+                          <ci> KmPEnolPyruvate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S10 </ci>
+                          <ci> KmADP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE13 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S21 </ci>
+                          <ci> KmPyruvate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S8 </ci>
+                          <ci> KmATP </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S20 </ci>
+                        <ci> KmPEnolPyruvate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S10 </ci>
+                        <ci> KmADP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S21 </ci>
+                        <ci> KmPyruvate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S8 </ci>
+                        <ci> KmATP </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE13"/>
+            <parameter value="1" id="VrE13"/>
+            <parameter value="1" id="KaFructose16P"/>
+            <parameter value="1" id="KmPEnolPyruvate"/>
+            <parameter value="1" id="KmADP"/>
+            <parameter value="1" id="KmPyruvate"/>
+            <parameter value="1" id="KmATP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="ATPase" id="R14" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S8" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S10" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E14" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E14 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE14 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S8 </ci>
+                        <ci> KmATP </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE14 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S10 </ci>
+                        <ci> KmADP </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S8 </ci>
+                      <ci> KmATP </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S10 </ci>
+                      <ci> KmADP </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE14"/>
+            <parameter value="1" id="VrE14"/>
+            <parameter value="1" id="KmATP"/>
+            <parameter value="1" id="KmADP"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="PyruvateDecarboxylase" id="R15" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S21" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S22" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E15" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E15 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE15 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S21 </ci>
+                        <ci> KmPyruvate </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE15 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S22 </ci>
+                        <ci> KmAcetaldehye </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S21 </ci>
+                      <ci> KmPyruvate </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S22 </ci>
+                      <ci> KmAcetaldehye </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE15"/>
+            <parameter value="1" id="VrE15"/>
+            <parameter value="1" id="KmPyruvate"/>
+            <parameter value="1" id="KmAcetaldehye"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="SuccinateDehydrogenase" id="R16" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S22" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="3" species="S16" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S5" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="3" species="S15" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E16" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E16 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE16 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S22 </ci>
+                          <ci> KmAcetaldehye </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S16 </ci>
+                          <ci> KmNAD </ci>
+                        </apply>
+                        <cn type="integer"> 3 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE16 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S5 </ci>
+                          <ci> KmSuccinate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S15 </ci>
+                          <ci> KmNADH </ci>
+                        </apply>
+                        <cn type="integer"> 3 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S22 </ci>
+                        <ci> KmAcetaldehye </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <plus/>
+                          <cn type="integer"> 1 </cn>
+                          <apply>
+                            <divide/>
+                            <ci> S16 </ci>
+                            <ci> KmNAD </ci>
+                          </apply>
+                        </apply>
+                        <apply>
+                          <power/>
+                          <apply>
+                            <divide/>
+                            <ci> S16 </ci>
+                            <ci> KmNAD </ci>
+                          </apply>
+                          <cn type="integer"> 2 </cn>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S16 </ci>
+                          <ci> KmNAD </ci>
+                        </apply>
+                        <cn type="integer"> 3 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S5 </ci>
+                        <ci> KmSuccinate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <apply>
+                        <plus/>
+                        <apply>
+                          <plus/>
+                          <cn type="integer"> 1 </cn>
+                          <apply>
+                            <divide/>
+                            <ci> S15 </ci>
+                            <ci> KmNADH </ci>
+                          </apply>
+                        </apply>
+                        <apply>
+                          <power/>
+                          <apply>
+                            <divide/>
+                            <ci> S15 </ci>
+                            <ci> KmNADH </ci>
+                          </apply>
+                          <cn type="integer"> 2 </cn>
+                        </apply>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S15 </ci>
+                          <ci> KmNADH </ci>
+                        </apply>
+                        <cn type="integer"> 3 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE16"/>
+            <parameter value="1" id="VrE16"/>
+            <parameter value="1" id="KmAcetaldehye"/>
+            <parameter value="1" id="KmNAD"/>
+            <parameter value="1" id="KmSuccinate"/>
+            <parameter value="1" id="KmNADH"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="AlcoholDehydrogenase" id="R17" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S22" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S15" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S6" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S16" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E17" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E17 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE17 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S22 </ci>
+                          <ci> KmAcetaldehye </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S15 </ci>
+                          <ci> KmNADH </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE17 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S6 </ci>
+                          <ci> KmEthanol </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S16 </ci>
+                          <ci> KmNAD </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S22 </ci>
+                        <ci> KmAcetaldehye </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S15 </ci>
+                        <ci> KmNADH </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S6 </ci>
+                        <ci> KmEthanol </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S16 </ci>
+                        <ci> KmNAD </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE17"/>
+            <parameter value="1" id="VrE17"/>
+            <parameter value="1" id="KmAcetaldehye"/>
+            <parameter value="1" id="KmNADH"/>
+            <parameter value="1" id="KmEthanol"/>
+            <parameter value="1" id="KmNAD"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="AldehydeDehydrogenase" id="R18" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S22" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S16" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S4" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S15" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E18" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E18 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE18 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S22 </ci>
+                          <ci> KmAcetaldehye </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S16 </ci>
+                          <ci> KmNAD </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE18 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S4 </ci>
+                          <ci> KmAcetate </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S15 </ci>
+                          <ci> KmNADH </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S22 </ci>
+                        <ci> KmAcetaldehye </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S16 </ci>
+                        <ci> KmNAD </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S4 </ci>
+                        <ci> KmAcetate </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S15 </ci>
+                        <ci> KmNADH </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE18"/>
+            <parameter value="1" id="VrE18"/>
+            <parameter value="1" id="KmAcetaldehye"/>
+            <parameter value="1" id="KmNAD"/>
+            <parameter value="1" id="KmAcetate"/>
+            <parameter value="1" id="KmNADH"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
