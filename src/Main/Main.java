@@ -44,35 +44,44 @@ public class Main {
         double[] km={-5, 3};
         general_range[4]=km;
         
-        if (args[0].toLowerCase().equals("gui")){
-            JFrame f = new MainWindow();       
-            f.pack();
-            f.setVisible(true);
-            f.setLocation(600, 100);                                 // determines where in the comp screen it shows up       
-        }
-        if (args[0].toLowerCase().equals("makemodel")){
-            String tsvfile = args[1];
-            String outputlink = args[2];
-            
-            TsvToModel test = new TsvToModel(tsvfile, outputlink);
-        }
-        else if (args[0].toLowerCase().equals("runGA")){
-            
-            
-            String modelfile = args[1];
-            String datafile = args[2];
-            //optional
-            String outputlink = args[3];
-           
-            //String rangefile = args[3]; 
-            
-            Script runScript = new Script();
-
-            runScript.addModel(modelfile);
-            runScript.addData(datafile);
-            runScript.build();
-            runScript.runGA(outputlink, popsize, maxgen, plateau, plague, general_range);
-
+        switch (args[0].toLowerCase()) {
+            case "gui":
+                {
+                    JFrame f = new MainWindow();
+                    f.pack();
+                    f.setVisible(true);
+                    f.setLocation(600, 100);                                 // determines where in the comp screen it shows up       
+                    break;
+                }
+            case "makemodel":
+                {
+                    String tsvfile = args[1];
+                    String outputlink = args[2];
+                    TsvToModel test = new TsvToModel(tsvfile, outputlink);
+                    break;
+                }
+            case "runGA":
+                {
+                    String modelfile = args[1];
+                    String datafile = args[2];
+                    //optional
+                    String outputlink = args[3];
+                    //String rangefile = args[3];
+                    Script runScript = new Script();
+                    runScript.addModel(modelfile);
+                    runScript.addData(datafile);
+                    runScript.build();
+                    runScript.runGA(outputlink, popsize, maxgen, plateau, plague, general_range);
+                    break;
+                }
+            default:
+                {
+                    JFrame f = new MainWindow();
+                    f.pack();
+                    f.setVisible(true);
+                    f.setLocation(600, 100);                                 // determines where in the comp screen it shows up    
+                    break;
+                }
         }
         
     }

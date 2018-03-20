@@ -49,7 +49,6 @@ public class MAPE implements Runnable {
     public void run() {
         double summed_error = 0.0;
         double[] params = pop.pop.get(index).x;
-//        double f;
         double mettotal=0;
         double fluxtotal=0;        
         
@@ -63,7 +62,6 @@ public class MAPE implements Runnable {
         if(SSorTC==true){       // for STEADY STATE output comparison and scoring
             double[] f = new double[conditions_list.size()];
         for(int i =0;i<conditions_list.size();i++){
-            
             HashMap estMet = conditions_list.get(i).get_Solved_metmap();      //estimated metconc values
             HashMap estFlux = conditions_list.get(i).get_Solved_fluxmap();    //estimated flux values
             HashMap expMet = conditions_list.get(i).get_metabolites_info();      //expected metconc values
@@ -73,7 +71,8 @@ public class MAPE implements Runnable {
             int fluxtrack=0;
 
             if(bioSystem.goodsolution()==false){
-                pop.pop.get(index).setF(1e-100);
+//                pop.pop.get(index).setF(1e-100);
+                f[i] = 1e-100;
             }else{
                 if(expMet!=null){
                 for (Compound comp : Compounds){
@@ -134,14 +133,18 @@ public class MAPE implements Runnable {
             double sumf = 0;
             for(double d: f)sumf+=d;
             pop.pop.get(index).setF(sumf/f.length);
+            
             HashMap estMet = conditions_list.get(0).get_Solved_metmap();      //estimated metconc values
             HashMap estFlux = conditions_list.get(0).get_Solved_fluxmap();    //estimated flux values
+            
             double[] output = new double[estMet.size()+estFlux.size()];
+            if (!estMet.isEmpty()){
+              
             int counter=0;
             for (Compound comp : Compounds){
             if(comp.getBoundaryCondition()==false){
                 String ID = comp.getID();
-
+                double expected_met_value = (double) estMet.get(ID);
                 output[counter]=(double) estMet.get(ID);
                 counter++;
                 }
@@ -151,7 +154,13 @@ public class MAPE implements Runnable {
                 output[counter]=(double) estFlux.get(ID);
                 counter++;
             }
-
+            
+            }
+            else{
+                for (int i =0;i<output.length;i++){
+                    output[i]=0;
+                }
+            }
             pop.pop.get(index).setOutput(output);
         
         }

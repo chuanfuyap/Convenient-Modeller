@@ -2289,16 +2289,16 @@ public class MainWindow extends javax.swing.JFrame {
             int SSorTC = JOptionPane.showOptionDialog(null, "What Type of Data is it?", 
                     "Please Choose One", JOptionPane.YES_NO_CANCEL_OPTION, 
                     JOptionPane.QUESTION_MESSAGE,null, options, options[0]);
-            if(SSorTC==JOptionPane.YES_OPTION){
+            if(SSorTC==JOptionPane.YES_OPTION){//SS type data
                 String headerFileID = "";
                 String headerFileName = "";
                 for (int c = 0; c < allthespecies.size(); c++) {
                     headerFileName += allthespecies.get(c).getName() + "\t";
-                    headerFileID += allthespecies.get(c).getID() + "\t";
+                    headerFileName += allthespecies.get(c).getID() + "\n";
                 }
                 for (int r = 0; r < allthereactions.size(); r++) {
                     headerFileName += allthereactions.get(r).getName() + "\t";
-                    headerFileID += allthereactions.get(r).getID() + "\t";
+                    headerFileName += allthereactions.get(r).getID() + "\n";
                 }
 
                 JFileChooser fc = new JFileChooser();
@@ -2547,10 +2547,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void writeHeader(String outputFile, String headerName, String headerID) {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(outputFile));
+            out.write("Copy to Excel. \nRemove the Names. \nKeep only the IDs."
+                    + "\nPaste data back into txt file to be inserted into GRaPe, make sure to avoid empty lines.\n\n");
             out.write(headerName + " \n");
             out.write(headerID+" \n\n");
-            out.write("Copy to Excel. \nRemove the Names. \nKeep only the IDs."
-                    + "\nPaste data back into txt file to be inserted into GRaPe");
+            
             out.close();
         } catch (Exception e) {
             //ignore
