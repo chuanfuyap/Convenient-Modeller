@@ -5,7 +5,6 @@
  */
 package GeneticAlgorithm;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -55,12 +54,7 @@ public class GAlgorithm {
         
     public void run() throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
         double best_ever = 1e-35;
-        
-        FileWriter outputfile = new FileWriter( "/home/chuanfuyap/Dropbox/GA_Progress.txt" , true);
-        PrintWriter writer = new PrintWriter(outputfile );
-        writer.println("STARTING GENETIC ALGORITHM WITH SIZE "+popsize);
-        writer.close();
-        
+         
         Individual best = new Individual(nparam);                               //placeholder for fittest individual
         System.out.println("starting size: "+popsize);
             
@@ -93,10 +87,6 @@ public class GAlgorithm {
         fitnessScore.add(best_ever);
         
         System.out.println("BEST IS:\t" + best.getF());
-        outputfile = new FileWriter( "/home/chuanfuyap/Dropbox/GA_Progress.txt" , true);
-        writer = new PrintWriter(outputfile );
-        writer.println("BEST STARTING INDIVIDUAL IS:\t" + best.getF());
-        writer.close();
         
         for (int i = 0; i < maxgens; i++) {                                     //optimization with GA begins 
             int counter = i+1;
@@ -130,10 +120,7 @@ public class GAlgorithm {
             fitnessScore.add(best_ever);
             
             System.out.println("Generation:\t"+counter+"\tBest:\t"+Main_Population.getBest().getF()+"\tCurrent population size:"+Main_Population.pop.size());
-            outputfile = new FileWriter( "/home/chuanfuyap/Dropbox/GA_Progress.txt" , true);
-            writer = new PrintWriter(outputfile );
-            writer.println("Generation:\t"+counter+"\tBest:\t"+Main_Population.getBest().getF()+"\tCurrent population size:"+Main_Population.pop.size());
-            writer.close();
+            
                                                         //clear the clonearmy to be ready for next generation
             if ((counter) % 10 == 0) {
                 top30params.clear();
@@ -145,10 +132,6 @@ public class GAlgorithm {
                 }
                                 
                 if ((best_ever == 1 ) /*|| (best_ever>0.8)*/) {
-                    outputfile = new FileWriter( "/home/chuanfuyap/Dropbox/GA_Progress.txt" , true);
-                    writer = new PrintWriter(outputfile );
-                    writer.println("\nGENETIC ALGORITHM FINISHED PERFECT SCORE\n");
-                    writer.close();
                     break;
                 }
             }
@@ -164,10 +147,7 @@ public class GAlgorithm {
                         top30params.add(params);
                     }
                     System.out.println("\nGENETIC ALGORITHM FINISHED WITH CONVERGENCE FOR "+plateaulimit+" GENERATIONS\n");
-                    outputfile = new FileWriter( "/home/chuanfuyap/Dropbox/GA_Progress.txt" , true);
-                    writer = new PrintWriter(outputfile );
-                    writer.println("\nGENETIC ALGORITHM FINISHED WITH CONVERGENCE FOR "+plateaulimit+" GENERATIONS\n");
-                    writer.close();
+                    
                     break;
                 }
             }
