@@ -2,7 +2,7 @@ Bootstrap: docker
 From: ubuntu:16.04
 
 %files
-dist.zip /opt
+grape2jar_files.zip /opt
 
 %post
 apt -y update
@@ -42,7 +42,7 @@ make
 make install
 
 cd /opt
-unzip dist.zip
+unzip grape2jar_files.zip
 
 cd /opt
 wget -O soslibJNIC.zip https://github.com/chuanfuyap/soslibJNIC/archive/master.zip
