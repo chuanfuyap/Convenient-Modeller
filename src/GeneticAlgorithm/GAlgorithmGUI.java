@@ -10,8 +10,6 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,7 +128,7 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
                 
                 ProgressFrame.estimationProgressOutput.append("Generation:\t"+counter+"\tBest:\t"+population.getBest().getF()+"\n");
                 
-                if ((counter) % 10 == 0) {
+                if ((counter) % 3 == 0) {
                     parameters = new double[nparam];
                     System.arraycopy(population.getBest().x, 0, parameters, 0, nparam);
                     if ((best_ever == 1 ) /*|| (best_ever>0.8)*/) {
