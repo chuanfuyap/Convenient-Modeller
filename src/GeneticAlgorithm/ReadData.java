@@ -41,7 +41,6 @@ public class ReadData {
                     lines.add(line);
                 }
             });
-
             
             String firstline = (String) lines.get(0);
             String[] temp = firstline.split("\\s");

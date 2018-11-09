@@ -252,39 +252,7 @@ public class ExportSBML {
             }catch (Exception e) {
                 System.out.println("Cannot Build Equation. Error 6 "+modelreaction.getName());
             }
-            
-            if (modelreaction.getPkinetics()==true){
-                String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
-                
-                Reaction proteinreaction = new Reaction("P"+proteinname);        
-                proteinreaction.setName(proteinname+" translation");
-                proteinreaction.setReversible(false);
-                
-                Enzyme enz = modelreaction.getEnzyme();
-                
-                Species prot = new Species(enz.getID());
-                prot.setName(enz.getName());
-                SpeciesReference protsf = new SpeciesReference(prot);
-                protsf.setStoichiometry(1);
-                
-                proteinreaction.addProduct(protsf);
-                
-                KineticLaw proteinkineticLaw= null;
-                proteinkineticLaw = modelreaction.getProteinKinetics();
-                
-                proteinreaction.setKineticLaw(proteinkineticLaw);
-                ArrayList<Parameter> tempparameters2 = modelreaction.getPKparameters();
-                
-                //for loop to convert parameters to local parameter that are subsequently added to the kineticlaw.
-                for (int i=0; i< tempparameters2.size(); i++){
-                    LocalParameter localparameter = new LocalParameter(tempparameters2.get(i));
-                    proteinkineticLaw.addLocalParameter(localparameter);
-                }
-                myModel.addReaction(proteinreaction);
-                proteinreaction.setSBOTerm(342);                                //342 SBOterm for molecular or genetic interaction;
-                proteinreaction.getKineticLaw().setSBOTerm(44);                 //44 SBOterm for mass action rate law for irreversible reactions
-            }
-
+           
         }
         return myModel;
     }
@@ -432,39 +400,7 @@ public class ExportSBML {
             }catch (Exception e) {
                 System.out.println("Cannot Build Equation. Error 6 "+modelreaction.getName());
             }
-            
-            if (modelreaction.getPkinetics()==true){
-                String proteinname = modelreaction.getEnzyme().getName().replaceAll("\\W", "").replaceAll("\\s", "");
-                
-                Reaction proteinreaction = new Reaction("P"+proteinname);        
-                proteinreaction.setName(proteinname+" translation");
-                proteinreaction.setReversible(false);
-                
-                Enzyme enz = modelreaction.getEnzyme();
-                
-                Species prot = new Species(enz.getID());
-                prot.setName(enz.getName());
-                SpeciesReference protsf = new SpeciesReference(prot);
-                protsf.setStoichiometry(1);
-                
-                proteinreaction.addProduct(protsf);
-                
-                KineticLaw proteinkineticLaw= null;
-                proteinkineticLaw = modelreaction.getProteinKinetics();
-                
-                proteinreaction.setKineticLaw(proteinkineticLaw);
-                ArrayList<Parameter> tempparameters2 = modelreaction.getPKparameters();
-                
-                //for loop to convert parameters to local parameter that are subsequently added to the kineticlaw.
-                for (int i=0; i< tempparameters2.size(); i++){
-                    LocalParameter localparameter = new LocalParameter(tempparameters2.get(i));
-                    proteinkineticLaw.addLocalParameter(localparameter);
-                }
-                myModel.addReaction(proteinreaction);
-                proteinreaction.setSBOTerm(342);                                //342 SBOterm for molecular or genetic interaction;
-                proteinreaction.getKineticLaw().setSBOTerm(44);                 //44 SBOterm for mass action rate law for irreversible reactions
-            }
-
+          
         }
         return myModel;
     }

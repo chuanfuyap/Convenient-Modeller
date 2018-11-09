@@ -116,99 +116,88 @@ public class MainWindow extends javax.swing.JFrame {
             ArrayList<LocalParameter> parameters = new ArrayList<LocalParameter>();
             int regulation =1;
             ArrayList<Compound> mod = new ArrayList();
-            String isitPK = reaction.getName();
-            String[] tokens = isitPK.split("\\s");
             
-            if((tokens.length>1&&"transcription".equals(tokens[1]))||(tokens.length>1&&"translation".equals(tokens[1]))){
-                String pkreaction = tokens[0];
-                for(int j =0; j<allthereactions.size();j++){
-                    if(allthereactions.get(j).getName().equals(pkreaction)){
-                        allthereactions.get(j).setPKinetics(true);
+            for (int j = 0; j <reactionsubstrates.size(); j++){
+                SpeciesReference sf = (SpeciesReference) reactionsubstrates.get(j);
+                Species substratespecies = sf.getSpeciesInstance();
+                Compound c = new Compound(substratespecies);
+                mReaction.addSubstrate(c, (int) sf.getStoichiometry());
+            }
+
+            for (int k = 0; k <reactionproducts.size(); k++){
+                SpeciesReference sf = (SpeciesReference) reactionproducts.get(k);
+                Species productspecies = sf.getSpeciesInstance();
+                Compound c = new Compound(productspecies);
+                mReaction.addProduct(c, (int) sf.getStoichiometry());
+            }
+
+            KineticLaw KL=reaction.getKineticLaw();
+            LLP=KL.getListOfLocalParameters();
+
+            for (int count = 0; count < LLP.size(); count++){
+                parameters.add(LLP.get(count));
+            }
+
+            if (modifiers.size()==0){
+                Species enzymeSpecies = new Species("EnZ"+ reaction.getId());
+                enzymeSpecies.setName("EnZ"+reaction.getName());
+                enzymeSpecies.setInitialConcentration(1);
+                e = new Enzyme(enzymeSpecies);
+                addEnzymesFromReaction(e);
+            }else{
+                //sbo 20/206/207/597 are inhibitors
+                //sbo 461/535/534/533 are activators;
+                //sbo 460 is enzyme catalyst
+                boolean old = true;
+                for ( int l=0;l<modifiers.size();l++){
+                    int sbo = modifiers.get(l).getSBOTerm();
+
+                    if(sbo!=-1){
+                        old=false;
                     }
                 }
-            }else{
-                for (int j = 0; j <reactionsubstrates.size(); j++){
-                    SpeciesReference sf = (SpeciesReference) reactionsubstrates.get(j);
-                    Species substratespecies = sf.getSpeciesInstance();
-                    Compound c = new Compound(substratespecies);
-                    mReaction.addSubstrate(c, (int) sf.getStoichiometry());
-                }
-
-                for (int k = 0; k <reactionproducts.size(); k++){
-                    SpeciesReference sf = (SpeciesReference) reactionproducts.get(k);
-                    Species productspecies = sf.getSpeciesInstance();
-                    Compound c = new Compound(productspecies);
-                    mReaction.addProduct(c, (int) sf.getStoichiometry());
-                }
-
-                KineticLaw KL=reaction.getKineticLaw();
-                LLP=KL.getListOfLocalParameters();
-
-                for (int count = 0; count < LLP.size(); count++){
-                    parameters.add(LLP.get(count));
-                }
-
-                if (modifiers.size()==0){
-                    Species enzymeSpecies = new Species("EnZ"+ reaction.getId());
-                    enzymeSpecies.setName("EnZ"+reaction.getName());
-                    enzymeSpecies.setInitialConcentration(1);
-                    e = new Enzyme(enzymeSpecies);
-                    addEnzymesFromReaction(e);
+                if(old==true){
+                    e = oldSBML( mReaction,  reaction,  modifiers, e);
                 }else{
-                    //sbo 20/206/207/597 are inhibitors
-                    //sbo 461/535/534/533 are activators;
-                    //sbo 460 is enzyme catalyst
-                    boolean old = true;
                     for ( int l=0;l<modifiers.size();l++){
                         int sbo = modifiers.get(l).getSBOTerm();
-
-                        if(sbo!=-1){
-                            old=false;
-                        }
-                    }
-                    if(old==true){
-                        e = oldSBML( mReaction,  reaction,  modifiers, e);
-                    }else{
-                        for ( int l=0;l<modifiers.size();l++){
-                            int sbo = modifiers.get(l).getSBOTerm();
-                            if(sbo==460){
-                                ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
-                                Species s = msr.getSpeciesInstance();
-                                e = new Enzyme(s);
-                            }else if (sbo==461||sbo==535||sbo==534||sbo==533){
-                                regulation = 2; 
-                                ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
-                                Species s = msr.getSpeciesInstance();
-                                mod.add( new Compound(s) );
-                            }else if (sbo==20||sbo==206||sbo==207||sbo==597){
-                                regulation = 3; 
-                                ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
-                                Species s = msr.getSpeciesInstance();
-                                mod.add( new Compound(s) );
-                            }
+                        if(sbo==460){
+                            ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
+                            Species s = msr.getSpeciesInstance();
+                            e = new Enzyme(s);
+                        }else if (sbo==461||sbo==535||sbo==534||sbo==533){
+                            regulation = 2; 
+                            ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
+                            Species s = msr.getSpeciesInstance();
+                            mod.add( new Compound(s) );
+                        }else if (sbo==20||sbo==206||sbo==207||sbo==597){
+                            regulation = 3; 
+                            ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
+                            Species s = msr.getSpeciesInstance();
+                            mod.add( new Compound(s) );
                         }
                     }
                 }
+            }
 
-                if (regulation>1){
-                    mReaction.setEnzyme(e);
-                    mReaction.setModifier(mod);
-                    if(mod.size()==2){
-                        mReaction.setRegulation(4);
-                    }else if (mod.size()==1){
-                        mReaction.setRegulation(regulation);
-                    }
-                    ModelReaction im = new ModelReaction(e, mReaction, parameters);
-                    allthereactions.add(im);
-                }else{
-                    mReaction.setEnzyme(e);
-                    ModelReaction im = new ModelReaction(e, mReaction);
-                    allthereactions.add(im);
+            if (regulation>1){
+                mReaction.setEnzyme(e);
+                mReaction.setModifier(mod);
+                if(mod.size()==2){
+                    mReaction.setRegulation(4);
+                }else if (mod.size()==1){
+                    mReaction.setRegulation(regulation);
                 }
+                ModelReaction im = new ModelReaction(e, mReaction, parameters);
+                allthereactions.add(im);
+            }else{
+                mReaction.setEnzyme(e);
+                ModelReaction im = new ModelReaction(e, mReaction);
+                allthereactions.add(im);
             }
             
         }
-        Object[][] reactioninfo = new Object[allthereactions.size()][6];
+        Object[][] reactioninfo = new Object[allthereactions.size()][5];
         for(int i =0;i< allthereactions.size();i++){
             reactioninfo[i][0]=i+1;
             reactioninfo[i][1]=allthereactions.get(i).getEnzyme().getName();
@@ -235,7 +224,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
             
             reactioninfo[i][4]=allthereactions.get(i).toString();
-            reactioninfo[i][5]=allthereactions.get(i).getPkinetics();
             
         }
         setUpReactionTable(reactioninfo);
@@ -476,10 +464,10 @@ public class MainWindow extends javax.swing.JFrame {
             ReactionTableHeader
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, false, true
+                false, true, true, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -494,9 +482,6 @@ public class MainWindow extends javax.swing.JFrame {
             ReactionTable.getColumnModel().getColumn(0).setMinWidth(28);
             ReactionTable.getColumnModel().getColumn(0).setPreferredWidth(28);
             ReactionTable.getColumnModel().getColumn(0).setMaxWidth(28);
-            ReactionTable.getColumnModel().getColumn(5).setMinWidth(31);
-            ReactionTable.getColumnModel().getColumn(5).setPreferredWidth(31);
-            ReactionTable.getColumnModel().getColumn(5).setMaxWidth(31);
             ReactionTable.getColumnModel().getColumn(2).setMaxWidth(115);
             ReactionTable.getColumnModel().getColumn(1).setMaxWidth(115);
             ReactionTable.getColumnModel().getColumn(3).setMaxWidth(115);
@@ -537,6 +522,10 @@ public class MainWindow extends javax.swing.JFrame {
     private TableModelListener SpeciesTableChanged = new TableModelListener() {
 
         public void tableChanged(TableModelEvent e) {
+            
+            if(delete_metabolite){
+                delete_metabolite=false;
+            }else{
             
             int row = e.getFirstRow();
             int column = e.getColumn();
@@ -602,12 +591,18 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
             }
+            }
         }
     };
     
     private TableModelListener EnzymeTableChanged = new TableModelListener() {
 
         public void tableChanged(TableModelEvent e) {
+            
+            if(delete_enzyme){
+                delete_enzyme=false;
+            }else{
+            
             int row = e.getFirstRow();
             int column = e.getColumn();
             
@@ -653,6 +648,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
             }
+            }
         }
     };
     
@@ -660,17 +656,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         public void tableChanged(TableModelEvent e) {
             
+            if(delete_reaction){
+                delete_reaction=false;
+            }else{
+            
             int row = e.getFirstRow();
             int column = e.getColumn();
             String reaction = (String) ReactionTable.getValueAt(row,4);
             if(reaction!=null){
                 int editreaction=-1;
                 String[] tokens = reaction.split("\\W");
-                ModelReaction empty = null;
                 for (int i =0; i <allthereactions.size(); i++){
                     String id = allthereactions.get(i).getReactionID();
                     if(id.matches(tokens[0])){
-                        empty=allthereactions.get(i);
                         editreaction=i;
                     }
                 }
@@ -684,12 +682,7 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     allthereactions.get(editreaction).setEnzyme(newenzyme);
                 }
-                
-                if(column==5){
-                    boolean yesno = (boolean) ReactionTable.getValueAt(row,5);
-                    allthereactions.get(editreaction).setPKinetics(yesno);
-                }
-                
+                                
                 if(column==2||column==3){
                 String activator = (String) ReactionTable.getValueAt(row, 2);
                 String inhibitor = (String) ReactionTable.getValueAt(row, 3);
@@ -736,6 +729,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
             
+        }
         }
     };
     
@@ -1339,10 +1333,10 @@ public class MainWindow extends javax.swing.JFrame {
                 ReactionTableHeader
             ) {
                 Class[] types = new Class [] {
-                    java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                    java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
                 };
                 boolean[] canEdit = new boolean [] {
-                    false, true, true, true, false, true
+                    false, true, true, true, false
                 };
 
                 public Class getColumnClass(int columnIndex) {
@@ -1361,9 +1355,6 @@ public class MainWindow extends javax.swing.JFrame {
             ReactionTable.getColumnModel().getColumn(0).setMinWidth(28);
             ReactionTable.getColumnModel().getColumn(0).setPreferredWidth(28);
             ReactionTable.getColumnModel().getColumn(0).setMaxWidth(28);
-            ReactionTable.getColumnModel().getColumn(5).setMinWidth(31);
-            ReactionTable.getColumnModel().getColumn(5).setPreferredWidth(31);
-            ReactionTable.getColumnModel().getColumn(5).setMaxWidth(31);
             ReactionTable.getColumnModel().getColumn(2).setMaxWidth(115);
             ReactionTable.getColumnModel().getColumn(1).setMaxWidth(115);
             ReactionTable.getColumnModel().getColumn(3).setMaxWidth(115);
@@ -1683,7 +1674,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void DeleteSpeciesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteSpeciesActionPerformed
         // TODO add your handling code here:
-        
+        delete_metabolite = true;
         int row = SpeciesTable.getSelectedRow();
         if(row !=-1){
         String localname = (String) SpeciesTable.getValueAt(row, 1);
@@ -1722,6 +1713,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void DeleteReactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteReactionActionPerformed
         // TODO add your handling code here:
         int row = ReactionTable.getSelectedRow();
+        delete_reaction = true;
         
         if(row !=-1){
         String localname = (String) ReactionTable.getValueAt(row, 4);
@@ -1735,28 +1727,30 @@ public class MainWindow extends javax.swing.JFrame {
         }
         
         if(row!=-1){
-        DefaultTableModel apple = (DefaultTableModel) ReactionTable.getModel();
-        apple.removeRow(row);
+            DefaultTableModel apple = (DefaultTableModel) ReactionTable.getModel();
+            apple.removeRow(row);
         
-        int totalrow = ReactionTable.getRowCount();
-        Object[][] temp = new Object[totalrow][6];
-        
-        for (int i =0; i < totalrow; i++){
-            temp[i][0]=i+1;
-        }
-        for (int i =0; i < ReactionTable.getRowCount(); i++){
-           
-            for (int column = 1; column<6; column++){
-                    temp[i][column]=ReactionTable.getModel().getValueAt(i, column);
+            int totalrow = ReactionTable.getRowCount();
+            Object[][] temp = new Object[totalrow][5];
+
+            for (int i =0; i < totalrow; i++){
+                temp[i][0]=i+1;
             }
-        }
-        ReactionTableInfo=temp;
-        setUpReactionTable(temp);
+            for (int i =0; i < ReactionTable.getRowCount(); i++){
+
+                for (int column = 1; column<5; column++){
+                        temp[i][column]=ReactionTable.getModel().getValueAt(i, column);
+                }
+            }
+            ReactionTableInfo=temp;
+            setUpReactionTable(temp);
+        
         }
     }//GEN-LAST:event_DeleteReactionActionPerformed
 
     private void DeleteEnzymeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteEnzymeActionPerformed
         // TODO add your handling code here:
+        delete_enzyme = true;
         int row = EnzymesTable.getSelectedRow();
         if(row!=-1){
         String localname = (String) EnzymesTable.getValueAt(row, 1);
@@ -1941,7 +1935,6 @@ public class MainWindow extends javax.swing.JFrame {
                 String activator = (String) ReactionTable.getValueAt(row, 2);
                 String inhibitor = (String) ReactionTable.getValueAt(row, 3);
                 ArrayList<Compound> modifier = new ArrayList();
-                boolean proteinkinetics = (boolean) ReactionTable.getValueAt(row, 5);
                 String enz = (String) ReactionTable.getValueAt(row, 1);
                 int editreaction =-1;
                 boolean edit=false;
@@ -2146,7 +2139,6 @@ public class MainWindow extends javax.swing.JFrame {
                             editmetabolicreaction.setName(name);
                             editmetabolicreaction.addSubstrates(subS, substoi);
                             editmetabolicreaction.addProducts(prodS, prodstoi);
-                            editmetabolicreaction.setPKinetics(proteinkinetics);
                             editmetabolicreaction.setRegulation(regulation);
                             if(regulation>1){
                                 editmetabolicreaction.setModifier(modifier);
@@ -2163,7 +2155,6 @@ public class MainWindow extends javax.swing.JFrame {
                             for(int i =0; i<prodS.size();i++){
                                 newreaction.addProduct(prodS.get(i), (int) prodstoi.get(i));
                             }
-                            newreaction.setPKinetics(proteinkinetics);
                             newreaction.setRegulation(regulation);
                             if(regulation>1){
                                 newreaction.setModifier(modifier);
@@ -2190,16 +2181,15 @@ public class MainWindow extends javax.swing.JFrame {
     private void AddReactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddReactionActionPerformed
         // TODO add your handling code here:
         int totalrow = ReactionTable.getRowCount()+1;
-        Object[][] temp = new Object[totalrow][6];
+        Object[][] temp = new Object[totalrow][5];
         
         for (int i =0; i < totalrow; i++){
             temp[i][0]=i+1;
         }
-        temp[totalrow-1][5]=false;
         temp[totalrow-1][2]="N/A";
         temp[totalrow-1][3]="N/A";
         for (int i =0; i < ReactionTable.getRowCount(); i++){
-            for (int column = 1; column<6; column++){
+            for (int column = 1; column<5; column++){
                     temp[i][column]=ReactionTable.getModel().getValueAt(i, column);
             }
         }
@@ -2662,10 +2652,10 @@ public class MainWindow extends javax.swing.JFrame {
     };
     
     private Object[][] ReactionTableInfo = new Object [][] {
-                {1, "N/A", "N/A", "N/A", null, false}
+                {1, "N/A", "N/A", "N/A", null}
             };
     private String[] ReactionTableHeader = new String [] {
-        "No.", "Enzyme", "Activator", "Inhibitor", "Reaction", "PK"};
+        "No.", "Enzyme", "Activator", "Inhibitor", "Reaction"};
     
     private ListOf<Species> listofspecies;    
     private ListOf<Reaction> listofreactions;
@@ -2686,4 +2676,7 @@ public class MainWindow extends javax.swing.JFrame {
     public boolean GAdone = false;
     public double[] parameters;
     private ProgressFrame frame = null;
+    private boolean delete_reaction = false;
+    private boolean delete_enzyme = false;
+    private boolean delete_metabolite = false;
 }

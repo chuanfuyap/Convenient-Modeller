@@ -25,8 +25,7 @@ public class ModelReaction {
     private ArrayList<Parameter> parameters = new ArrayList();
     private ArrayList<LocalParameter> localparameters;
     private Enzyme enzyme;
-    private String e;    
-    private boolean proteinkinetics;
+    private String e;
     private String[] subName, subID, prodName, prodID;
     private int regulation;                     //determines type of regulation, 1 for none, 2 for activation, 3 for inhibition
     private ArrayList substoichio, prodstoichio;
@@ -47,7 +46,6 @@ public class ModelReaction {
         prodID = new String[products.size()];
         substoichio = mReaction.getSubstrateStoichio();
         prodstoichio = mReaction.getProductStoichio();
-        proteinkinetics = mReaction.getPKinetics();
         regulation = mReaction.getRegulation();
         if (regulation > 1) {
             modifier = mReaction.getModifiers();
@@ -80,7 +78,6 @@ public class ModelReaction {
         prodID = new String[products.size()];
         substoichio = mReaction.getSubstrateStoichio();
         prodstoichio = mReaction.getProductStoichio();
-        proteinkinetics = mReaction.getPKinetics();
         regulation = mReaction.getRegulation();
         if (regulation > 1) {
             modifier = mReaction.getModifiers();
@@ -111,10 +108,6 @@ public class ModelReaction {
         ASTNode mathmlnode = ASTNode.readMathMLFromString(reactionRate);
         kl.setMath(mathmlnode);
         return kl;
-    }
-
-    public boolean getPkinetics() {
-        return proteinkinetics;
     }
 
     public void setReactionID(String ID) {
@@ -677,10 +670,6 @@ public class ModelReaction {
 
     public void setModifier(ArrayList<Compound> comp) {
         modifier = comp;
-    }
-
-    public void setPKinetics(boolean yesno) {
-        proteinkinetics = yesno;
     }
 
     public void setEnzyme(Enzyme enz) {

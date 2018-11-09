@@ -28,7 +28,6 @@ public class MetabolicReaction {
     private Enzyme enzyme = null;
     private ArrayList<Double> subconc;
     private ArrayList<Double> prodconc;
-    private boolean proteinkinetics=false;
     private int regulation;
     private ArrayList<Compound> modifiers;
     
@@ -144,15 +143,7 @@ public class MetabolicReaction {
     public void setEnzyme(Enzyme enz){
          enzyme = enz;
     }
-    
-    public void setPKinetics(boolean yesno){
-        proteinkinetics=yesno;
-    }
-    
-    public boolean getPKinetics(){
-        return proteinkinetics;
-    }
-    
+        
     public int getSubstrateStoicCo(int i){
         return Integer.parseInt(substratesStoichio.get(i).toString());
     }

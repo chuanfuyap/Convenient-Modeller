@@ -115,96 +115,87 @@ public class SBMLFile {
             String isitPK = reaction.getName();
             String[] tokens = isitPK.split("\\s");
             
-            if((tokens.length>1&&"transcription".equals(tokens[1]))||(tokens.length>1&&"translation".equals(tokens[1]))){
-                String pkreaction = tokens[0];
-                for(int j =0; j<allthereactions.size();j++){
-                    if(allthereactions.get(j).getName().equals(pkreaction)){
-                        allthereactions.get(j).setPKinetics(true);
+            for (int j = 0; j <reactionsubstrates.size(); j++){
+                SpeciesReference sf = (SpeciesReference) reactionsubstrates.get(j);
+                Species substratespecies = sf.getSpeciesInstance();
+                Compound c = new Compound(substratespecies);
+                mReaction.addSubstrate(c, (int) sf.getStoichiometry());
+            }
+
+            for (int k = 0; k <reactionproducts.size(); k++){
+                SpeciesReference sf = (SpeciesReference) reactionproducts.get(k);
+                Species productspecies = sf.getSpeciesInstance();
+                Compound c = new Compound(productspecies);
+                mReaction.addProduct(c, (int) sf.getStoichiometry());
+            }
+
+            KineticLaw KL=reaction.getKineticLaw();
+            LLP=KL.getListOfLocalParameters();
+
+            for (int count = 0; count < LLP.size(); count++){
+                parameters.add(LLP.get(count));
+            }
+
+            if (modifiers.size()==0){
+                Species enzymeSpecies = new Species("EnZ"+ reaction.getId());
+                enzymeSpecies.setName("EnZ"+reaction.getName());
+                enzymeSpecies.setInitialConcentration(1);
+                e = new Enzyme(enzymeSpecies);
+                addEnzymesFromReaction(e);
+            }else{
+                //sbo 20/206/207/597 are inhibitors
+                //sbo 461/535/534/533 are activators;
+                //sbo 460 is enzyme catalyst
+                boolean old = true;
+                for ( int l=0;l<modifiers.size();l++){
+                    int sbo = modifiers.get(l).getSBOTerm();
+
+                    if(sbo!=-1){
+                        old=false;
                     }
                 }
-            }else{
-                for (int j = 0; j <reactionsubstrates.size(); j++){
-                    SpeciesReference sf = (SpeciesReference) reactionsubstrates.get(j);
-                    Species substratespecies = sf.getSpeciesInstance();
-                    Compound c = new Compound(substratespecies);
-                    mReaction.addSubstrate(c, (int) sf.getStoichiometry());
-                }
-
-                for (int k = 0; k <reactionproducts.size(); k++){
-                    SpeciesReference sf = (SpeciesReference) reactionproducts.get(k);
-                    Species productspecies = sf.getSpeciesInstance();
-                    Compound c = new Compound(productspecies);
-                    mReaction.addProduct(c, (int) sf.getStoichiometry());
-                }
-
-                KineticLaw KL=reaction.getKineticLaw();
-                LLP=KL.getListOfLocalParameters();
-
-                for (int count = 0; count < LLP.size(); count++){
-                    parameters.add(LLP.get(count));
-                }
-
-                if (modifiers.size()==0){
-                    Species enzymeSpecies = new Species("EnZ"+ reaction.getId());
-                    enzymeSpecies.setName("EnZ"+reaction.getName());
-                    enzymeSpecies.setInitialConcentration(1);
-                    e = new Enzyme(enzymeSpecies);
-                    addEnzymesFromReaction(e);
+                if(old==true){
+                    e = oldSBML( mReaction,  reaction,  modifiers, e);
                 }else{
-                    //sbo 20/206/207/597 are inhibitors
-                    //sbo 461/535/534/533 are activators;
-                    //sbo 460 is enzyme catalyst
-                    boolean old = true;
                     for ( int l=0;l<modifiers.size();l++){
                         int sbo = modifiers.get(l).getSBOTerm();
-
-                        if(sbo!=-1){
-                            old=false;
-                        }
-                    }
-                    if(old==true){
-                        e = oldSBML( mReaction,  reaction,  modifiers, e);
-                    }else{
-                        for ( int l=0;l<modifiers.size();l++){
-                            int sbo = modifiers.get(l).getSBOTerm();
-                            if(sbo==460){
-                                ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
-                                Species s = msr.getSpeciesInstance();
-                                e = new Enzyme(s);
-                            }else if (sbo==461||sbo==535||sbo==534||sbo==533){
-                                regulation = 2; 
-                                ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
-                                Species s = msr.getSpeciesInstance();
-                                mod.add( new Compound(s) );
-                            }else if (sbo==20||sbo==206||sbo==207||sbo==597){
-                                regulation = 3; 
-                                ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
-                                Species s = msr.getSpeciesInstance();
-                                mod.add( new Compound(s) );
-                            }
+                        if(sbo==460){
+                            ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
+                            Species s = msr.getSpeciesInstance();
+                            e = new Enzyme(s);
+                        }else if (sbo==461||sbo==535||sbo==534||sbo==533){
+                            regulation = 2; 
+                            ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
+                            Species s = msr.getSpeciesInstance();
+                            mod.add( new Compound(s) );
+                        }else if (sbo==20||sbo==206||sbo==207||sbo==597){
+                            regulation = 3; 
+                            ModifierSpeciesReference msr = (ModifierSpeciesReference) modifiers.get(l);
+                            Species s = msr.getSpeciesInstance();
+                            mod.add( new Compound(s) );
                         }
                     }
                 }
+            }
 
-                if (regulation>1){
-                    mReaction.setEnzyme(e);
-                    mReaction.setModifier(mod);
-                    if(mod.size()==2){
-                        mReaction.setRegulation(4);
-                    }else if (mod.size()==1){
-                        mReaction.setRegulation(regulation);
-                    }
-                    ModelReaction im = new ModelReaction(e, mReaction, parameters);
-                    allthereactions.add(im);
-                }else{
-                    mReaction.setEnzyme(e);
-                    ModelReaction im = new ModelReaction(e, mReaction, parameters);
-                    allthereactions.add(im);
+            if (regulation>1){
+                mReaction.setEnzyme(e);
+                mReaction.setModifier(mod);
+                if(mod.size()==2){
+                    mReaction.setRegulation(4);
+                }else if (mod.size()==1){
+                    mReaction.setRegulation(regulation);
                 }
+                ModelReaction im = new ModelReaction(e, mReaction, parameters);
+                allthereactions.add(im);
+            }else{
+                mReaction.setEnzyme(e);
+                ModelReaction im = new ModelReaction(e, mReaction, parameters);
+                allthereactions.add(im);
             }
             
         }
-        Object[][] reactioninfo = new Object[allthereactions.size()][6];
+        Object[][] reactioninfo = new Object[allthereactions.size()][5];
         for(int i =0;i< allthereactions.size();i++){
             reactioninfo[i][0]=i+1;
             reactioninfo[i][1]=allthereactions.get(i).getEnzyme().getName();
@@ -231,7 +222,6 @@ public class SBMLFile {
             }
             
             reactioninfo[i][4]=allthereactions.get(i).toString();
-            reactioninfo[i][5]=allthereactions.get(i).getPkinetics();
             
         }
         
@@ -476,22 +466,4 @@ public class SBMLFile {
         return rID;
     }
     
-    public String[] getProteinID(){
-        int pkcount = 0;
-        
-        for(ModelReaction reaction : allthereactions){
-            if(reaction.getPkinetics()==true){
-                pkcount++;
-            }
-        }        
-        String[] proteinID = new String[pkcount];
-        int tick=0;
-        for(ModelReaction reaction : allthereactions){
-            if(reaction.getPkinetics()==true){
-                proteinID[tick]=reaction.getEnzyme().getID();
-                tick++;
-            }
-        }
-        return proteinID;
-    }
 }

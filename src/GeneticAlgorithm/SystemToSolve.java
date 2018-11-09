@@ -233,7 +233,6 @@ public class SystemToSolve {
             String[] reactionID = modelreactions.getReactionID();
             String[] variables= new String[activeCompNum];
             String[] reactionID2 = modelreactions.getReactionID2();
-            String[] proteinID = modelreactions.getProteinID();
 
             int count=0;
             for(Compound comp : Compounds){
