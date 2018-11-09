@@ -9,11 +9,9 @@ import GeneticAlgorithm.GAlgorithm;
 import GeneticAlgorithm.ReadData;
 import GeneticAlgorithm.SystemToSolve;
 import Species.Compound;
-//import SteadyState.MultiSS;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -68,12 +66,10 @@ public class Script {
         ArrayList params = ga.getParameters();
         ArrayList fitnessTrack = ga.getFitnessTrack();
 
-//        for(int j=0;j<30;j++){
-            double[] parameters=(double[]) params.get(0);
-            modelreactions.modparameters(parameters);
-            File outputfile = new File (outputLink+".xml");
-            modelreactions.exportsbml(outputfile);
-//        }
+        double[] parameters=(double[]) params.get(0);
+        modelreactions.modparameters(parameters);
+        File outputfile = new File (outputLink+".xml");
+        modelreactions.exportsbml(outputfile);
         PrintWriter writer = new PrintWriter( outputLink+"Fitness.txt", "UTF-8" );
 
         for(Object fitness:fitnessTrack){
@@ -95,12 +91,10 @@ public class Script {
             for(int k = 0; k<kl.getListOfLocalParameters().size();k++){
                parameter[counter]=kl.getListOfLocalParameters().get(k).getValue();
                String name = kl.getListOfLocalParameters().get(k).getId();
-//               System.out.println("("+reactionlist.get(j).getName()+")."+name +"\t"+parameter[counter]);
                counter++;
             }
         }
         System.out.println("Parameter Count:\t"+counter);
-//        System.out.println();
         sys.solve_ODE_model(parameter,Integer.toHexString(this.hashCode()));
         if(sys.goodsolution()){
             HashMap mmap = sys.get_Condition_List().get(0).get_Solved_metmap();
@@ -287,16 +281,6 @@ public class Script {
                counter++;
             }
         }
-//        double[] time = {0,20,40,60,80,100};
-//        double[] time =  {0,10,30,60,120,240};
-//        double output[][] = ode.runsolver(parameter, time);
-//        
-//        for(int j=1;j<variables.length+1+modelreactions.getReactionID2().length;j++){
-//            for(int i =0;i<time.length;i++){                   
-//                System.out.print(output[i][j]+"\t");
-//            }
-//            System.out.println();
-//        }
 
         sys.solve_ODE_model(parameter,Integer.toHexString(this.hashCode()));
         HashMap metmapTC = sys.getTCestmetMap();

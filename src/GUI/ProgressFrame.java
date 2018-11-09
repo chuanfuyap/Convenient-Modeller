@@ -92,9 +92,6 @@ public class ProgressFrame extends javax.swing.JFrame {
                 setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
             }
         }
-        else{
-            System.out.println("hello");
-        }
     }//GEN-LAST:event_formWindowClosing
 
     /**

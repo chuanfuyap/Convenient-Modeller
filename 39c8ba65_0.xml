@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<!-- Created by output version X on 2018-26-09 at 17:26:30 GMT with JSBML version 1.0-rc1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model name="Toy_Model">
+    <listOfCompartments>
+      <compartment size="1" id="Cell"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="IN" id="S1" initialConcentration="10"/>
+      <species boundaryCondition="true" sboTerm="SBO:0000245" compartment="Cell" name="OUT" id="S2" initialConcentration="10"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="A" id="S3" initialConcentration="18"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="B1" id="S4" initialConcentration="41"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="B2" id="S5" initialConcentration="9"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000245" compartment="Cell" name="C" id="S6" initialConcentration="52"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="IMPORT" id="E1" initialConcentration="50"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="Diverge" id="E2" initialConcentration="11"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="Converge" id="E3" initialConcentration="22"/>
+      <species boundaryCondition="false" sboTerm="SBO:0000252" compartment="Cell" name="EXPORT" id="E4" initialConcentration="35"/>
+    </listOfSpecies>
+    <listOfReactions>
+      <reaction name="IMPORT" id="R1" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S1" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S3" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E1" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E1 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE1 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S1 </ci>
+                        <ci> KmIN </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE1 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S3 </ci>
+                        <ci> KmA </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S1 </ci>
+                      <ci> KmIN </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S3 </ci>
+                      <ci> KmA </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE1"/>
+            <parameter value="1" id="VrE1"/>
+            <parameter value="1" id="KmIN"/>
+            <parameter value="1" id="KmA"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="Diverge" id="R2" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S3" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S4" sboTerm="SBO:0000011"/>
+          <speciesReference stoichiometry="1" species="S5" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E2" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E2 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE2 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S3 </ci>
+                        <ci> KmA </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE2 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S4 </ci>
+                          <ci> KmB1 </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S5 </ci>
+                          <ci> KmB2 </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S3 </ci>
+                      <ci> KmA </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S4 </ci>
+                        <ci> KmB1 </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S5 </ci>
+                        <ci> KmB2 </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE2"/>
+            <parameter value="1" id="VrE2"/>
+            <parameter value="1" id="KmA"/>
+            <parameter value="1" id="KmB1"/>
+            <parameter value="1" id="KmB2"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="Converge" id="R3" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S4" sboTerm="SBO:0000015"/>
+          <speciesReference stoichiometry="1" species="S5" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S6" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E3" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E3 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE3 </ci>
+                    <apply>
+                      <times/>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S4 </ci>
+                          <ci> KmB1 </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                      <apply>
+                        <power/>
+                        <apply>
+                          <divide/>
+                          <ci> S5 </ci>
+                          <ci> KmB2 </ci>
+                        </apply>
+                        <cn type="integer"> 1 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE3 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S6 </ci>
+                        <ci> KmC </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <times/>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S4 </ci>
+                        <ci> KmB1 </ci>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> S5 </ci>
+                        <ci> KmB2 </ci>
+                      </apply>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S6 </ci>
+                      <ci> KmC </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE3"/>
+            <parameter value="1" id="VrE3"/>
+            <parameter value="1" id="KmB1"/>
+            <parameter value="1" id="KmB2"/>
+            <parameter value="1" id="KmC"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction name="EXPORT" id="R4" reversible="true" sboTerm="SBO:0000176">
+        <listOfReactants>
+          <speciesReference stoichiometry="1" species="S6" sboTerm="SBO:0000015"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference stoichiometry="1" species="S2" sboTerm="SBO:0000011"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="E4" sboTerm="SBO:0000460"/>
+        </listOfModifiers>
+        <kineticLaw sboTerm="SBO:0000268">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">          
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> E4 </ci>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> VfE4 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S6 </ci>
+                        <ci> KmC </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <times/>
+                    <ci> VrE4 </ci>
+                    <apply>
+                      <power/>
+                      <apply>
+                        <divide/>
+                        <ci> S2 </ci>
+                        <ci> KmOUT </ci>
+                      </apply>
+                      <cn type="integer"> 1 </cn>
+                    </apply>
+                  </apply>
+                </apply>
+              </apply>
+              <apply>
+                <minus/>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S6 </ci>
+                      <ci> KmC </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> S2 </ci>
+                      <ci> KmOUT </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <cn type="integer"> 1 </cn>
+              </apply>
+            </apply>
+          </math>
+                  <listOfParameters>
+            <parameter value="1" id="VfE4"/>
+            <parameter value="1" id="VrE4"/>
+            <parameter value="1" id="KmC"/>
+            <parameter value="1" id="KmOUT"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

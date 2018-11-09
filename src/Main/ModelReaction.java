@@ -25,11 +25,9 @@ public class ModelReaction {
     private ArrayList<Parameter> parameters = new ArrayList();
     private ArrayList<LocalParameter> localparameters;
     private Enzyme enzyme;
-    private String a, b, e, p, q;                       //for storing species id.
-    private String aName, bName, pName, qName;          //for storing species Name.
+    private String e;    
     private boolean proteinkinetics;
     private String[] subName, subID, prodName, prodID;
-    private ArrayList<Double> CKparameters = new ArrayList<>();  //parameters for convenience kinetics
     private int regulation;                     //determines type of regulation, 1 for none, 2 for activation, 3 for inhibition
     private ArrayList substoichio, prodstoichio;
     private ArrayList<Compound> modifier;

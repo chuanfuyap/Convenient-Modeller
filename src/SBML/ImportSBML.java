@@ -57,6 +57,7 @@ public class ImportSBML {
         return sbmldoc;
     }
 
+    @Override
     public String toString() {
         return sbmldoc.getModel().toString();
     }

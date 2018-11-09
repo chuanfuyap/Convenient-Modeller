@@ -76,12 +76,10 @@ public class FunctionBuilder {
             ArrayList substoichio = Reaction.getSubStoichio();
             ArrayList prodstoichio = Reaction.getProdStoichio();
             
-//            System.out.println(Reaction.getName());
             Function = new CKFunction(subconc, prodconc, kpvalue, enzconc, regulation, modconc, substoichio, prodstoichio);
             
             AllFunctions.put(ReactionName, Function);
             solvedFunctions.put(ReactionID, Function.SolveFunction());
-//            System.out.println(ReactionID+"\t"+Function.SolveFunction());
         }
         
     }

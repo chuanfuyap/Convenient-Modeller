@@ -17,16 +17,7 @@ public class ConditionInfo {
     private HashMap Enz_Conc_to_Update = new HashMap<>();
     private HashMap BC_true_Met_to_Update = new HashMap<>();
     private HashMap solved_Met_Map = new HashMap<>();
-    private HashMap solved_Flux_Map = new HashMap<>();
-    
-    private boolean SteadyState_OR_TimeCourse_data;
-    
-    private HashMap TCmetMap = new HashMap<>();
-    private HashMap TCprotMap = new HashMap<>();
-    private HashMap TCfluxMap = new HashMap<>();
-    private HashMap TCestMetMap = new HashMap<>();
-    private HashMap TCestProtMap = new HashMap<>();
-    private HashMap TCestFluxMap = new HashMap<>();
+    private HashMap solved_Flux_Map = new HashMap<>();    
     
     private boolean good_OR_bad_solution_forModel=false;
     

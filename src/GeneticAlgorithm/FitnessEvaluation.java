@@ -10,7 +10,6 @@ import Species.Compound;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 import org.sbml.jsbml.validator.ModelOverdeterminedException;
 import java.util.concurrent.Executors;

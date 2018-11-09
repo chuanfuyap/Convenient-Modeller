@@ -6,7 +6,6 @@
 package GeneticAlgorithm;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.xml.stream.XMLStreamException;
@@ -28,7 +27,6 @@ public class GAlgorithm {
 
     private Population Main_Population;
     private Population newgeneration;                    //arraylist of new generation produced by crossing over
-    private boolean SS;                 //SS to determine data being estimated is of SteadyState or of Time Course data, TRUE IF SS
     private SystemToSolve bioSystem;
     private FitnessEvaluation fitness;
    

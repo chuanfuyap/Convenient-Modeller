@@ -1612,18 +1612,6 @@ public class MainWindow extends javax.swing.JFrame {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
                 ExportSBML modelConvertor=null;
-//                for(int i =0;i<allthereactions.size();i++){
-//                    int idtrack = i+1;
-//                    allthereactions.get(i).setReactionID("R"+idtrack);
-//                }
-//                for(int i =0;i<allthespecies.size();i++){
-//                    int idtrack = i+1;
-//                    allthespecies.get(i).setID("S"+idtrack);
-//                }
-//                for(int i =0;i<alltheenzymes.size();i++){
-//                    int idtrack = i+1;
-//                    alltheenzymes.get(i).setID("E"+idtrack);
-//                }
                 if(GAdone){
                     modelConvertor = new ExportSBML(allthereactions, allthespecies, alltheenzymes, modelName, parameters);
                 }else{
@@ -1649,7 +1637,6 @@ public class MainWindow extends javax.swing.JFrame {
                         //sbml2doc.writeDocument(file.getPath());
                     }
                 } else {
-                    System.out.println(fc.getCurrentDirectory());
                     if (file.getPath().contains(".xml"))
                 {
                     SBMLWriter.write(sbml2doc, file.getPath(), file.getPath(), "X");
@@ -1821,23 +1808,8 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 else if(frame.GeneticAlgorithm.isDone()==true){
                     parameters = frame.getParameters();
-                    for(double num : parameters){
-                        System.out.println(num);
-                    }
                     GAdone=true;
                 }
-//                for(int i =0;i<allthereactions.size();i++){
-//                    int idtrack = i+1;
-//                    allthereactions.get(i).setReactionID("R"+idtrack);
-//                }
-//                for(int i =0;i<allthespecies.size();i++){
-//                    int idtrack = i+1;
-//                    allthespecies.get(i).setID("S"+idtrack);
-//                }
-//                for(int i =0;i<alltheenzymes.size();i++){
-//                    int idtrack = i+1;
-//                    alltheenzymes.get(i).setID("E"+idtrack);
-//                }
                 if(GAdone){                    
                     modelConvertor = new ExportSBML(allthereactions, allthespecies, alltheenzymes, modelName, parameters);
                 }else{
@@ -1859,11 +1831,9 @@ public class MainWindow extends javax.swing.JFrame {
                             JOptionPane.OK_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE);
                     if (response == JOptionPane.OK_OPTION) {
-                        SBMLWriter.write(sbml2doc, file.getPath(), file.getPath(), "X");    //(sbmldoc, file name, program name, version)
-                        //sbml2doc.writeDocument(file.getPath());
+                        SBMLWriter.write(sbml2doc, file.getPath(), file.getPath(), "X");    //(sbmldoc, file name, program name, version)                       
                     }
                 } else {
-                    System.out.println(fc.getCurrentDirectory());
                     if (file.getPath().contains(".xml"))
                 {
                     SBMLWriter.write(sbml2doc, file.getPath(), file.getPath(), "X");
@@ -1871,16 +1841,14 @@ public class MainWindow extends javax.swing.JFrame {
                 }else {
                     SBMLWriter.write(sbml2doc, file.getPath()+".xml", file.getPath(), "X");
                 }
-                    //sbml2doc.writeDocument(file.getPath() + ".xml");
-                }
-                
+                }                
                 System.out.println("Saving model: " + file.getPath());
                 importedmodel=true;
             }else{
                 System.out.println("Exporting SBML File command cancelled by user");
             }
             }else{
-                System.out.println("something wong");
+                System.out.println("something wrong");
                 if(missingSpecies.size()>0){
                     missingSpeciesText.append("Missing Species: \n");
                     for(String missing : missingSpecies){

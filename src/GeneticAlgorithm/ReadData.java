@@ -20,11 +20,8 @@ import java.util.HashMap;
  */
 public class ReadData {
     private String[] IDs;
-    private double[] SSvalues;
-    private HashMap SSdata = new HashMap<>(); //steady state data
     private HashMap TCdata = new HashMap<>(); //time course data
     private boolean SSorTC = true;      //true for steady state, false for Time course data
-//    private boolean multi_or_single_condition = false;     //true for multi condition, false for single condition
     private ArrayList time=new ArrayList<>();
     private ArrayList<HashMap> conditions = new ArrayList<>();
     
@@ -51,15 +48,6 @@ public class ReadData {
             
             if (SSorTC==true){  //true for steady state data
                 IDs= firstline.split("\\s");
-//                if(IDs.length<=2){
-//                    for(Object row : lines){
-//                        
-//                        String holder = (String) row;
-//                        String[] token = holder.split("\\s");
-//                        SSdata.put(token[0],Double.parseDouble(token[1]));
-//                    }                
-//                }else{
-//                    multi_or_single_condition = true;
                     int conditions_count = IDs.length - 1;
                     for(int i = 0; i<conditions_count; i++){
                         HashMap ss_condition = new HashMap<>();
@@ -72,9 +60,7 @@ public class ReadData {
                         }
                         conditions.add(ss_condition);
                     }
-                    
-//                }
-                
+                                    
             }else{      //handling time course data.
                 IDs=firstline.split("\\s");
                 int row = lines.size();
@@ -116,14 +102,6 @@ public class ReadData {
     public String[] getID(){
         return IDs;
     }
-//    
-//    public double[] getSSvalues(){
-//        return SSvalues;
-//    }
-//    
-//    public HashMap getSSdata(){
-//        return SSdata;
-//    }
     
     public HashMap getTCdata(){
         return TCdata;
@@ -142,10 +120,6 @@ public class ReadData {
         return timecourse;
     }
     
-//    public boolean isitSingleOrMulti(){
-//        return multi_or_single_condition;
-//    }
-//    
     public ArrayList getMCdata(){
         return conditions;
     }

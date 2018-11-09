@@ -49,7 +49,6 @@ public class TsvToModel {
                 }
             }            
         });
-//        System.out.println(datas.stream().count()); // to count number of lines in files
         ExportSBML modelConvertor = new ExportSBML(reactions, metabolites, enzymes, "test_model");
         SBMLDocument sbml2doc = new SBMLDocument(modelConvertor.getsbmldoc());
         SBMLWriter.write(sbml2doc, new File(outputFileLink) , "output", "X");

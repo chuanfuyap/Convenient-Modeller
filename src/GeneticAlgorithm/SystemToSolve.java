@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import javax.xml.stream.XMLStreamException;
 import odeBridge.TCodesolve;
 import org.apache.commons.math3.random.RandomDataGenerator;
@@ -33,12 +32,6 @@ public class SystemToSolve {
     private ArrayList<Integer> rRateCIndex = new ArrayList<>();
     private ArrayList<Integer> kaRateCIndex = new ArrayList<>(); //rate constant index
     private ArrayList<Integer> kiRateCIndex = new ArrayList<>();
-//    private HashMap metMap = new HashMap<>();
-//    private HashMap fluxMap = new HashMap<>();
-//    private HashMap Enz_Conc_to_Update = new HashMap<>();
-//    private HashMap BC_true_Met_to_Update = new HashMap<>();
-//    private HashMap solved_Met_Map = new HashMap<>();
-//    private HashMap solved_Flux_Map = new HashMap<>();
     private HashMap TCmetMap = new HashMap<>();
     private HashMap TCprotMap = new HashMap<>();
     private HashMap TCfluxMap = new HashMap<>();
@@ -49,25 +42,17 @@ public class SystemToSolve {
     private String link;
     private String originallink;
     private boolean SteadyState_OR_TimeCourse_data;
-//    private boolean multiple_OR_single_condition_data;
     private ReadData data;
     private boolean good_OR_bad_solution_forModel=false;
-    private ArrayList<ConditionInfo> conditions_list = new ArrayList();
-    
-    private ArrayList multi_condition_data;
-    
+    private ArrayList<ConditionInfo> conditions_list = new ArrayList();    
+    private ArrayList multi_condition_data;    
     private double[] metabolites;
     
-    
-//    private int activeCompNum;
-//    private double[] estimatedMet;
-//    private double[] estimatedFlux;
     public SystemToSolve(){}
     
     public SystemToSolve(String Link, ReadData data) throws IOException, XMLStreamException, ModelOverdeterminedException{
         this.data=data;
         SteadyState_OR_TimeCourse_data = data.SSorTC();
-//        multiple_OR_single_condition_data = data.isitSingleOrMulti();
         File SBMLFile = new File(Link);
         this.modelreactions = new SBMLFile(SBMLFile);
         this.Compounds=modelreactions.returncompounds();
@@ -76,60 +61,11 @@ public class SystemToSolve {
         this.link=Link;
         this.originallink=Link;
         
-        //to store number of active compounds that would be varying in concentration;
-//        activeCompNum=0;
-//        for (Compound comp: Compounds){
-//            if (comp.getBoundaryCondition()==false){
-//                activeCompNum++;
-//            }
-//        }
         store_parameter_count_and_make_parameterIndex();
         
-//        HashMap ssdata;
         HashMap tcdata;
         if(SteadyState_OR_TimeCourse_data==true){ // for steady state data, which is most data
-//            if(!multiple_OR_single_condition_data){//single condition data
-//                ssdata = data.getSSdata();
-//
-//                boolean do_we_have_metabolites = is_there_metabolites(ssdata);
-//                boolean do_we_have_fluxes = is_there_fluxes(ssdata);
-//                boolean do_we_have_proteins = is_there_proteins(ssdata);
-//
-//                //storing the initial concentration of the active compounds and the SS value from input data for PE;
-//                if (do_we_have_metabolites!=false){
-//                    for (Compound compound : Compounds){
-//                        if (compound.getBoundaryCondition()==false){
-//                            if(ssdata.containsKey(compound.getID())==true){
-//                                metMap.put(compound.getID(), ssdata.get(compound.getID()));
-//                            }
-//                        }
-//                        if (compound.getBoundaryCondition()==true){
-//                            if(ssdata.containsKey(compound.getID())==true){
-//                                BC_true_Met_to_Update.put(compound.getID(), ssdata.get(compound.getID()));
-//                            }
-//                        }
-//                    }
-//                }
-//                if (do_we_have_proteins!=false){
-//                    for (Enzyme enz : Enzymes){
-//                        if(ssdata.containsKey(enz.getID())==true){
-//                            Enz_Conc_to_Update.put(enz.getID(),ssdata.get(enz.getID()));
-//                        }
-//                    }
-//                }
-//
-//                if (do_we_have_fluxes!=false){
-//                    for (ModelReaction reaction : Reactions){
-//                        if(ssdata.containsKey(reaction.getReactionID())==true){
-//                            fluxMap.put(reaction.getReactionID(),ssdata.get(reaction.getReactionID()));
-//                        }
-//                    }
-//                }else{
-//                    fluxMap =null;
-//                }
-            
-//            }
-//            else{//multiple condition data
+
             multi_condition_data = data.getMCdata();
 
             for (int i =0;i<multi_condition_data.size();i++){
@@ -184,7 +120,6 @@ public class SystemToSolve {
 
                 conditions_list.add(cond_info);
             }
-//            }
         }
         
         else{   //for time course data which is severely lacking
@@ -227,11 +162,8 @@ public class SystemToSolve {
     }
     
     public void solve_ODE_model(double[] parameters, String mem_address) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, XMLStreamException, IOException {
-//        estimatedMet = new double[activeCompNum];
-//        estimatedFlux = new double[Reactions.size()];
-        
+    
         if(SteadyState_OR_TimeCourse_data==true){       //solve model for steady state values
-//            if(!multiple_OR_single_condition_data){       //solve model for only one condition
             for (int i =0; i<conditions_list.size(); i++){
                 HashMap Enz_Conc_to_Update = conditions_list.get(i).get_proteins_info();
                 HashMap BC_true_Met_to_Update = conditions_list.get(i).get_BCTrue_metabolites_info();
@@ -277,19 +209,14 @@ public class SystemToSolve {
                 if(steadystateresults.solveSS()==true){
                     conditions_list.get(i).store_Solved_metmap(steadystateresults.getSolvedMMap());
                     conditions_list.get(i).store_Solved_fluxmap(steadystateresults.getSolvedFMap());
-//                    metabolites = steadystateresults.getSolvedVector();
                     good_OR_bad_solution_forModel=true;
                 }else{
                     good_OR_bad_solution_forModel=false;
                 }
                 tmpxml.delete();
-//            }
-//            else{       //solve models for multiple conditions
-                
+
                     
             }
-            
-//            }
             
         }
         else{       //solve model for time series output/values
@@ -333,25 +260,6 @@ public class SystemToSolve {
             }
         }
     }
-    
-//    deprecated?
-//    public double[] getEstMet(){
-//        return estimatedMet;
-//    }
-//    public double[] getEstFlux(){
-//        return estimatedFlux;
-//    }
-//    public int getActiveCount(){
-//        return activeCompNum;
-//    }
-//    
-//    public HashMap getEstMetMap(){
-//        return solved_Met_Map;
-//    }
-//
-//    public HashMap getEstFluxMap(){
-//        return solved_Flux_Map;
-//    }
     
     public HashMap getTCmetMap(){
         return TCmetMap;
@@ -415,15 +323,7 @@ public class SystemToSolve {
     public int getParametersCount(){
         return totalParameters;
     }
-        
-//    public HashMap getMetMap(){
-//        return metMap;
-//    }
-//        
-//    public HashMap getFluxMap(){
-//        return fluxMap;
-//    }
-//    
+     
     public ArrayList<Compound> getCompounds(){
         return Compounds;
     }

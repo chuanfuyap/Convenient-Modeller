@@ -22,8 +22,6 @@ import org.sbml.jsbml.validator.ModelOverdeterminedException;
 
 public class MAPE implements Runnable {
     
-//    HashMap expMet;             //expected metconc values
-//    HashMap expFlux;            //expected flux values
     HashMap TCexpMet;             //expected metconc values
     HashMap TCexpFlux;            //expected flux values
     SystemToSolve bioSystem;
@@ -71,7 +69,6 @@ public class MAPE implements Runnable {
             int fluxtrack=0;
 
             if(bioSystem.goodsolution()==false){
-//                pop.pop.get(index).setF(1e-100);
                 f[i] = 1e-100;
             }else{
                 if(expMet!=null){
@@ -244,9 +241,6 @@ public class MAPE implements Runnable {
 
                 summed_error+=metdifference+fluxdifference;
             }
-
-//            f = 1.0 / (1.0 + summed_error);         //bigger the error, lower the f, closer to 1 the better the fitness
-//            pop.pop.get(index).setF(f);
             
             double[] output = new double[TCMetEst.size()+TCMetEst.size()];
             int counter=0;

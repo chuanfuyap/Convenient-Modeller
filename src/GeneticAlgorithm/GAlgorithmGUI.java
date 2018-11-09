@@ -34,7 +34,6 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
 
     private Population population;
     private Population newgeneration;                    //arraylist of new generation produced by crossing over
-    private boolean SS;                 //SS to determine data being estimated is of SteadyState or of Time Course data, TRUE IF SS
     private SystemToSolve bioSystem;
     public FitnessEvaluation fitness;
     private boolean cancellation = false;

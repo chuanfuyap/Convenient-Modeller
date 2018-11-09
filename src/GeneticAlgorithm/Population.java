@@ -73,7 +73,6 @@ public class Population {
                     brandnew.x[j]=Math.pow(10, num);
                     counter4++;
                 }else{
-//                    double num = this.RN(-4.7, 3.3); // yeast
                     double num = this.RN(-2.5, 3); //leaf
                     brandnew.x[j]=Math.pow(10, num);
                 }

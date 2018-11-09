@@ -35,25 +35,18 @@ public class CKFunction {
         KiPa = Parameters.toArray(new Double[numKP]);
         Enz = E;
         
-//        for(double num : KiPa){
-//            System.out.println(num);
-//        }
-//        System.out.println();
-        
         Vf = KiPa[0]; Vr = KiPa[1];
         KSub = new double[numSub];
         KProd = new double[numProd];
         int track = 2;
         if(regulation==2||regulation==3){
             KMod=KiPa[track];
-//            System.out.println("mod\t" +KMod);
             track++;
         }else if (regulation == 4){
             KMod=KiPa[track];
             track++;
             KMod2=KiPa[track];
             track++;
-//            System.out.println("mod\t"+KMod+"\t"+KMod2);
         }
         for(int i =0; i<numSub;i++){
             KSub[i]=KiPa[track];

@@ -69,7 +69,6 @@ public class sosLIBssSolver {
             solution=wasitGood();       //added check for when there is CVODE error which gives me back initial values and a timepointNeed of 1
         }
         }
-//        System.out.println(solution);
         return solution;
     }
     

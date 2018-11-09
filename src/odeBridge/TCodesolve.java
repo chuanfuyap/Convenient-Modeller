@@ -35,11 +35,9 @@ public class TCodesolve {
         reactionID2=rID2;
     }
     public interface soslibbridge extends Library{
-        soslibbridge bridge = (soslibbridge) Native.loadLibrary("./lib/SOSLib/dist/sosLibLinkv3.so", soslibbridge.class);
+        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/opt/lib/sosLibLinkv3.so", soslibbridge.class);
         
-//        ByValue runn(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID, int time);
         void TCrunSolver(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID, int rIDsize, Pointer rID2, Pointer time, int last, PointerByReference RowArray, IntByReference RowCount);
-//        void outputcleanup(Pointer pVals);
         void TCarrayCleanup(Pointer RowArray, int count);
         
     }
