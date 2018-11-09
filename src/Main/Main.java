@@ -64,9 +64,7 @@ public class Main {
                 {
                     String modelfile = args[1];
                     String datafile = args[2];
-                    //optional
                     String outputlink = args[3];
-                    //String rangefile = args[3];
                     Script runScript = new Script();
                     runScript.addModel(modelfile);
                     runScript.addData(datafile);
@@ -76,10 +74,12 @@ public class Main {
                 }
             default:
                 {
-                    JFrame f = new MainWindow();
-                    f.pack();
-                    f.setVisible(true);
-                    f.setLocation(600, 100);                                 // determines where in the comp screen it shows up    
+                    System.out.println("Please Enter One of the Following Options\n"
+                            + "GUI       - to use the graphical user interface of the tool.\n"
+                            + "makemodel - to convert a tab separated file to SBML file\n"
+                            + "            e.g. makemodel model_info.txt output_sbml.xml\n"
+                            + "runGA     - to run parameter estimation when given model and fitting data\n"
+                            + "            e.g. runGA model.xml fitting_data.txt output_sbml.xml");
                     break;
                 }
         }

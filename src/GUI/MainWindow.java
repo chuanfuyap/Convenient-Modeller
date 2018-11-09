@@ -2369,19 +2369,23 @@ public class MainWindow extends javax.swing.JFrame {
             int returnVal = fc.showOpenDialog(this);
 
             File datafile = null;
+            String fileName = null;
 
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                datafile = fc.getSelectedFile();                
+                datafile = fc.getSelectedFile();
+                fileName = datafile.getPath();
                 //This is where a real application would open the file.
+                if (fileName.contains(".txt")){
+                    FittingData = new ReadData(datafile);                
+                    RunParameterEstimation.setEnabled(true);
+                    
+                    System.out.println("Selected Data File: " + datafile.getName() + "\n");
+                }else{
+                    JOptionPane.showMessageDialog(null, "File Format NOT supported", "File Open Error", JOptionPane.ERROR_MESSAGE);
+                }
 
-                System.out.println("Selected Data File: " + datafile.getName() + "\n");
             } else {
                 System.out.println("Importing Data File command cancelled by user");
-            }
-            if(datafile!=null){
-                FittingData = new ReadData(datafile);
-                
-                RunParameterEstimation.setEnabled(true);
             }
 
         } catch (Exception e) {

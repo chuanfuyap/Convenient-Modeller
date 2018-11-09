@@ -35,10 +35,13 @@ public class ReadData {
                                             new FileInputStream(datafile)));
             
             ArrayList lines = new ArrayList();            
-            String line;
-            while ((line = input.readLine()) != null) {
-                lines.add(line);
-            }
+            
+            input.lines().forEach((line) -> {
+                if(line.trim().length()>0){
+                    lines.add(line);
+                }
+            });
+
             
             String firstline = (String) lines.get(0);
             String[] temp = firstline.split("\\s");
@@ -65,11 +68,7 @@ public class ReadData {
                 IDs=firstline.split("\\s");
                 int row = lines.size();
                 int col = IDs.length;
-                
-                while ((line = input.readLine()) != null) {
-                    row++;
-                }
-                
+                                
                 String[][] timeCoursedata = new String[row][col];
                 
                 for (int i =0 ; i<row; i++){
