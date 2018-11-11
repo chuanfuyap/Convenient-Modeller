@@ -35,9 +35,9 @@ public class FitnessEvaluation  {
         this.Reactions=bioSystem.getReactions();
     }
     
-    public void InitialEvaluation(Population pop) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
+    public void InitialEvaluation(Population pop, int numCore) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
     
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numCore);
         for(int i =0; i < pop.pop.size();i++){        
             MAPE PET = new MAPE(bioSystem, pop, i);
             executor.execute(PET);
@@ -64,9 +64,9 @@ public class FitnessEvaluation  {
         }
     }
     
-    public void evaluatePop(Population pop) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
+    public void evaluatePop(Population pop, int numCore) throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
 
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(3);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(numCore);
         for(int i =0; i < pop.pop.size();i++){        
             MAPE PET = new MAPE(bioSystem, pop, i);
             executor.execute(PET);

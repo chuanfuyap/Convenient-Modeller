@@ -30,6 +30,8 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
     private int plateaulimit;
     private int plagueCount;
     
+    private int numCore;
+    
     private double[] params;            //array to hold the final estimated parameter
 
     private Population population;
@@ -44,15 +46,17 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
                                                                                         //this clone would prevent the reordering of the population
     private ArrayList fitnessScore = new ArrayList<>();
     
-    public GAlgorithmGUI(SystemToSolve bioSystem, Boolean SS, int popsize, int maxgen, int plateau, int plague) {
+    public GAlgorithmGUI(SystemToSolve bioSystem, Boolean SS, int popsize, int maxgen, int plateau, int plague, int numCore, double[][] general_kp_range) {
         this.bioSystem = bioSystem;                                 //generate systemtosolve object from the sbml file and inputdata txt file
         this.popsize=popsize;
         this.maxgens=maxgen;
         this.plateaulimit=plateau;
         this.plagueCount=plague;
+        
+        this.numCore=numCore;
        
         nparam = bioSystem.getParametersCount();                    //get the number of parameters from systemtosolve object
-        population = new Population(nparam);    //generate new population
+        population = new Population(nparam, bioSystem, general_kp_range);    //generate new population
         population.initializePopulation(bioSystem, popsize);                          //initialize the new population    
         
         fitness = new FitnessEvaluation(bioSystem);      //object for fitness evaluation 
@@ -68,7 +72,7 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
             double best_ever = 1e-35;
             Individual best = new Individual(nparam);                               //placeholder for fittest individual
             ProgressFrame.estimationProgressOutput.append("starting size: "+popsize+"\n");
-            fitness.InitialEvaluation(population);                                  //initial evaluation of the entire population
+            fitness.InitialEvaluation(population,numCore);                                  //initial evaluation of the entire population
             ProgressFrame.estimationProgressOutput.append("INITIAL EVALUATION DONE\n");
             int miss = fitness.getMissing();                                         //num would be the number of individuals that are deleted as a result of f=1e-100
             System.out.println(miss +"\t bad individuals");
@@ -76,7 +80,7 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
             while(population.pop.size()<popsize && !cancellation){                                   //determine if they are individuals that produce f=1e-100
                 Population replacement = new Population(nparam);
                 replacement.initializePopulation(bioSystem, popsize);
-                fitness.InitialEvaluation(replacement);
+                fitness.InitialEvaluation(replacement,numCore);
                 
                 population.pop.addAll(replacement.pop);
                 System.out.println(replacement.pop.size()+"\t of replacement added\t|new pop count:\t"+population.pop.size());
@@ -227,7 +231,7 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
         nextgen.pop.add(royalty);
         nextgen.pop.add(mutantroyalty);
 
-        fitness.evaluatePop(nextgen);
+        fitness.evaluatePop(nextgen,numCore);
         
         return nextgen;
     }

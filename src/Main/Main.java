@@ -31,6 +31,7 @@ public class Main {
         int maxgen=20;
         int plateau=1;
         int plague=5;
+        int numCore=7;
 
         double[][] general_range = new double[5][2];
         double[] fr={3, 4.2};
@@ -69,7 +70,7 @@ public class Main {
                     runScript.addModel(modelfile);
                     runScript.addData(datafile);
                     runScript.build();
-                    runScript.runGA(outputlink, popsize, maxgen, plateau, plague, general_range);
+                    runScript.runGA(outputlink, popsize, maxgen, plateau, plague, numCore, general_range);
                     break;
                 }
             default:

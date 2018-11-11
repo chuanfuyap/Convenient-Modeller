@@ -23,6 +23,8 @@ public class GAlgorithm {
     private int plateaulimit;
     private int plagueCount;
     
+    private int numCore;
+    
     private ArrayList top30params = new ArrayList();            //array to hold the final estimated parameter
 
     private Population Main_Population;
@@ -36,12 +38,15 @@ public class GAlgorithm {
                                                                                         //this clone would prevent the reordering of the population
     private ArrayList fitnessScore = new ArrayList<>();
     
-    public GAlgorithm(SystemToSolve bioSystem, Boolean SS, int popsize, int maxgen, int plateau, int plague, double[][] general_kp_range){
+    
+    public GAlgorithm(SystemToSolve bioSystem, Boolean SS, int popsize, int maxgen, int plateau, int plague, int numCore,double[][] general_kp_range){
         this.bioSystem = bioSystem;                                 //generate systemtosolve object from the sbml file and inputdata txt file
         this.popsize=popsize;
         this.maxgens=maxgen;
         this.plateaulimit=plateau;
         this.plagueCount=plague;
+        
+        this.numCore=numCore;
         
         nparam = bioSystem.getParametersCount();                    //get the number of parameters from systemtosolve object
         Main_Population = new Population(nparam, bioSystem, general_kp_range);    //generate new population
@@ -56,7 +61,7 @@ public class GAlgorithm {
         Individual best = new Individual(nparam);                               //placeholder for fittest individual
         System.out.println("starting size: "+popsize);
             
-        fitness.InitialEvaluation(Main_Population);                                  //initial evaluation of the entire population
+        fitness.InitialEvaluation(Main_Population, numCore);                                  //initial evaluation of the entire population
         System.out.println("\033[34m" + "INITIAL EVALUATION DONE; HEALTHY SIZE IS:"+"\u001B[0m"+Main_Population.pop.size());
             
         int miss = fitness.getMissing();                                         //num would be the number of individuals that are deleted as a result of f=1e-100 
@@ -65,7 +70,7 @@ public class GAlgorithm {
         while(Main_Population.pop.size()<popsize){                                   //determine if they are individuals that produce f=1e-100            
             Population replacement = new Population(nparam, bioSystem, Main_Population.getRange());
             replacement.initializePopulation(bioSystem, popsize);            
-            fitness.InitialEvaluation(replacement);
+            fitness.InitialEvaluation(replacement, numCore);
             
             Main_Population.pop.addAll(replacement.pop);
             
@@ -157,7 +162,7 @@ public class GAlgorithm {
                     ArrayList<Individual> adaptMutants = Main_Population.mutateAll(); 
                     Population adapt = new Population(nparam, bioSystem, Main_Population.getRange());
                     adapt.pop.addAll(adaptMutants);
-                    fitness.evaluatePop(adapt);
+                    fitness.evaluatePop(adapt, numCore);
                     Main_Population.pop.addAll(adapt.pop);
                 }
             }
@@ -227,7 +232,7 @@ public class GAlgorithm {
         nextgen.pop.add(royalty);
         nextgen.pop.add(mutantroyalty);
 
-        fitness.evaluatePop(nextgen);
+        fitness.evaluatePop(nextgen, numCore);
         
         return nextgen;
     }

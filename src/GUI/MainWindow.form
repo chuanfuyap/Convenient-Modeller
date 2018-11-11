@@ -302,7 +302,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="PopulationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="populationText" linkSize="12" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -322,7 +322,7 @@
                       <Component id="PlagueLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="plagueText" linkSize="12" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -350,17 +350,17 @@
         </Component>
         <Component class="javax.swing.JTextField" name="populationText">
           <Properties>
-            <Property name="text" type="java.lang.String" value="100"/>
+            <Property name="text" type="java.lang.String" value="50"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="generationText">
           <Properties>
-            <Property name="text" type="java.lang.String" value="10000"/>
+            <Property name="text" type="java.lang.String" value="500"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="plateauText">
           <Properties>
-            <Property name="text" type="java.lang.String" value="225"/>
+            <Property name="text" type="java.lang.String" value="25"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="plagueText">
@@ -500,6 +500,17 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuNewModelActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="tsv_to_model">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+I"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Tsv to Model"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tsv_to_modelActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuSaveModel">

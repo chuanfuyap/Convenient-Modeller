@@ -8,6 +8,7 @@ package GUI;
 import GeneticAlgorithm.ReadData;
 import GeneticAlgorithm.SystemToSolve;
 import Main.ModelReaction;
+import Main.TsvToModel;
 import Reaction.MetabolicReaction;
 import SBML.ExportSBML;
 import SBML.ImportSBML;
@@ -231,6 +232,42 @@ public class MainWindow extends javax.swing.JFrame {
         numberofreactions.setText(Integer.toString(allthereactions.size()));
     }
     
+    private void addReactionsToReactionList_v2(ArrayList<ModelReaction> allthereactions){
+        
+        Object[][] reactioninfo = new Object[allthereactions.size()][5];
+        for(int i =0;i< allthereactions.size();i++){
+            reactioninfo[i][0]=i+1;
+            reactioninfo[i][1]=allthereactions.get(i).getEnzyme().getName();
+            if(allthereactions.get(i).getRegulation()>1){
+                switch (allthereactions.get(i).getRegulation()) {
+                    case 2:
+                        reactioninfo[i][2]=allthereactions.get(i).getModifier().get(0).getName();
+                        reactioninfo[i][3]="N/A";
+                        break;
+                    case 3:
+                        reactioninfo[i][2]="N/A";
+                        reactioninfo[i][3]=allthereactions.get(i).getModifier().get(0).getName();
+                        break;
+                    case 4:
+                        reactioninfo[i][2]=allthereactions.get(i).getModifier().get(0).getName();
+                        reactioninfo[i][3]=allthereactions.get(i).getModifier().get(1).getName();
+                        break;
+                    default:
+                        break;
+                }
+            }else {
+                reactioninfo[i][2]="N/A";
+                reactioninfo[i][3]="N/A";
+            }
+            
+            reactioninfo[i][4]=allthereactions.get(i).toString();
+            
+        }
+        setUpReactionTable(reactioninfo);
+        ///for building the reactiontable
+        numberofreactions.setText(Integer.toString(allthereactions.size()));
+    }
+    
     private Enzyme oldSBML(MetabolicReaction mReaction, Reaction reaction, ListOf modifiers, Enzyme e){
         
         System.out.println("there is more than 1 modifier in reaction: "+ reaction.getId());    
@@ -376,6 +413,28 @@ public class MainWindow extends javax.swing.JFrame {
                 allthespecies.add(newCompound);
             }
         }
+        Object[][] speciesinfo = new Object[allthespecies.size()][4];
+        Object[][] enzymeinfo = new Object[alltheenzymes.size()][3];
+        
+        for(int i =0; i<allthespecies.size(); i++){
+            speciesinfo[i][0]=i+1;
+            speciesinfo[i][1]=allthespecies.get(i).getName();
+            speciesinfo[i][2]=allthespecies.get(i).getConcentration();
+            speciesinfo[i][3]=allthespecies.get(i).getBoundaryCondition();
+        }
+        setUpSpeciesTable(speciesinfo);
+        for(int i =0; i<alltheenzymes.size(); i++){
+            enzymeinfo[i][0]=i+1;
+            enzymeinfo[i][1]=alltheenzymes.get(i).getName();
+            enzymeinfo[i][2]=alltheenzymes.get(i).getConcentration();
+        }
+        setUpEnzymeTable(enzymeinfo);
+        numberofspecies.setText(Integer.toString(allthespecies.size()));
+        numberofenzymes.setText(Integer.toString(alltheenzymes.size()));
+    }
+    
+    private void addSpeciesToSpeciesList_v2(ArrayList<Compound> allthespecies, ArrayList<Enzyme> alltheenzymes){
+        
         Object[][] speciesinfo = new Object[allthespecies.size()][4];
         Object[][] enzymeinfo = new Object[alltheenzymes.size()][3];
         
@@ -816,6 +875,7 @@ public class MainWindow extends javax.swing.JFrame {
         MenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menuNewModel = new javax.swing.JMenuItem();
+        tsv_to_model = new javax.swing.JMenuItem();
         menuSaveModel = new javax.swing.JMenuItem();
         menuOpenModel = new javax.swing.JMenuItem();
         menuSeparator = new javax.swing.JPopupMenu.Separator();
@@ -963,11 +1023,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         PlagueLabel.setText("Plague at every N Generation: ");
 
-        populationText.setText("100");
+        populationText.setText("50");
 
-        generationText.setText("10000");
+        generationText.setText("500");
 
-        plateauText.setText("225");
+        plateauText.setText("25");
 
         plagueText.setText("5");
 
@@ -1000,7 +1060,7 @@ public class MainWindow extends javax.swing.JFrame {
         GAparametersLayout.setVerticalGroup(
             GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GAparametersLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PopulationLabel)
                     .addComponent(populationText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1016,7 +1076,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PlagueLabel)
                     .addComponent(plagueText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         GAparametersLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {generationText, plagueText, plateauText, populationText});
@@ -1455,6 +1515,15 @@ public class MainWindow extends javax.swing.JFrame {
             });
             jMenu1.add(menuNewModel);
 
+            tsv_to_model.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+            tsv_to_model.setText("Tsv to Model");
+            tsv_to_model.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    tsv_to_modelActionPerformed(evt);
+                }
+            });
+            jMenu1.add(tsv_to_model);
+
             menuSaveModel.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
             menuSaveModel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/save.png"))); // NOI18N
             menuSaveModel.setText("Export Model");
@@ -1625,7 +1694,6 @@ public class MainWindow extends javax.swing.JFrame {
                             JOptionPane.QUESTION_MESSAGE);
                     if (response == JOptionPane.OK_OPTION) {
                         SBMLWriter.write(sbml2doc, file.getPath(), file.getPath(), "X");    //(sbmldoc, file name, program name, version)
-                        //sbml2doc.writeDocument(file.getPath());
                     }
                 } else {
                     if (file.getPath().contains(".xml"))
@@ -1635,7 +1703,6 @@ public class MainWindow extends javax.swing.JFrame {
                 }else {
                     SBMLWriter.write(sbml2doc, file.getPath()+".xml", file.getPath(), "X");
                 }
-                    //sbml2doc.writeDocument(file.getPath() + ".xml");
                 }
                 
                 System.out.println("Saving model: " + file.getPath());
@@ -1796,7 +1863,7 @@ public class MainWindow extends javax.swing.JFrame {
             File file = null;
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
-                ExportSBML modelConvertor=null;
+                ExportSBML modelConvertor;
                 if(frame==null){
                     GAdone=false;
                 }
@@ -2315,6 +2382,12 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void RunParameterEstimationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RunParameterEstimationActionPerformed
         Object[] options = {"Run","Cancel"};
+        populationText.setToolTipText("Number of models to be solved (high values would lead to longer parameter estimation time)");
+        generationText.setToolTipText("Maximum number of generations to go for before stopping even if optimal parameters aren’t found. (high values would lead to longer parameter estimation time)");
+        plateauText.setToolTipText("Number of generations where there is no further increase in fitness score. After reaching the given number, the process would stop. ");
+        plagueText.setToolTipText("Process of removing unfit individuals and maintaining only the initial population size at given number of generation.");
+        
+        
         int result = JOptionPane.showOptionDialog(null, GAparameters, "Parameters for Genetic Algorithm", JOptionPane.OK_CANCEL_OPTION, JOptionPane.NO_OPTION, null, options, options[0]);
         
         if (result == JOptionPane.OK_OPTION) {
@@ -2322,6 +2395,9 @@ public class MainWindow extends javax.swing.JFrame {
             int maxgen = Integer.parseInt(generationText.getText());
             int plateau = Integer.parseInt(plateauText.getText());
             int plague = Integer.parseInt(plagueText.getText());
+            int numCore=1;
+            double[][] general_kp_range=new double[5][2];;
+            
             if(FittingData!=null){
                 try {
                     boolean SS = FittingData.SSorTC();
@@ -2335,7 +2411,7 @@ public class MainWindow extends javax.swing.JFrame {
                     frame = new ProgressFrame();
                     frame.setVisible(true);
                     frame.setLocation(300, 180);
-                    frame.runGA(bioSystem, SS, popsize, maxgen, plateau, plague);
+                    frame.runGA(bioSystem, SS, popsize, maxgen, plateau, plague, numCore, general_kp_range);
                                         
                 } catch (XMLStreamException | SBMLException | ModelOverdeterminedException | IllegalArgumentException ex) {
                     Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -2421,6 +2497,67 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ModelNameTextFieldActionPerformed
 
+    private void tsv_to_modelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tsv_to_modelActionPerformed
+        // TODO add your handling code here:
+        try {
+            TsvToModel tsm = new TsvToModel();
+            
+            JFileChooser fc = new JFileChooser();
+            fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            int returnVal = fc.showOpenDialog(this);
+            String fileName;
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                fileName = file.getPath();
+                //This is where a real application would open the chosenfile.
+                if (fileName.contains(".txt")) {
+
+                    System.out.println("Converting Txt File " + file.getName() +" to Model.");
+                    tsm.build_model_from_tsv(fileName);
+                    build_model_using_tsv(tsm.get_metabolites(),  tsm.get_enzymes(), tsm.get_reactions());
+                    
+                    menuSaveModel.setEnabled(true);
+                    saveModelButton.setEnabled(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "File Format NOT supported", "File Open Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                                            "File Format NOT supported.",
+                                            "File Error",
+                                            JOptionPane.WARNING_MESSAGE);
+
+        }
+    }//GEN-LAST:event_tsv_to_modelActionPerformed
+
+    private void build_model_using_tsv(ArrayList metabolites, ArrayList enzymes, ArrayList reactions) {
+        try{
+            SpeciesBox.removeAllItems();
+            EnzymeBox.removeAllItems();
+            SpeciesBox.addItem("N/A");
+            allthereactions = reactions;
+            allthespecies = metabolites;
+            alltheenzymes = enzymes;
+            addReactionsToReactionList_v2(allthereactions);
+            addSpeciesToSpeciesList_v2(allthespecies, alltheenzymes);
+
+//            allthereactions.stream().forEach((rxn)->{
+//                System.out.println(rxn.toString());
+//            });
+
+        } catch (NullPointerException e) {
+             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Incompatible File format.", "Import Error", JOptionPane.ERROR_MESSAGE);
+            
+        }
+    }
+    
     private boolean checkModel() {
         boolean goodModel = false;
         missingSpecies.clear();
@@ -2636,6 +2773,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JSpinner sub2spin;
     private javax.swing.JComboBox sub3box;
     private javax.swing.JSpinner sub3spin;
+    private javax.swing.JMenuItem tsv_to_model;
     // End of variables declaration//GEN-END:variables
     private Object[][] SpeciesTableInfo = new Object [][] {
                 {1, "",  null, false}

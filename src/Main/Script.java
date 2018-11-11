@@ -60,8 +60,8 @@ public class Script {
         sys = new SystemToSolve(ModelLink, data);
     }
     
-    public void runGA(String outputLink, int popsize, int maxgen, int plateau, int plague, double[][] Grange)throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
-        GAlgorithm ga = new GAlgorithm(sys, true, popsize, maxgen, plateau, plague, Grange);
+    public void runGA(String outputLink, int popsize, int maxgen, int plateau, int plague, int numCore, double[][] Grange)throws ModelOverdeterminedException, InstantiationException, IllegalAccessException, IllegalArgumentException, NoSuchMethodException, InterruptedException, XMLStreamException, IOException{
+        GAlgorithm ga = new GAlgorithm(sys, true, popsize, maxgen, plateau, plague, numCore, Grange);
         ga.run();
         ArrayList params = ga.getParameters();
         ArrayList fitnessTrack = ga.getFitnessTrack();

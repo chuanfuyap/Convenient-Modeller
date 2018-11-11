@@ -30,6 +30,8 @@ public class TsvToModel {
     ArrayList<Enzyme> enzymes = new ArrayList();
     ArrayList<ModelReaction>  reactions = new ArrayList();
     
+    public TsvToModel(){}
+    
     public TsvToModel(String filelink, String outputFileLink) throws IOException, XMLStreamException{
 
         Path path = FileSystems.getDefault().getPath(filelink);
@@ -52,6 +54,28 @@ public class TsvToModel {
         ExportSBML modelConvertor = new ExportSBML(reactions, metabolites, enzymes, "test_model");
         SBMLDocument sbml2doc = new SBMLDocument(modelConvertor.getsbmldoc());
         SBMLWriter.write(sbml2doc, new File(outputFileLink) , "output", "X");
+    }
+    
+    public void build_model_from_tsv(String filelink) throws IOException, XMLStreamException{
+        
+        Path path = FileSystems.getDefault().getPath(filelink);
+        List<String> datas = Files.readAllLines(path);
+        
+        datas.stream().map(s -> s.trim()).filter(s -> !s.isEmpty()).forEach((line) -> {
+            String[] temp = line.split("\\s");
+            if(temp[0].charAt(0)!='#'){
+                if(temp.length==3){
+                    make_and_add_metabolites(temp);
+                }
+                if(temp.length==2){
+                    make_and_add_enzymes(temp);
+                }
+                if(temp.length>3){
+                    make_and_add_reactions(temp);
+                }
+            }            
+        });
+        
     }
     
     private Enzyme find_enzyme(String reaction_enzyme){
@@ -170,5 +194,17 @@ public class TsvToModel {
         }
         
         return metabolite;
+    }
+    
+    public ArrayList get_metabolites(){
+        return metabolites;
+    }
+    
+    public ArrayList get_enzymes(){
+        return enzymes;
+    }
+    
+    public ArrayList get_reactions(){
+        return reactions;
     }
 }

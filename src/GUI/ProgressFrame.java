@@ -128,8 +128,8 @@ public class ProgressFrame extends javax.swing.JFrame {
             }
         });
     }
-    public void runGA(SystemToSolve bioSystem, Boolean SS, int popsize, int maxgen, int plateau, int plague){
-        GeneticAlgorithm = new GAlgorithmGUI(bioSystem, SS, popsize, maxgen, plateau, plague);
+    public void runGA(SystemToSolve bioSystem, Boolean SS, int popsize, int maxgen, int plateau, int plague, int numCore, double[][] general_kp_range){
+        GeneticAlgorithm = new GAlgorithmGUI(bioSystem, SS, popsize, maxgen, plateau, plague, numCore, general_kp_range);
         GeneticAlgorithm.execute();
     }
         
