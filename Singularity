@@ -1,9 +1,6 @@
 Bootstrap: docker
 From: ubuntu:16.04
 
-%files
-grape2jar_files.zip /opt
-
 %post
 apt -y update
 apt-get -y install autotools-dev
@@ -42,14 +39,24 @@ make
 make install
 
 cd /opt
-unzip grape2jar_files.zip
-
-cd /opt
 wget -O soslibJNIC.zip https://github.com/chuanfuyap/soslibJNIC/archive/master.zip
 unzip soslibJNIC.zip
 cd soslibJNIC-master/
 make
 cp ./dist/sosLibLinkv3.so /opt/lib
+
+cd /opt
+wget -O GRaPe2.zip https://github.com/chuanfuyap/GRaPe2/archive/master.zip
+unzip GRaPe2.zip 'GRaPe2-master/dist/*'
+
+rm -rf lib
+mv -v GRaPe2-master/dist/* .
+
+rm -rf soslibJNIC-master
+rm -rf GRaPe2-master
+
+rm *.zip
+
 
 %environment
 export LD_LIBRARY_PATH=/usr/local/lib
