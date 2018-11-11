@@ -829,6 +829,33 @@ public class MainWindow extends javax.swing.JFrame {
         generationText = new javax.swing.JTextField();
         plateauText = new javax.swing.JTextField();
         plagueText = new javax.swing.JTextField();
+        PlateauLabel1 = new javax.swing.JLabel();
+        PlateauLabel2 = new javax.swing.JLabel();
+        PlateauLabel3 = new javax.swing.JLabel();
+        PlateauLabel4 = new javax.swing.JLabel();
+        PlateauLabel5 = new javax.swing.JLabel();
+        number_of_core = new javax.swing.JTextField();
+        vf_low = new javax.swing.JTextField();
+        PlateauLabel6 = new javax.swing.JLabel();
+        vf_upp = new javax.swing.JTextField();
+        PlateauLabel7 = new javax.swing.JLabel();
+        PlateauLabel8 = new javax.swing.JLabel();
+        vr_low = new javax.swing.JTextField();
+        PlateauLabel9 = new javax.swing.JLabel();
+        vr_upp = new javax.swing.JTextField();
+        PlateauLabel10 = new javax.swing.JLabel();
+        ka_low = new javax.swing.JTextField();
+        PlateauLabel11 = new javax.swing.JLabel();
+        ka_upp = new javax.swing.JTextField();
+        PlateauLabel12 = new javax.swing.JLabel();
+        ki_low = new javax.swing.JTextField();
+        PlateauLabel13 = new javax.swing.JLabel();
+        ki_upp = new javax.swing.JTextField();
+        PlateauLabel14 = new javax.swing.JLabel();
+        PlateauLabel15 = new javax.swing.JLabel();
+        km_low = new javax.swing.JTextField();
+        PlateauLabel16 = new javax.swing.JLabel();
+        km_upp = new javax.swing.JTextField();
         missingSpeciesPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -1031,6 +1058,108 @@ public class MainWindow extends javax.swing.JFrame {
 
         plagueText.setText("5");
 
+        PlateauLabel1.setText("Number of CPU");
+        PlateauLabel1.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel1.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel1.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        PlateauLabel2.setText("Vf parameter range");
+        PlateauLabel2.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel2.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel2.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        PlateauLabel3.setText("Ka parameter range");
+        PlateauLabel3.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel3.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel3.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        PlateauLabel4.setText("Vr parameter range");
+        PlateauLabel4.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel4.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel4.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        PlateauLabel5.setText("Ki parameter range");
+        PlateauLabel5.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel5.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel5.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        number_of_core.setText("3");
+
+        vf_low.setText("3");
+
+        PlateauLabel6.setText("10^");
+        PlateauLabel6.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel6.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel6.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        vf_upp.setText("5");
+
+        PlateauLabel7.setText("10^");
+        PlateauLabel7.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel7.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel7.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        PlateauLabel8.setText("10^");
+        PlateauLabel8.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel8.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel8.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        vr_low.setText("-3");
+
+        PlateauLabel9.setText("10^");
+        PlateauLabel9.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel9.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel9.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        vr_upp.setText("1");
+
+        PlateauLabel10.setText("10^");
+        PlateauLabel10.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel10.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel10.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        ka_low.setText("0.5");
+
+        PlateauLabel11.setText("10^");
+        PlateauLabel11.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel11.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel11.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        ka_upp.setText("3");
+
+        PlateauLabel12.setText("10^");
+        PlateauLabel12.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel12.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel12.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        ki_low.setText("-3");
+
+        PlateauLabel13.setText("10^");
+        PlateauLabel13.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel13.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel13.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        ki_upp.setText("2");
+
+        PlateauLabel14.setText("Km parameter range");
+        PlateauLabel14.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel14.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel14.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        PlateauLabel15.setText("10^");
+        PlateauLabel15.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel15.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel15.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        km_low.setText("-3");
+
+        PlateauLabel16.setText("10^");
+        PlateauLabel16.setMaximumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel16.setMinimumSize(new java.awt.Dimension(175, 14));
+        PlateauLabel16.setPreferredSize(new java.awt.Dimension(175, 14));
+
+        km_upp.setText("2");
+
         javax.swing.GroupLayout GAparametersLayout = new javax.swing.GroupLayout(GAparameters);
         GAparameters.setLayout(GAparametersLayout);
         GAparametersLayout.setHorizontalGroup(
@@ -1038,24 +1167,80 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(GAparametersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(PlagueLabel)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(GenerationLabel)
-                            .addComponent(PopulationLabel)))
-                    .addComponent(PlateauLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(generationText, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(populationText, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(plateauText, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(plagueText, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(GAparametersLayout.createSequentialGroup()
+                        .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(PlateauLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(PlagueLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(GenerationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(PopulationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(PlateauLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(populationText)
+                            .addComponent(generationText)
+                            .addComponent(plateauText)
+                            .addComponent(plagueText)
+                            .addComponent(number_of_core, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(GAparametersLayout.createSequentialGroup()
+                        .addComponent(PlateauLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PlateauLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(vr_low, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PlateauLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(vr_upp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(GAparametersLayout.createSequentialGroup()
+                        .addComponent(PlateauLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PlateauLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ka_low, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PlateauLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ka_upp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(GAparametersLayout.createSequentialGroup()
+                        .addComponent(PlateauLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PlateauLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ki_low, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PlateauLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ki_upp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(GAparametersLayout.createSequentialGroup()
+                        .addComponent(PlateauLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(PlateauLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(vf_low, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PlateauLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(vf_upp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GAparametersLayout.createSequentialGroup()
+                        .addComponent(PlateauLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PlateauLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(km_low, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PlateauLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(km_upp, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
-        GAparametersLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {generationText, plagueText, plateauText, populationText});
-
         GAparametersLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {GenerationLabel, PlagueLabel, PlateauLabel, PopulationLabel});
+
+        GAparametersLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {PlateauLabel1, PlateauLabel2, PlateauLabel3, PlateauLabel4, PlateauLabel5});
 
         GAparametersLayout.setVerticalGroup(
             GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1076,7 +1261,46 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PlagueLabel)
                     .addComponent(plagueText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlateauLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(number_of_core, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlateauLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vf_low, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vf_upp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlateauLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vr_low, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vr_upp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlateauLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ka_low, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ka_upp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlateauLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ki_low, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ki_upp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(GAparametersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(PlateauLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(km_low, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(km_upp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PlateauLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         GAparametersLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {generationText, plagueText, plateauText, populationText});
@@ -2395,8 +2619,19 @@ public class MainWindow extends javax.swing.JFrame {
             int maxgen = Integer.parseInt(generationText.getText());
             int plateau = Integer.parseInt(plateauText.getText());
             int plague = Integer.parseInt(plagueText.getText());
-            int numCore=1;
-            double[][] general_kp_range=new double[5][2];;
+            int numCore= Integer.parseInt(number_of_core.getText());
+                        
+            double[][] general_kp_range=new double[5][2];
+            double[] fr={Double.parseDouble(vf_low.getText()), Double.parseDouble(vf_upp.getText())};
+            general_kp_range[0]=fr;
+            double[] rr={Double.parseDouble(vr_low.getText()), Double.parseDouble(vr_upp.getText())};
+            general_kp_range[1]=rr;
+            double[] ka={Double.parseDouble(ka_low.getText()), Double.parseDouble(ka_upp.getText())};
+            general_kp_range[2]=ka;
+            double[] ki={Double.parseDouble(ki_low.getText()), Double.parseDouble(ki_upp.getText())};
+            general_kp_range[3]=ki;
+            double[] km={Double.parseDouble(km_low.getText()), Double.parseDouble(km_upp.getText())};
+            general_kp_range[4]=km;
             
             if(FittingData!=null){
                 try {
@@ -2547,9 +2782,6 @@ public class MainWindow extends javax.swing.JFrame {
             addReactionsToReactionList_v2(allthereactions);
             addSpeciesToSpeciesList_v2(allthespecies, alltheenzymes);
 
-//            allthereactions.stream().forEach((rxn)->{
-//                System.out.println(rxn.toString());
-//            });
 
         } catch (NullPointerException e) {
              e.printStackTrace();
@@ -2715,6 +2947,22 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField ModelNameTextField;
     private javax.swing.JLabel PlagueLabel;
     private javax.swing.JLabel PlateauLabel;
+    private javax.swing.JLabel PlateauLabel1;
+    private javax.swing.JLabel PlateauLabel10;
+    private javax.swing.JLabel PlateauLabel11;
+    private javax.swing.JLabel PlateauLabel12;
+    private javax.swing.JLabel PlateauLabel13;
+    private javax.swing.JLabel PlateauLabel14;
+    private javax.swing.JLabel PlateauLabel15;
+    private javax.swing.JLabel PlateauLabel16;
+    private javax.swing.JLabel PlateauLabel2;
+    private javax.swing.JLabel PlateauLabel3;
+    private javax.swing.JLabel PlateauLabel4;
+    private javax.swing.JLabel PlateauLabel5;
+    private javax.swing.JLabel PlateauLabel6;
+    private javax.swing.JLabel PlateauLabel7;
+    private javax.swing.JLabel PlateauLabel8;
+    private javax.swing.JLabel PlateauLabel9;
     private javax.swing.JLabel PopulationLabel;
     private javax.swing.JPanel ReactionBuilder;
     private javax.swing.JLabel ReactionCounter;
@@ -2746,6 +2994,12 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField ka_low;
+    private javax.swing.JTextField ka_upp;
+    private javax.swing.JTextField ki_low;
+    private javax.swing.JTextField ki_upp;
+    private javax.swing.JTextField km_low;
+    private javax.swing.JTextField km_upp;
     private javax.swing.JMenuItem menuExit;
     private javax.swing.JMenuItem menuNewModel;
     private javax.swing.JMenuItem menuOpenModel;
@@ -2754,6 +3008,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextArea missingEnzymeText;
     private javax.swing.JPanel missingSpeciesPanel;
     private javax.swing.JTextArea missingSpeciesText;
+    private javax.swing.JTextField number_of_core;
     private javax.swing.JLabel numberofenzymes;
     private javax.swing.JLabel numberofreactions;
     private javax.swing.JLabel numberofspecies;
@@ -2774,6 +3029,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JComboBox sub3box;
     private javax.swing.JSpinner sub3spin;
     private javax.swing.JMenuItem tsv_to_model;
+    private javax.swing.JTextField vf_low;
+    private javax.swing.JTextField vf_upp;
+    private javax.swing.JTextField vr_low;
+    private javax.swing.JTextField vr_upp;
     // End of variables declaration//GEN-END:variables
     private Object[][] SpeciesTableInfo = new Object [][] {
                 {1, "",  null, false}
