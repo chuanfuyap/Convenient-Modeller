@@ -578,6 +578,19 @@ public class MainWindow extends javax.swing.JFrame {
         enzymeColumn.setCellRenderer(renderer);
     }
     
+    private boolean check_for_repeat(String sps_name){
+        boolean species_exist=false;
+        
+        for (int i =0; i<allthespecies.size();i++){
+            String name = allthespecies.get(i).getName();
+                if(name.equals(sps_name)){
+                    species_exist=true;
+                }
+            }
+        
+        return species_exist;
+    }
+    
     private TableModelListener SpeciesTableChanged = new TableModelListener() {
 
         public void tableChanged(TableModelEvent e) {
@@ -595,8 +608,7 @@ public class MainWindow extends javax.swing.JFrame {
             String newname = (String) SpeciesTable.getValueAt(row,1);
             if(column==1){
                 int marker=-1;
-                
-                double conc = 0;
+                double conc = 0.1;
                 if(SpeciesTable.getValueAt(row,2)!=null){
                     conc= (double)SpeciesTable.getValueAt(row,2);
                 }
@@ -607,10 +619,14 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
                 if(marker==-1){
-                    Compound newspecies = new Compound(newname, conc);
-                    newspecies.setBoundaryCondition((boolean) SpeciesTable.getValueAt(row,3));
-                    allthespecies.add(newspecies);
-                    SpeciesBox.addItem(newname);
+                    if(check_for_repeat(newname)){
+                        
+                    }else{
+                        Compound newspecies = new Compound(newname, conc);
+                        newspecies.setBoundaryCondition((boolean) SpeciesTable.getValueAt(row,3));
+                        allthespecies.add(newspecies);
+                        SpeciesBox.addItem(newname);
+                    }
                 }else{
                     allthespecies.get(marker).setName(newname);
                     SpeciesBox.removeAllItems();
@@ -670,7 +686,7 @@ public class MainWindow extends javax.swing.JFrame {
             if(column==1){
                 int marker=-1;
                 
-                double conc = 0;
+                double conc = 1;
                 if(EnzymesTable.getValueAt(row,2)!=null){
                     conc= (double)EnzymesTable.getValueAt(row,2);
                 }
@@ -1853,7 +1869,7 @@ public class MainWindow extends javax.swing.JFrame {
             JFileChooser fc = new JFileChooser();
             fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             int returnVal = fc.showOpenDialog(this);
-            String fileName = null;
+            String fileName;
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
                 fileName = file.getPath();
@@ -1892,10 +1908,10 @@ public class MainWindow extends javax.swing.JFrame {
             JFileChooser fc = new JFileChooser();
             int returnVal = fc.showSaveDialog(this);
             
-            File file = null;
+            File file;
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
-                ExportSBML modelConvertor=null;
+                ExportSBML modelConvertor;
                 if(GAdone){
                     modelConvertor = new ExportSBML(allthereactions, allthespecies, alltheenzymes, modelName, parameters);
                 }else{
@@ -2084,7 +2100,7 @@ public class MainWindow extends javax.swing.JFrame {
             JFileChooser fc = new JFileChooser();
             int returnVal = fc.showSaveDialog(this);
             
-            File file = null;
+            File file;
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
                 ExportSBML modelConvertor;
@@ -2494,7 +2510,7 @@ public class MainWindow extends javax.swing.JFrame {
             JTable target = (JTable)evt.getSource();
             int column = target.getSelectedColumn();
             int row = target.getSelectedRow();
-            if(column==1){
+            if(column==1){                
                 tempname = (String) SpeciesTable.getValueAt(row,column);
             }
         }

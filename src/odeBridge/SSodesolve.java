@@ -31,7 +31,7 @@ public class SSodesolve {
         reactionID=rID;
     }
     public interface soslibbridge extends Library{
-        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/home/chuanfuyap/NetBeansProjects/SoSLibLinkv3/dist/sosLibLinkv3.so", soslibbridge.class);
+        soslibbridge bridge = (soslibbridge) Native.loadLibrary("/opt/lib/sosLibLinkv3.so", soslibbridge.class);
         
         ByValue runSolver3(String link,Pointer vals, int numVals, Pointer newparam, Pointer names,  int parametercount, Pointer rID);
         void outputCleanup3(Pointer pVals);
