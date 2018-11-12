@@ -590,6 +590,18 @@ public class MainWindow extends javax.swing.JFrame {
         
         return species_exist;
     }
+    private boolean check_for_repeatv2(String sps_name){
+        boolean species_exist=false;
+        
+        for (int i =0; i<alltheenzymes.size();i++){
+            String name = alltheenzymes.get(i).getName();
+                if(name.equals(sps_name)){
+                    species_exist=true;
+                }
+            }
+        
+        return species_exist;
+    }
     
     private TableModelListener SpeciesTableChanged = new TableModelListener() {
 
@@ -620,13 +632,17 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 if(marker==-1){
                     if(check_for_repeat(newname)){
+                        JOptionPane.showMessageDialog(null,
+                                            newname+ " is already named in the list of species, please rename it to avoid confusion. (SBML allows for repeat names if that is what you prefer.)",
+                                            "Repeat Species Names",
+                                            JOptionPane.WARNING_MESSAGE);
                         
-                    }else{
-                        Compound newspecies = new Compound(newname, conc);
-                        newspecies.setBoundaryCondition((boolean) SpeciesTable.getValueAt(row,3));
-                        allthespecies.add(newspecies);
-                        SpeciesBox.addItem(newname);
                     }
+                    Compound newspecies = new Compound(newname, conc);
+                    newspecies.setBoundaryCondition((boolean) SpeciesTable.getValueAt(row,3));
+                    allthespecies.add(newspecies);
+                    SpeciesBox.addItem(newname);
+
                 }else{
                     allthespecies.get(marker).setName(newname);
                     SpeciesBox.removeAllItems();
@@ -697,9 +713,17 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
                 if(marker==-1){
+                    if(check_for_repeatv2(newname)){
+                        JOptionPane.showMessageDialog(null,
+                                            newname+ " is already named in the list of species, please rename it to avoid confusion. (SBML allows for repeat names if that is what you prefer.)",
+                                            "Repeat Species Names",
+                                            JOptionPane.WARNING_MESSAGE);
+                       
+                    }
                     Enzyme newspecies = new Enzyme(newname, conc);
                     alltheenzymes.add(newspecies);
                     EnzymeBox.addItem(newname);
+                    
                 }else{
                     alltheenzymes.get(marker).setName(newname);
                     EnzymeBox.removeAllItems();
