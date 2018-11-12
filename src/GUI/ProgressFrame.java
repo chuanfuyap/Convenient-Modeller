@@ -84,10 +84,12 @@ public class ProgressFrame extends javax.swing.JFrame {
             JOptionPane.YES_NO_OPTION);
 
             if (confirmed == JOptionPane.YES_OPTION) {
+                setVisible(false);
+                dispose();
                 GeneticAlgorithm.fitness.stopGA();
                 GeneticAlgorithm.cancelGA(true);
                 GeneticAlgorithm.cancel(true);
-                dispose();
+                
             }else{
                 setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
             }

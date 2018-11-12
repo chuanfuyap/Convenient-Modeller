@@ -151,7 +151,7 @@ public class GAlgorithmGUI extends SwingWorker<double[], Void>  {
             
         } catch (ModelOverdeterminedException | InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | InterruptedException | XMLStreamException | IOException ex) {
             Logger.getLogger(GAlgorithmGUI.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "System ran out of Memory, please restart the process.", "Memory Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "System ran out of Memory, please restart the process.", "Memory Error", JOptionPane.ERROR_MESSAGE);            
         }
         
        return parameters;

@@ -109,7 +109,7 @@ public class TsvToModel {
     
     private void make_and_add_reactions(String[] input){
         int regulation = 1;
-        String reaction_name = input[0];
+        String reaction_name = input[0];        
         MetabolicReaction new_mReaction = new MetabolicReaction(reaction_name);
 
         String activator = input[1];
@@ -146,7 +146,7 @@ public class TsvToModel {
             }else{
             if(subsORprod==true){
                 boolean have_stoichio = false;
-                if(input[i].charAt(1)=='*'){
+                if(input[i].length() >1 && input[i].charAt(1)=='*'){
                     have_stoichio = true;
                 }
                 
@@ -162,7 +162,7 @@ public class TsvToModel {
                 
             }else{
                 boolean have_stoichio = false;
-                if(input[i].charAt(1)=='*'){
+                if(input[i].length() >1 && input[i].charAt(1)=='*'){
                     have_stoichio = true;
                 }
                 Compound product = null;
