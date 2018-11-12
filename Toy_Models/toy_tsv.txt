@@ -1,0 +1,21 @@
+#METABOLITES	CONC:	B.C.				
+IN	10	TRUE				
+OUT	10	TRUE				
+A	18	FALSE				
+B1	41	FALSE				
+B2	9	FALSE				
+C	52	FALSE				
+						
+						
+#ENZYMES						
+IMPORT	50					
+Diverge	11					
+Converge	22					
+EXPORT	35					
+						
+#REACTION ENZYMES	ACTIVATORS	INHIBITORS				
+IMPORT	N/A	N/A	IN	=	A	
+Diverge	N/A	N/A	A	=	B1	B2
+Converge	N/A	N/A	B1	B2	=	C
+EXPORT	N/A	N/A	C	=	OUT	
+
