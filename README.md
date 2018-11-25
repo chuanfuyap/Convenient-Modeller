@@ -1,7 +1,7 @@
 # GRaPe2
 GRaPe2 (Gene-Reaction-Protein integration) is a software which simplifies construction of kinetic models for cell metabolism, with optional integration of proteomics data. These are the source code (Except for the file called GRaPe2.jar).
 
-UPDATE:
+# UPDATE:
 Software is now available as an easy to use singularity image.
 
 Singularity is a containerization software available for free here: https://singularity.lbl.gov/install-linux (instruction for linux)
