@@ -12,7 +12,7 @@ singularity pull shub://chuanfuyap/GRaPe2
 To run the image:
 singularity run shub://chuanfuyap/GRaPe2
 
-
+# To install and run the software locally
 This software requires the following libraries to run:-
 
 Java Libraries:
@@ -26,7 +26,7 @@ Java Systems Biology Markup Language (JSBML) version 1    http://sbml.org/Softwa
 
 
 C Libraries: 
-NOTE: it's possible the source file is corrupted and unable to be compiled, I would suggest deleting the functions in the source files that are giving errors during compilation step and compile again (honestly I don't know how else to fix the compilation).
+NOTE: it's possible the source file is corrupted and unable to be compiled, I would suggest deleting the functions in the source files that are giving errors during compilation step and compile again.
 SOSLIB version 1.7 https://github.com/raim/SBML_odeSolver 
 
 libSBML version 5.X.X https://sourceforge.net/projects/sbml/files/libsbml/5.13.0/ 
