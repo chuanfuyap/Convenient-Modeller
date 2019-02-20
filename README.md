@@ -1,5 +1,5 @@
-# GRaPe2
-GRaPe2 (Gene-Reaction-Protein integration) is a software which simplifies construction of kinetic models for cell metabolism, with optional integration of proteomics data. These are the source code (Except for the file called GRaPe2.jar).
+# Convenient Modeller
+Convenient Modeller is a software which simplifies construction of kinetic models for cell metabolism, with optional integration of proteomics data. These are the source code.
 
 # UPDATE:
 Software is now available as an easy to use singularity image.
