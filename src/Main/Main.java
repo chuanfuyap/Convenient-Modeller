@@ -79,6 +79,16 @@ public class Main {
                     String datafile = args[2];
                     String outputlink = args[3];
                     Script runScript = new Script();
+                    
+                    read_general_range reader = new read_general_range(args[4]);
+                    general_range = reader.get_ranges();
+                    
+                    popsize = Integer.parseInt(args[5]);
+                    maxgen = Integer.parseInt(args[6]);
+                    plateau = Integer.parseInt(args[7]);
+                    plague = Integer.parseInt(args[8]);
+                    numCore = Integer.parseInt(args[9]);
+                                           
                     runScript.addModel(modelfile);
                     runScript.addData(datafile);
                     runScript.build();
@@ -96,7 +106,8 @@ public class Main {
                     break;
                 }
         }
-        }catch(Exception e){
+        
+        }catch(ArrayIndexOutOfBoundsException e){
             System.out.println("Please Enter One of the Following Options\n"
                             + "GUI       - to use the graphical user interface of the tool.\n"
                             + "makemodel - to convert a tab separated file to SBML file\n"
