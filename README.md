@@ -37,5 +37,5 @@ SUNDIALS version 2.3 http://computation.llnl.gov/projects/sundials/sundials-soft
 
 Relevant project:
 
-NOTE: this C program must be compiled with the right library paths for GRaPe to be able to solve models in parameter estimation process. 
+NOTE: this C program must be compiled with the right library paths for Convenient-Modeller to be able to solve models in parameter estimation process. 
 soslibJNIC https://github.com/chuanfuyap/soslibJNIC
