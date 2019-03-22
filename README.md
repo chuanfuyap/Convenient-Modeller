@@ -7,10 +7,10 @@ Software is now available as an easy to use singularity image.
 Singularity is a containerization software available for free here: https://singularity.lbl.gov/install-linux (instruction for linux)
 
 After installation, users can download the image with the following line:
-singularity pull shub://chuanfuyap/GRaPe2
+singularity pull shub://chuanfuyap/Convenient-Modeller
 
 To run the image:
-singularity run shub://chuanfuyap/GRaPe2
+singularity run shub://chuanfuyap/Convenient-Modeller
 
 # To install and run the software locally
 This software requires the following libraries to run:-
