@@ -46,14 +46,14 @@ make
 cp ./dist/sosLibLinkv3.so /opt/lib
 
 cd /opt
-wget -O GRaPe2.zip https://github.com/chuanfuyap/GRaPe2/archive/master.zip
-unzip GRaPe2.zip 'GRaPe2-master/dist/*'
+wget -O Convenient-Modeller.zip https://github.com/chuanfuyap/Convenient-Modeller/archive/master.zip
+unzip Convenient-Modeller.zip 'Convenient-Modeller-master/dist/*'
 
 rm -rf lib
-mv -v GRaPe2-master/dist/* .
+mv -v Convenient-Modeller-master/dist/* .
 
 rm -rf soslibJNIC-master
-rm -rf GRaPe2-master
+rm -rf Convenient-Modeller-master
 
 rm *.zip
 
@@ -62,4 +62,4 @@ rm *.zip
 export LD_LIBRARY_PATH=/usr/local/lib
 
 %runscript
-exec java -jar /opt/GRaPe2.jar gui
+exec java -jar /opt/Convenient-Modeller.jar gui
