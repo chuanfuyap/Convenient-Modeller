@@ -44,7 +44,7 @@ public class Main {
         general_range[3]=ki;
         double[] km={-5, 3};
         general_range[4]=km;
-        
+        try {
         switch (args[0].toLowerCase()) {
             case "gui":
                 {
@@ -73,6 +73,18 @@ public class Main {
                     runScript.runGA(outputlink, popsize, maxgen, plateau, plague, numCore, general_range);
                     break;
                 }
+            case "runGA_advanced":
+                {
+                    String modelfile = args[1];
+                    String datafile = args[2];
+                    String outputlink = args[3];
+                    Script runScript = new Script();
+                    runScript.addModel(modelfile);
+                    runScript.addData(datafile);
+                    runScript.build();
+                    runScript.runGA(outputlink, popsize, maxgen, plateau, plague, numCore, general_range);
+                    break;
+                }
             default:
                 {
                     System.out.println("Please Enter One of the Following Options\n"
@@ -83,6 +95,14 @@ public class Main {
                             + "            e.g. runGA model.xml fitting_data.txt output_sbml.xml");
                     break;
                 }
+        }
+        }catch(Exception e){
+            System.out.println("Please Enter One of the Following Options\n"
+                            + "GUI       - to use the graphical user interface of the tool.\n"
+                            + "makemodel - to convert a tab separated file to SBML file\n"
+                            + "            e.g. makemodel model_info.txt output_sbml.xml\n"
+                            + "runGA     - to run parameter estimation when given model and fitting data\n"
+                            + "            e.g. runGA model.xml fitting_data.txt output_sbml.xml");
         }
         
     }
