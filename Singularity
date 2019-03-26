@@ -43,7 +43,7 @@ wget -O soslibJNIC.zip https://github.com/chuanfuyap/soslibJNIC/archive/master.z
 unzip soslibJNIC.zip
 cd soslibJNIC-master/
 make
-cp ./dist/sosLibLinkv3.so /opt/lib
+cp ./dist/sosLibLinkv3.so /opt/lib/
 rm -rf soslibJNIC-master
 
 
