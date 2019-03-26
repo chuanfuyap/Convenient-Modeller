@@ -1,16 +1,21 @@
 # Convenient Modeller
 Convenient Modeller is a software which simplifies construction of kinetic models for cell metabolism, with optional integration of proteomics data. These are the source code.
 
-# UPDATE:
+# Singularity:
 Software is now available as an easy to use singularity image.
 
 Singularity is a containerization software available for free here: https://singularity.lbl.gov/install-linux (instruction for linux)
 
 After installation, users can download the image with the following line:
-singularity pull shub://chuanfuyap/GRaPe2
+
+singularity pull shub://chuanfuyap/Convenient-Modeller
 
 To run the image:
-singularity run shub://chuanfuyap/GRaPe2
+
+singularity run shub://chuanfuyap/Convenient-Modeller
+
+## Mac users:
+In order for Mac users to use the GUI version of the software via singularity, they need to enable X11 Forwarding in vagrant box, as well as install xauth server within the vagrant box
 
 # To install and run the software locally
 This software requires the following libraries to run:-
@@ -35,5 +40,5 @@ SUNDIALS version 2.3 http://computation.llnl.gov/projects/sundials/sundials-soft
 
 Relevant project:
 
-NOTE: this C program must be compiled with the right library paths for GRaPe to be able to solve models in parameter estimation process. 
+NOTE: this C program must be compiled with the right library paths for Convenient-Modeller to be able to solve models in parameter estimation process. 
 soslibJNIC https://github.com/chuanfuyap/soslibJNIC
