@@ -44,12 +44,15 @@ unzip soslibJNIC.zip
 cd soslibJNIC-master/
 make
 cp ./dist/sosLibLinkv3.so /opt/lib
+rm -rf soslibJNIC-master
 
-cd /opt
+
+mkdir convenient-modeller
+cd /convenient-modeller
 wget -O Convenient-Modeller.zip https://github.com/chuanfuyap/Convenient-Modeller/archive/master.zip
 unzip Convenient-Modeller.zip 'Convenient-Modeller-master/dist/*'
 
-rm -rf lib
+
 mv -v Convenient-Modeller-master/dist/* .
 
 rm -rf soslibJNIC-master
@@ -57,9 +60,12 @@ rm -rf Convenient-Modeller-master
 
 rm *.zip
 
+cd
+rm *.zip
+
 
 %environment
 export LD_LIBRARY_PATH=/usr/local/lib
 
 %runscript
-exec java -jar /opt/Convenient-Modeller.jar gui
+exec java -jar /convenient-modeller/Convenient-Modeller.jar gui
