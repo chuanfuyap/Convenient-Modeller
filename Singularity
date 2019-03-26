@@ -48,7 +48,7 @@ rm -rf soslibJNIC-master
 
 
 mkdir convenient-modeller
-cd /convenient-modeller
+cd convenient-modeller
 wget -O Convenient-Modeller.zip https://github.com/chuanfuyap/Convenient-Modeller/archive/master.zip
 unzip Convenient-Modeller.zip 'Convenient-Modeller-master/dist/*'
 
