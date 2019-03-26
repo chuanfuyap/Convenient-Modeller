@@ -15,7 +15,7 @@ To run the image:
 singularity run shub://chuanfuyap/Convenient-Modeller
 
 ## Mac users:
-In order for Mac users to use the GUI version of the software via singularity, they need to enable X11 Forwarding in vagrant box
+In order for Mac users to use the GUI version of the software via singularity, they need to enable X11 Forwarding in vagrant box, as well as install xauth server within the vagrant box
 
 # To install and run the software locally
 This software requires the following libraries to run:-
