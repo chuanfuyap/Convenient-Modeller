@@ -989,9 +989,9 @@
                       <Component id="saveModelButton" min="-2" pref="76" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="SpeciesPanel" pref="531" max="32767" attributes="0"/>
+                      <Component id="SpeciesPanel" pref="534" max="32767" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="EnzymePanel" pref="532" max="32767" attributes="0"/>
+                      <Component id="EnzymePanel" pref="535" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
@@ -1000,8 +1000,6 @@
                       <Component id="ModelNameTextField" min="-2" pref="165" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel9" min="-2" pref="68" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="GRaPeLogo" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -1019,7 +1017,6 @@
                           <Component id="ModelNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="GRaPeLogo" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -1097,7 +1094,7 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="SpeciesScrollPane" alignment="1" pref="0" max="32767" attributes="0"/>
+                      <Component id="SpeciesScrollPane" alignment="1" pref="528" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -1107,7 +1104,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <Component id="SpeciesLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="SpeciesScrollPane" pref="213" max="32767" attributes="0"/>
+                  <Component id="SpeciesScrollPane" pref="214" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="AddSpecies" linkSize="3" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1201,7 +1198,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="EnzymeScrollPane" pref="0" max="32767" attributes="0"/>
+              <Component id="EnzymeScrollPane" pref="535" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="EnzymeCounter" min="-2" max="-2" attributes="0"/>
@@ -1224,7 +1221,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="EnzymeLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="EnzymeScrollPane" pref="213" max="32767" attributes="0"/>
+                  <Component id="EnzymeScrollPane" pref="208" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="DeleteEnzyme" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1344,7 +1341,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <Component id="ReactionLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="ReactionScrollPane" pref="336" max="32767" attributes="0"/>
+                  <Component id="ReactionScrollPane" pref="326" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="ReactionCounter" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1461,13 +1458,6 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="InsertFittingDataActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="GRaPeLogo">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/grapeLogo2.png"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>

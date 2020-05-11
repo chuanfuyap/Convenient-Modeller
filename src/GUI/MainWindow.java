@@ -937,7 +937,6 @@ public class MainWindow extends javax.swing.JFrame {
         ModelNameLabel = new javax.swing.JLabel();
         ModelNameTextField = new HintTextField("Insert Model Name");
         InsertFittingData = new javax.swing.JButton();
-        GRaPeLogo = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         MenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -1512,7 +1511,7 @@ public class MainWindow extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(DeleteSpecies)))
                             .addContainerGap())
-                        .addComponent(SpeciesScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(SpeciesScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)))
             );
 
             SpeciesPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {AddSpecies, DeleteSpecies});
@@ -1522,7 +1521,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SpeciesPanelLayout.createSequentialGroup()
                     .addComponent(SpeciesLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(SpeciesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                    .addComponent(SpeciesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(SpeciesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(AddSpecies)
@@ -1595,7 +1594,7 @@ public class MainWindow extends javax.swing.JFrame {
             EnzymePanel.setLayout(EnzymePanelLayout);
             EnzymePanelLayout.setHorizontalGroup(
                 EnzymePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(EnzymeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(EnzymeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
                 .addGroup(EnzymePanelLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(EnzymeCounter)
@@ -1618,7 +1617,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(EnzymePanelLayout.createSequentialGroup()
                     .addComponent(EnzymeLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(EnzymeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                    .addComponent(EnzymeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(EnzymePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(DeleteEnzyme)
@@ -1724,7 +1723,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReactionPanelLayout.createSequentialGroup()
                     .addComponent(ReactionLabel)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(ReactionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                    .addComponent(ReactionScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                     .addGap(12, 12, 12)
                     .addGroup(ReactionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(ReactionCounter)
@@ -1763,8 +1762,6 @@ public class MainWindow extends javax.swing.JFrame {
                     InsertFittingDataActionPerformed(evt);
                 }
             });
-
-            GRaPeLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/grapeLogo2.png"))); // NOI18N
 
             jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/sbml.png"))); // NOI18N
 
@@ -1841,18 +1838,16 @@ public class MainWindow extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(saveModelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(SpeciesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                            .addComponent(SpeciesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(EnzymePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE))
+                            .addComponent(EnzymePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(ModelNameLabel)
                             .addGap(4, 4, 4)
                             .addComponent(ModelNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(GRaPeLogo)))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addContainerGap())
             );
             layout.setVerticalGroup(
@@ -1864,7 +1859,6 @@ public class MainWindow extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(ModelNameLabel)
                                 .addComponent(ModelNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addComponent(GRaPeLogo)
                         .addComponent(jLabel9))
                     .addGap(8, 8, 8)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2919,7 +2913,7 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(outputFile));
             out.write("Copy to Excel. \nRemove the Names. \nKeep only the IDs."
-                    + "\nPaste data back into txt file to be inserted into Convenient Modeller, make sure to avoid empty lines.
+                    + "\nPaste data back into txt file to be inserted into Convenient Modeller, make sure to avoid empty lines."
                      +"\nIf there is no known value for flux/enzyme/metabolites, delete its respective ID from the text.\n\n");
             out.write(headerName + " \n");
             out.write(headerID+" \n\n");
@@ -2980,7 +2974,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane EnzymeScrollPane;
     private javax.swing.JTable EnzymesTable;
     private javax.swing.JPanel GAparameters;
-    private javax.swing.JLabel GRaPeLogo;
     private javax.swing.JLabel GenerationLabel;
     private javax.swing.JButton InsertFittingData;
     private javax.swing.JMenuBar MenuBar;
