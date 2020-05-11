@@ -1409,7 +1409,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("GRaPe 2.0");
+        setTitle("Convenient Modeller");
 
         RunParameterEstimation.setText("Run Parameter Estimation");
         RunParameterEstimation.setEnabled(false);
