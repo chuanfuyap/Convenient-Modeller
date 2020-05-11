@@ -68,3 +68,14 @@ Crash Course
 
 ## Alternative model building with TSV
 An alternative method is to use a spreadsheet to build the model before transfering to a text file, which can then be exported the convenient modeller GUI for further manipulation or model fitting.
+
+<img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/TSV.png"
+  alt="Size Limit comment in pull request about bundle size changes"
+  width="720" height="580">
+* The text is read in row by row by the software.  
+* A ‘#’ sign denotes start of a new element being read into the system. 
+* ‘B.C’ stands for boundary condition, a function in SBML that makes a metabolite’s concentration fixed if stated to be ‘TRUE’ (and vice versa), becoming either an output or input for the system being modelled. 
+* The column following either metabolites or enzymes are concentrations for the respective compounds. 
+* For the reactions, users must first set an enzyme that catalyses the reaction, and if needed activators and/or inhibitors for the reaction in the proceeding columns. 
+* In the following columns, substrates come first, then a ‘=’ sign to separate them from the products, which comes in the next columns. 
+* For stoichiometries of reactions, users can add numbers followed by ‘*’ preceding the substrates/products (e.g. 2*G6P) 
