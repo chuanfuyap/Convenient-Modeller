@@ -2919,7 +2919,8 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(outputFile));
             out.write("Copy to Excel. \nRemove the Names. \nKeep only the IDs."
-                    + "\nPaste data back into txt file to be inserted into GRaPe, make sure to avoid empty lines.\n\n");
+                    + "\nPaste data back into txt file to be inserted into Convenient Modeller, make sure to avoid empty lines.
+                     +"\nIf there is no known value for flux/enzyme/metabolites, delete its respective ID from the text.\n\n");
             out.write(headerName + " \n");
             out.write(headerID+" \n\n");
             
