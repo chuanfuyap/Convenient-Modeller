@@ -53,3 +53,18 @@ Relevant project:
 
 NOTE: this C program must be compiled with the right library paths for Convenient-Modeller to be able to solve models in parameter estimation process. 
 soslibJNIC https://github.com/chuanfuyap/soslibJNIC
+
+# HOW TO USE:
+
+Full tutorial available **[here]**
+[here]: https://github.com/chuanfuyap/Convenient-Modeller/blob/master/Convenient%20Modeller%20Tutorial.pdf
+
+## GUI
+Crash Course
+
+<img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/crash_course.png"
+  alt="Size Limit comment in pull request about bundle size changes"
+  width="720" height="320">
+
+## Alternative model building with TSV
+An alternative method is to use a spreadsheet to build the model before transfering to a text file, which can then be exported the convenient modeller GUI for further manipulation or model fitting.
