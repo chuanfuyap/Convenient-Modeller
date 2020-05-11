@@ -10,7 +10,7 @@ The tool allows for use of metabolite concentration, and/or flux for fitting a m
 
 
 # How to use Convenient Modeller
-Disclaimer: the GUI has bugs that has yet to be patched, but the optimisation engine that runs it is bug free. If GUI bugs are preventing model construction, the TSV format (see below) is recommended for model building and running the 
+NOTE: the GUI has bugs that has yet to be patched, but the optimisation engine that runs it is bug free. GUI bugs are mostly errors messages but should not affect model building. If GUI bugs are preventing model construction, the TSV format (see below) is recommended for model building and running the 
 
 ## Option 1 (Recommended): Singularity
 Software is now available as an easy to use singularity image.
