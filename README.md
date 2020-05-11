@@ -64,7 +64,7 @@ Crash Course
 
 <img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/crash_course.png"
   alt="Size Limit comment in pull request about bundle size changes"
-  width="720" height="320">
+  width="960" height="580">
 
 ## Alternative model building with TSV
 An alternative method is to use a spreadsheet to build the model before transfering to a text file, which can then be exported the convenient modeller GUI for further manipulation or model fitting.
