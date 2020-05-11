@@ -8,6 +8,11 @@ The tool allows for use of metabolite concentration, and/or flux for fitting a m
 [SBMLsimulator]: https://github.com/draeger-lab/SBMLsimulator
 [JWS online]: https://jjj.mib.ac.uk
 
+<img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/Glycolysis.png"
+  alt="Size Limit comment in pull request about bundle size changes"
+  width="320" height="720">
+  
+Above is a basic glycolysis model
 
 # How to use Convenient Modeller
 NOTE: the GUI has bugs that has yet to be patched, but the optimisation engine that runs it is bug free. GUI bugs are mostly errors messages but should not affect model building. If GUI bugs are preventing model construction, the TSV format (see below) is recommended for model building and running the 
