@@ -8,8 +8,10 @@ The tool allows for use of metabolite concentration, and/or flux for fitting a m
 [SBMLsimulator]: https://github.com/draeger-lab/SBMLsimulator
 [JWS online]: https://jjj.mib.ac.uk
 
+<p align="center">
 <img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/Glycolysis.png"
-  align="center" width="520" height="720">
+ width="520" height="720">
+ </p>
   
 Above is a basic glycolysis model.
 
@@ -66,15 +68,19 @@ Full tutorial available **[here]**
 ## GUI
 Crash Course
 
+<p align="center">
 <img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/crash_course.png"
-  align="center" width="960" height="580">
+ width="960" height="580">
+</p>
 
 ## Alternative model building with TSV
 An alternative method is to use a spreadsheet to build the model before transfering to a text file, which can then be exported the convenient modeller GUI for further manipulation or model fitting.
 
+<p align="center">
 <img src="https://github.com/chuanfuyap/Convenient-Modeller/blob/master/images/TSV.png"
-align="center" width="720" height="320">
- 
+ width="720" height="320">
+</p>
+
 * The text is read in row by row by the software.  
 * A ‘#’ sign denotes start of a new element being read into the system. 
 * ‘B.C’ stands for boundary condition, a function in SBML that makes a metabolite’s concentration fixed if stated to be ‘TRUE’ (and vice versa), becoming either an output or input for the system being modelled. 
